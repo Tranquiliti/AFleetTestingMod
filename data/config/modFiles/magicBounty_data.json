@@ -4,7 +4,7 @@
         "trigger_player_minLevel":15,
         "trigger_weight_mult":9001,
 
-        "job_name":"Remnant Test Fleet",
+        "job_name":"Double Ordo Simulator",
         "job_comm_reply":"The comms crackle and whine as a frantic pattern of interweaving lines takes shape.\n\nquery. query. query target. is omega? omega? no. revert function.\n\nINTERRUPT\n\n\" -SERIAL]. This unit has not cleared your vessel for approach and will employ the latest Tri-Tachyon Defense Products to ensure its integrity. Tri-Tachyon Corporation is pleased to wish you a 'Very Safe Day.'\"",
         "job_type":"obliteration",
         "job_show_captain":true,

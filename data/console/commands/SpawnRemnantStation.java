@@ -32,7 +32,7 @@ public class SpawnRemnantStation implements BaseCommand {
 
         String[] tmp = args.split(" ");
         int pts = 128; // 16 * 8
-        if (tmp.length > 0) try {
+        if (!args.isEmpty() && tmp.length > 0) try {
             pts = Integer.parseInt(tmp[0]);
         } catch (NumberFormatException ex) {
             Console.showMessage("Error: pts must be a number!");

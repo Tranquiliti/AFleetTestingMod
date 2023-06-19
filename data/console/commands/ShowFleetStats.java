@@ -21,7 +21,7 @@ public class ShowFleetStats implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        if (args.isEmpty()) return CommandResult.BAD_SYNTAX;
+        if (args.isEmpty()) args = "player";
 
         if(args.equals("player")) { // Just show player stats; no need to do anything else
             showStats(Global.getSector().getPlayerFleet());
