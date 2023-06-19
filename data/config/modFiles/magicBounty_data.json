@@ -1,5 +1,5 @@
 {
-    "a_fleet_test_mod_Double_Ordo":{
+    "afleettestingmod_Double_Ordo":{
         "trigger_market_id":["asharu"],
         "trigger_player_minLevel":15,
         "trigger_weight_mult":9001,
