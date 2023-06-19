@@ -1,0 +1,8 @@
+command,class,tags,syntax,help
+InitiateFleetTest,data.console.commands.InitiateFleetTest,"fleettest,cheat,campaign",initiatefleettest (no arguments),"Sets up the player fleet for fleet testing, removing all current ships and officers and teleporting the player to Asharu."
+SpawnRemnantStation,data.console.commands.SpawnRemnantStation,"fleettest,cheat,campaign",spawnremnantstation [pts] [numOfFleets],"Spawns on your location a Remnant station, which generates a specified number of fleets with a specified initial Fleet Points. Also sets relationship with Remnants to Inhospitable. By default, initial FP for spawned fleets is 128 and max number of fleets is 10."
+ShowFleetStats,data.console.commands.ShowFleetStats,"fleettest,campaign",showfleetstats [player|nearest|all],Shows fleet stats for a specified fleet within the current location.
+ShowFleetComposition,data.console.commands.ShowFleetComposition,"fleettest,campaign",showfleetcomposition (no arguments),Shows the overall fleet composition of all fleets within the current location.
+ShowPlayerDMods,data.console.commands.ShowPlayerDMods,"fleettest,campaign",showplayerdmods (no arguments),Shows all D-Mods and their distribution within the player's fleet.
+AddMaxRandomDMods,data.console.commands.AddMaxRandomDMods,"fleettest,cheat,campaign",addmaxrandomdmods (no arguments),"Applies the maximum number of D-Mods to all ships in the player fleet. Does not include any destroyed D-Mods, like Structural Damage."
+AddSMods,data.console.commands.AddSMods,"fleettest,cheat,campaign",addsmods <hullID> <hullmodID1> [hullmodID2] [hullmodID3...],Applies specified S-Mods to all player ships matching a specified hull ID.
