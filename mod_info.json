@@ -1,6 +1,7 @@
 {
   "id":"afleettestingmod",
   "name":"A Fleet Testing Mod",
+  "utility":"true",
   "author":"Tranquility",
   "version":{"major":0,"minor":1,"patch":0},
   "description":"A test mod that adds several Console Commands commands for fleet testing, as well as a MagicLib bounty containing a [REDACTED] test fleet.",
