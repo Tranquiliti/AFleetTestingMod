@@ -47,8 +47,8 @@ public class ShowFleetComposition implements BaseCommand {
             }
             print.append("Total number of ships: ").append(totalHulls).append("\n");
         }
-        Console.showMessage(print);
 
+        Console.showMessage(print);
         return CommandResult.SUCCESS;
     }
 }

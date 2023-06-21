@@ -17,11 +17,11 @@ public class AddSMods implements BaseCommand {
         }
 
         if (args.isEmpty()) return CommandResult.BAD_SYNTAX;
-
         String[] tmp = args.split(" ");
 
+        StringBuilder print = new StringBuilder();
         if (Global.getSettings().getHullSpec(tmp[0]) == null) {
-            Console.showMessage(String.format("Error: hull id \"%s\" does not exist!", tmp[0]));
+            Console.showMessage(print.append("Error: hull id \"").append(tmp[0]).append("\" does not exist!"));
             return CommandResult.ERROR;
         }
 
@@ -31,14 +31,13 @@ public class AddSMods implements BaseCommand {
         }
 
         // First verify that all specified hullmod ids are correct
-        for (int i = 1; i < tmp.length; i++) {
+        for (int i = 1; i < tmp.length; i++)
             if (Global.getSettings().getHullModSpec(tmp[i]) == null) {
-                Console.showMessage(String.format("Error: hullmod id \"%s\" does not exist!", tmp[i]));
+                Console.showMessage(print.append("Error: hullmod id \"").append(tmp[i]).append("\" does not exist!"));
                 return CommandResult.ERROR;
             }
-        }
 
-        for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy()) {
+        for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
             if (member.getHullSpec().getHullId().equals(tmp[0])) {
                 Collection<String> hullMods = member.getVariant().getHullMods();
                 Collection<String> permaMods = member.getVariant().getPermaMods();
@@ -49,9 +48,8 @@ public class AddSMods implements BaseCommand {
                     sMods.add(tmp[i]);
                 }
             }
-        }
 
-        Console.showMessage(String.format("Applied S-Mods to all ships with hull id \"%s\"!", tmp[0]));
+        Console.showMessage(print.append("Applied S-Mods to all ships with hull id \"").append(tmp[0]).append("\""));
         return CommandResult.SUCCESS;
     }
 }

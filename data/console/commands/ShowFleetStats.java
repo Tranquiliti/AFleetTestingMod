@@ -23,12 +23,12 @@ public class ShowFleetStats implements BaseCommand {
 
         if (args.isEmpty()) args = "player";
 
-        if(args.equals("player")) { // Just show player stats; no need to do anything else
-            showStats(Global.getSector().getPlayerFleet());
+        if (args.equals("player")) { // Just show player stats; no need to do anything else
+            StringBuilder print = new StringBuilder();
+            showStats(Global.getSector().getPlayerFleet(), print);
+            Console.showMessage(print);
             return CommandResult.SUCCESS;
-        } else if (!args.equals("nearest") && !args.equals("all")) {
-            return CommandResult.BAD_SYNTAX;
-        }
+        } else if (!(args.equals("nearest") || args.equals("all"))) return CommandResult.BAD_SYNTAX;
 
         TreeSet<CampaignFleetAPI> nearbyFleets = new TreeSet<CampaignFleetAPI>(new Comparator<Object>() {
             @Override
@@ -45,19 +45,18 @@ public class ShowFleetStats implements BaseCommand {
             return CommandResult.ERROR;
         }
 
-        if (nearbyFleets.size() == 1) {
-            Console.showMessage("No other fleet found in current location! Resorting to showing player fleet!");
-            showStats(Global.getSector().getPlayerFleet());
-        } else if (args.equals("nearest")) {
-            showStats((CampaignFleetAPI) Objects.requireNonNull(nearbyFleets.higher(nearbyFleets.first())));
-        } else for (CampaignFleetAPI fleet : nearbyFleets) { // "all"
-            showStats(fleet);
-        }
+        StringBuilder print = new StringBuilder();
+        if (nearbyFleets.size() == 1) // Assuming player fleet is always the closest
+            showStats(Global.getSector().getPlayerFleet(), print.append("No other fleet found in current location! Resorting to showing player fleet!\n"));
+        else if (args.equals("nearest"))
+            showStats((CampaignFleetAPI) Objects.requireNonNull(nearbyFleets.higher(nearbyFleets.first())), print);
+        else for (CampaignFleetAPI fleet : nearbyFleets) showStats(fleet, print);
 
+        Console.showMessage(print);
         return CommandResult.SUCCESS;
     }
 
-    private void showStats(CampaignFleetAPI fleet) {
+    private void showStats(CampaignFleetAPI fleet, StringBuilder print) {
         int shipFP = 0;
         int baseDP = 0;
         int realDP = 0;
@@ -66,6 +65,6 @@ public class ShowFleetStats implements BaseCommand {
             baseDP += member.getUnmodifiedDeploymentPointsCost();
             realDP += member.getDeploymentPointsCost();
         }
-        Console.showMessage(String.format("--- %s ---\nEffective strength: %f\nTotal ship FP: %d\nTotal base DP: %d\nTotal effective DP: %d", fleet.getFullName(), fleet.getEffectiveStrength(), shipFP, baseDP, realDP));
+        print.append("--- ").append(fleet.getFullName()).append(" ---\nEffective strength: ").append(fleet.getEffectiveStrength()).append("\nTotal ship FP: ").append(shipFP).append("\nTotal base DP: ").append(baseDP).append("\nTotal effective DP: ").append(realDP).append("\n");
     }
 }
