@@ -39,14 +39,15 @@ public class ShowPlayerDMods implements BaseCommand {
             }
             print.delete(print.length() - 2, print.length()).append("\n");
         }
+
         for (String hull : shipModCount.keySet()) {
             print.append("--- D-Mod distribution for ").append(hull).append(" ---\n");
             TreeMap<String, Integer> modCount = (TreeMap<String, Integer>) shipModCount.get(hull);
             for (String display : modCount.keySet())
                 print.append(display).append(": ").append(modCount.get(display)).append("\n");
         }
-        Console.showMessage(print);
 
+        Console.showMessage(print);
         return CommandResult.SUCCESS;
     }
 }

@@ -1,3 +1,11 @@
+Version 0.1.1
+
+* Removed dependency on MagicLib (still recommend to keep it, though)
+* Fixed Version Checker failing due to wrong version file link
+* Marginal performance improvements
+
+
+
 Version 0.1.0
 
 * Initial release
