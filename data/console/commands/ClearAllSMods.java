@@ -2,12 +2,13 @@ package data.console.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import com.fs.starfarer.api.impl.campaign.DModManager;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
-public class AddMaxRandomDMods implements BaseCommand {
+import java.util.ArrayList;
+
+public class ClearAllSMods implements BaseCommand {
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
         if (!context.isInCampaign()) {
@@ -25,15 +26,13 @@ public class AddMaxRandomDMods implements BaseCommand {
         }
 
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
-            if (!onlyOneShip || member.getHullId().equals(args)) {
-                int addDModCount = DModManager.MAX_DMODS_FROM_COMBAT - DModManager.getNumDMods(member.getVariant());
-                if (addDModCount > 0) DModManager.addDMods(member, false, addDModCount, null);
-                DModManager.setDHull(member.getVariant());
-            }
+            if (!onlyOneShip || member.getHullId().equals(args))
+                for (String sMod : new ArrayList<String>(member.getVariant().getSMods()))
+                    member.getVariant().removePermaMod(sMod);
 
         if (onlyOneShip)
-            Console.showMessage(new StringBuilder().append("Applied maximum D-Mods to all ships with hull id \"").append(args).append("\""));
-        else Console.showMessage("Applied maximum D-Mods to all ships!");
+            Console.showMessage(new StringBuilder().append("Applied S-Mods to all ships with hull id \"").append(args).append("\""));
+        else Console.showMessage("Cleared all S-Mods from all ships!");
         return CommandResult.SUCCESS;
     }
 }

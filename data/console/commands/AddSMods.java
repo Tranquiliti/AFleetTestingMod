@@ -6,8 +6,6 @@ import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
-import java.util.Collection;
-
 public class AddSMods implements BaseCommand {
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
@@ -19,15 +17,17 @@ public class AddSMods implements BaseCommand {
         if (args.isEmpty()) return CommandResult.BAD_SYNTAX;
         String[] tmp = args.split(" ");
 
-        StringBuilder print = new StringBuilder();
-        if (Global.getSettings().getHullSpec(tmp[0]) == null) {
-            Console.showMessage(print.append("Error: hull id \"").append(tmp[0]).append("\" does not exist!"));
-            return CommandResult.ERROR;
-        }
-
         if (tmp.length < 2) {
             Console.showMessage("Error: No hullmod id specified!");
             return CommandResult.BAD_SYNTAX;
+        }
+
+        StringBuilder print = new StringBuilder();
+        try {
+            Global.getSettings().getHullSpec(tmp[0]);
+        } catch (RuntimeException e) {
+            Console.showMessage(print.append("Error: hull id \"").append(tmp[0]).append("\" does not exist!"));
+            return CommandResult.ERROR;
         }
 
         // First verify that all specified hullmod ids are correct
@@ -38,16 +38,8 @@ public class AddSMods implements BaseCommand {
             }
 
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
-            if (member.getHullSpec().getHullId().equals(tmp[0])) {
-                Collection<String> hullMods = member.getVariant().getHullMods();
-                Collection<String> permaMods = member.getVariant().getPermaMods();
-                Collection<String> sMods = member.getVariant().getSMods();
-                for (int i = 1; i < tmp.length; i++) {
-                    hullMods.add(tmp[i]);
-                    permaMods.add(tmp[i]);
-                    sMods.add(tmp[i]);
-                }
-            }
+            if (member.getHullId().equals(tmp[0])) for (int i = 1; i < tmp.length; i++)
+                member.getVariant().addPermaMod(tmp[i], true);
 
         Console.showMessage(print.append("Applied S-Mods to all ships with hull id \"").append(tmp[0]).append("\""));
         return CommandResult.SUCCESS;

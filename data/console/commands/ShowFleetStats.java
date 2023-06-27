@@ -24,9 +24,9 @@ public class ShowFleetStats implements BaseCommand {
         if (args.isEmpty()) args = "player";
 
         if (args.equals("player")) { // Just show player stats; no need to do anything else
-            StringBuilder print = new StringBuilder();
-            showStats(Global.getSector().getPlayerFleet(), print);
-            Console.showMessage(print);
+            StringBuilder playerPrint = new StringBuilder();
+            showStats(Global.getSector().getPlayerFleet(), playerPrint);
+            Console.showMessage(playerPrint);
             return CommandResult.SUCCESS;
         } else if (!(args.equals("nearest") || args.equals("all"))) return CommandResult.BAD_SYNTAX;
 
@@ -57,14 +57,12 @@ public class ShowFleetStats implements BaseCommand {
     }
 
     private void showStats(CampaignFleetAPI fleet, StringBuilder print) {
-        int shipFP = 0;
         int baseDP = 0;
         int realDP = 0;
         for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
-            shipFP += member.getFleetPointCost();
             baseDP += member.getUnmodifiedDeploymentPointsCost();
             realDP += member.getDeploymentPointsCost();
         }
-        print.append("--- ").append(fleet.getFullName()).append(" ---\nEffective strength: ").append(fleet.getEffectiveStrength()).append("\nTotal ship FP: ").append(shipFP).append("\nTotal base DP: ").append(baseDP).append("\nTotal effective DP: ").append(realDP).append("\n");
+        print.append("--- ").append(fleet.getFullName()).append(" ---\nEffective strength: ").append(fleet.getEffectiveStrength()).append("\nTotal ship FP: ").append(fleet.getFleetPoints()).append("\nTotal base DP: ").append(baseDP).append("\nTotal effective DP: ").append(realDP).append("\nTotal number of ships: ").append(fleet.getNumShips()).append("\nTotal fleet size count: ").append(fleet.getFleetSizeCount()).append("\n");
     }
 }

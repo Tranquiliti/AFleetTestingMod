@@ -49,7 +49,7 @@ public class SpawnRemnantStation implements BaseCommand {
 
         // Setting rep to Inhospitable so player doesn't immediately get attacked
         Global.getSector().getPlayerFaction().setRelationship(Factions.REMNANTS, RepLevel.INHOSPITABLE);
-        pts = pts / 8; // RemnantStationFleetManager will multiply the combat pts by 8 to get the final combat FP value
+        pts = pts / 8; // RemnantStationFleetManager will multiply the final combat pts by 8 to get the real combat FP value
         spawnStation(pts, numOfFleets);
 
         Console.showMessage(new StringBuilder("Fully-operational Nexus online, spawning up to ").append(numOfFleets).append(" fleets with initial total ship FP of ").append(pts * 8));
@@ -88,10 +88,6 @@ public class SpawnRemnantStation implements BaseCommand {
         RemnantOfficerGeneratorPlugin.addCommanderSkills(commander, fleet, null, 3, random);
 
         member.getRepairTracker().setCR(member.getRepairTracker().getMaxCR());
-
-        // Default args for a fully-functional Remnant Nexus
-        //int maxFleets = 8 + random.nextInt(5);
-        //RemnantStationFleetManager activeFleets = new RemnantStationFleetManager(fleet, 1.0F, 0, maxFleets, 15.0F, 8, 24);
 
         RemnantStationFleetManager activeFleets = new RemnantStationFleetManager(fleet, 1.0F, maxFleets, maxFleets, 15.0F, pts, pts);
         system.addScript(activeFleets);
