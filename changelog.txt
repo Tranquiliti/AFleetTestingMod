@@ -1,8 +1,10 @@
 Version 0.2.0
 
-* Added "ShowHullIDs" command, which shows the hull IDs for all ships in player fleet.
-* Added "ClearAllSMods" command, which can remove S-Mods from either all player ships or ships with a specified hull ID
+* Added "ShowHullIDs" command, which shows the hull IDs for all player ships.
+* Added "ClearAllSMods" command, which removes all S-Mods from either all player ships or ships with a specified hull ID
+* Added "ClearAllDMods" command, which removes all D-Mods from either all player ships or ships with a specified hull ID.
 * "AddMaxRandomDMods" can now optionally specify a hull ID to only apply D-Mods to matching player ships.
+  - Now also sets all affected ships to their D-Modded variants
 * Expanded "ShowFleetStats" to show ship number count and fleet size count.
 * Fixed some command error messages being superseded by early RuntimeExceptions
 

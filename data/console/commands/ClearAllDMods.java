@@ -2,13 +2,17 @@ package data.console.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.impl.campaign.DModManager;
+import com.fs.starfarer.api.impl.campaign.ids.Tags;
+import com.fs.starfarer.api.impl.campaign.skills.FieldRepairsScript;
+import com.fs.starfarer.api.loading.HullModSpecAPI;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class ClearAllSMods implements BaseCommand {
+public class ClearAllDMods implements BaseCommand {
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
         if (!context.isInCampaign()) {
@@ -25,14 +29,16 @@ public class ClearAllSMods implements BaseCommand {
             return CommandResult.ERROR;
         }
 
+        List<HullModSpecAPI> dMods = DModManager.getModsWithTags(Tags.HULLMOD_DMOD);
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
-            if (!onlyOneShip || member.getHullId().equals(args))
-                for (String sMod : new ArrayList<String>(member.getVariant().getSMods()))
-                    member.getVariant().removePermaMod(sMod);
+            if (!onlyOneShip || member.getHullId().equals(args)) {
+                for (HullModSpecAPI dMod : dMods) DModManager.removeDMod(member.getVariant(), dMod.getId());
+                FieldRepairsScript.restoreToNonDHull(member.getVariant());
+            }
 
         if (onlyOneShip)
-            Console.showMessage(new StringBuilder().append("Applied S-Mods to all ships with hull id \"").append(args).append("\""));
-        else Console.showMessage("Cleared all S-Mods from all ships!");
+            Console.showMessage(new StringBuilder().append("Restored to pristine condition all ships with hull id \"").append(args).append("\""));
+        else Console.showMessage("Restored all ships to pristine condition!");
         return CommandResult.SUCCESS;
     }
 }

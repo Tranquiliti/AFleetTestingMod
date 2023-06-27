@@ -26,8 +26,8 @@ public class ShowPlayerDMods implements BaseCommand {
             if (!shipModCount.containsKey(hullName)) shipModCount.put(hullName, new TreeMap<String, Integer>());
 
             print.append(member.getShipName()).append(" (").append(hullName).append("): ");
-            for (String pMod : member.getVariant().getPermaMods()) {
-                HullModSpecAPI modSpec = DModManager.getMod(pMod);
+            for (String permaMod : member.getVariant().getPermaMods()) {
+                HullModSpecAPI modSpec = Global.getSettings().getHullModSpec(permaMod);
                 if (modSpec.hasTag(Tags.HULLMOD_DMOD)) {
                     String display = modSpec.getDisplayName();
                     TreeMap<String, Integer> modCount = (TreeMap<String, Integer>) shipModCount.get(hullName);
