@@ -1,0 +1,51 @@
+{
+    "level_14":{
+        "faction":"omega",
+        "level":14,
+        "personality":"reckless",
+        "isSleeper":true,
+        "skills":{
+            "helmsmanship":2,
+            "combat_endurance":2,
+            "impact_mitigation":2,
+            "damage_control":2,
+            "field_modulation":2,
+            "point_defense":2,
+            "target_analysis":2,
+            "ballistic_mastery":2,
+            "systems_expertise":2,
+            "missile_specialization":2,
+            "gunnery_implants":2,
+            "energy_weapon_mastery":2,
+            "ordnance_expert":2,
+            "polarized_armor":2
+        }
+    },
+
+    "sleeper":{
+        "faction":"independent",
+        "level":7,
+        "personality":"steady",
+        "isSleeper":true,
+        "skills":{
+            "helmsmanship":2,
+            "combat_endurance":2,
+            "damage_control":2,
+            "field_modulation":2,
+            "target_analysis":1,
+            "gunnery_implants":1,
+            "ordnance_expert":2
+        }
+    },
+
+    "level_1":{
+        "skills":{
+            "helmsmanship":1
+        }
+    },
+
+    # Can create new officer presets below...
+
+
+
+}
