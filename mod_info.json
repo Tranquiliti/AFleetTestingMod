@@ -5,6 +5,6 @@
   "author":"Tranquility",
   "version":{"major":0,"minor":3,"patch":0},
   "description":"A test mod that adds several Console Commands commands for fleet testing, plus a MagicLib bounty containing a [REDACTED] test fleet.",
-  "gameVersion":"0.96a-RC10",
+  "gameVersion":"0.97a-RC6",
   "dependencies":[{"id":"lw_console","name":"Console Commands"}]
 }
