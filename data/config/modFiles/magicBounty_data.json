@@ -2,7 +2,7 @@
     "afleettestingmod_Double_Ordo":{
         "trigger_market_id":["asharu"],
         "trigger_player_minLevel":15,
-        "trigger_weight_mult":9001,
+        "trigger_weight_mult":1,
 
         "job_name":"Double Ordo Simulator",
         "job_comm_reply":"The comms crackle and whine as a frantic pattern of interweaving lines takes shape.\n\nquery. query. query target. is omega? omega? no. revert function.\n\nINTERRUPT\n\n\" -SERIAL]. This unit has not cleared your vessel for approach and will employ the latest Tri-Tachyon Defense Products to ensure its integrity. Tri-Tachyon Corporation is pleased to wish you a 'Very Safe Day.'\"",
@@ -29,19 +29,19 @@
             # replacing Combat Endurance with Polarized Armor
             "helmsmanship":2,
             "impact_mitigation":2,
+            "polarized_armor":2,
             "damage_control":2,
             "field_modulation":2,
             "target_analysis":2,
             "gunnery_implants":2,
-            "energy_weapon_mastery":2,
-            "polarized_armor":2,
+            "energy_weapon_mastery":2
         },
 
         "fleet_name":"Remnant Ordo",
         "fleet_faction":"remnant",
         "fleet_flagship_variant":"radiant_Assault",
         "fleet_flagship_autofit":false,
-        "fleet_preset_ships":{ # 815 DP, 640 ship FP
+        "fleet_preset_ships":{ # 815 DP, 640 ship FP (For reference, one fully-powered Ordo has average of 320 FP)
             "radiant_Standard":1,
             "nova_Attack":1,
             "nova_Standard":2,
@@ -56,12 +56,62 @@
             "fulgent_Support":5,
             "glimmer_Assault":4,
             "glimmer_Support":3,
-            "lumen_Standard":7,
+            "lumen_Standard":7
         },
         "fleet_preset_autofit":false,
         "fleet_no_retreat":true,
         "fleet_behavior":"PASSIVE",
 
-        "location_entitiesID":["asharu"],
+        "location_entitiesID":["asharu"]
+    },
+
+    "afleettestingmod_Duel":{
+        "trigger_market_id":["asharu"],
+        "trigger_player_minLevel":15,
+        "trigger_weight_mult":1,
+
+        "job_name":"Remnant Dueling Simulator",
+        "job_comm_reply":"The comms crackle and whine as a frantic pattern of interweaving lines takes shape.\n\nquery. query. query target. is omega? omega? no. revert function.\n\nINTERRUPT\n\n\" -SERIAL]. This unit has not cleared your vessel for approach and will employ the latest Tri-Tachyon Defense Products to ensure its integrity. Tri-Tachyon Corporation is pleased to wish you a 'Very Safe Day.'\"",
+        "job_type":"obliteration",
+        "job_show_captain":true,
+        "job_show_fleet":"all",
+        "job_show_distance":"exact",
+        "job_show_arrow":true,
+
+        "target_first_name":"Alpha",
+        "target_last_name":"Core",
+        "target_rank":"spaceCommander",
+        "target_post":"fleetCommander",
+        "target_portrait":"graphics/portraits/portrait_ai2b.png",
+        "target_personality":"reckless",
+        "target_aiCoreId":"alpha_core",
+        "target_level":8,
+        "target_skills":{
+            # Remnant fleets always have below commander skills
+            "electronic_warfare":1,
+            "flux_regulation":1,
+            "coordinated_maneuvers":1,
+            # Alpha Cores piloting Remnant capital ships always have below combat skills,
+            # replacing Combat Endurance with Polarized Armor
+            "helmsmanship":2,
+            "impact_mitigation":2,
+            "combat_endurance":2, # Replaced with Polarized Armor if flagship is capital
+            #"polarized_armor":2, # Replaces Combat Endurance if flagship is capital
+            "damage_control":2,
+            "field_modulation":2,
+            "target_analysis":2,
+            "gunnery_implants":2,
+            "energy_weapon_mastery":2
+        },
+
+        "fleet_name":"Remnant Fragment",
+        "fleet_faction":"remnant",
+        "fleet_flagship_variant":"brilliant_Standard", # Change this to test against another ship
+        "fleet_flagship_autofit":false,
+        "fleet_preset_autofit":false,
+        "fleet_no_retreat":true,
+        "fleet_behavior":"PASSIVE",
+
+        "location_entitiesID":["asharu"]
     },
 }

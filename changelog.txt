@@ -1,3 +1,13 @@
+Version 0.3.0 (Update for Starsector 0.97)
+
+* Updated to Starsector 0.97
+* Added "AddPresetOfficer" command, which can spawn preset officers from a JSON file
+* "InitiateFleetTest" now also clears the player inventory; adds max supplies, crew, and fuel; and repairs the fleet/ship
+* Added another MagicBounty for dueling against a single Remnant ship
+* Reduced likelihood the testing bounties will be shown over other bounties
+
+
+
 Version 0.2.0
 
 * Added "ShowHullIDs" command, which shows the hull IDs for all player ships.

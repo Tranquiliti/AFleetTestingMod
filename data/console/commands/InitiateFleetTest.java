@@ -7,6 +7,7 @@ import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.impl.campaign.DModManager;
+import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.loading.VariantSource;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
@@ -32,20 +33,20 @@ public class InitiateFleetTest implements BaseCommand {
         variant.setNumFluxCapacitors(3);
 
         // S-Mods
-        variant.addPermaMod("augmentedengines",true);
-        variant.addPermaMod("insulatedengine",true);
-        variant.addPermaMod("solar_shielding",true);
+        variant.addPermaMod(HullMods.AUGMENTEDENGINES, true);
+        variant.addPermaMod(HullMods.INSULATEDENGINE, true);
+        variant.addPermaMod(HullMods.SOLAR_SHIELDING, true);
         // D-Mods
-        variant.addPermaMod("comp_armor",false);
-        variant.addPermaMod("damaged_mounts",false);
-        variant.addPermaMod("degraded_shields",false);
-        variant.addPermaMod("comp_structure",false);
-        variant.addPermaMod("fragile_subsystems",false);
+        variant.addPermaMod(HullMods.COMP_ARMOR, false);
+        variant.addPermaMod("damaged_mounts", false);
+        variant.addPermaMod("degraded_shields", false);
+        variant.addPermaMod(HullMods.COMP_STRUCTURE, false);
+        variant.addPermaMod(HullMods.FRAGILE_SUBSYSTEMS, false);
         // Hull-Mods
-        variant.addMod("efficiency_overhaul");
+        variant.addMod(HullMods.EFFICIENCY_OVERHAUL);
         variant.addMod("hiressensors");
-        variant.addMod("nav_relay");
-        variant.addMod("unstable_injector");
+        variant.addMod(HullMods.NAV_RELAY);
+        variant.addMod(HullMods.UNSTABLE_INJECTOR);
 
         player.addFleetMember(flagship);
         player.setFlagship(flagship);
@@ -55,12 +56,12 @@ public class InitiateFleetTest implements BaseCommand {
             player.removeOfficer(officer.getPerson());
 
         // Remove all ships beside the flagship
-        for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
+        for (FleetMemberAPI member : player.getMembersListCopy())
             if (!member.isFlagship()) player.removeFleetMember(member);
 
         // Jump to Asharu with max level and all equipment
         new AddCredits().runCommand("9968000", context);
-        new AddXP().runCommand("11710000", context); // From level 1 to 15
+        new AddXP().runCommand("11710000", context); // Enough to go from level 1 to 15
         new AddStoryPoints().runCommand("64", context);
         new Jump().runCommand("Corvus", context);
         new GoTo().runCommand("Asharu", context);
@@ -69,6 +70,11 @@ public class InitiateFleetTest implements BaseCommand {
         new AllHulls().runCommand("", context);
         new AllWeapons().runCommand("", context);
         new AllWings().runCommand("", context);
+        Global.getSector().getPlayerFleet().getCargo().clear(); // Clear player inventory
+        new AddSupplies().runCommand("", context);
+        new AddCrew().runCommand("", context);
+        new AddFuel().runCommand("", context);
+        new Repair().runCommand("", context);
 
         Console.showMessage("Player fleet configured for fleet testing.");
         return CommandResult.SUCCESS;
