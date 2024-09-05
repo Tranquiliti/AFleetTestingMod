@@ -1,3 +1,17 @@
+Version 0.4.0
+
+* Adjusted the "InitiateFleetTest" command
+  - Now teleports directly to the Abandoned Terraforming Station
+  - Adds a Spaceport to the Abandoned Terraforming Station, allowing dock repairs and refits for dock-only hullmods
+  - Increased the amount of added credits and SPs
+* Adjusted the Remnant test bounties
+  - Adjusted fleet/ship skills to account for 0.97 Remnant skills changes
+  - Now no longer appears unless the "InitiateFleetTest" command is executed (i.e. no more test bounties during normal gameplay).
+* Added all level 7 sleeper officer presets to presetOfficers.json, replacing the sole "sleeper" preset
+* "AddPresetOfficer" now prints all available preset officer IDs if no arguments are entered
+
+
+
 Version 0.3.0 (Update for Starsector 0.97)
 
 * Updated to Starsector 0.97

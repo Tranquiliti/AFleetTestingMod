@@ -21,10 +21,20 @@ public class AddPresetOfficer implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        if (args.isEmpty()) return CommandResult.BAD_SYNTAX;
-
         try {
-            JSONObject officerSettings = Global.getSettings().getMergedJSON("data/config/presetOfficers.json").optJSONObject(args);
+            JSONObject presets = Global.getSettings().getMergedJSON("data/config/presetOfficers.json");
+
+            if (args.isEmpty()) {
+                StringBuilder print = new StringBuilder();
+                for (Iterator<String> iter = presets.keys(); iter.hasNext(); ) {
+                    String presetID = (String) iter.next();
+                    print.append(presetID).append('\n');
+                }
+                Console.showMessage(print.toString());
+                return CommandResult.BAD_SYNTAX;
+            }
+
+            JSONObject officerSettings = presets.optJSONObject(args);
             if (officerSettings == null) {
                 Console.showMessage("Error: preset officer ID not found!");
                 return CommandResult.ERROR;
@@ -48,6 +58,7 @@ public class AddPresetOfficer implements BaseCommand {
             }
             officer.getStats().setSkipRefresh(false);
 
+            // Sleeper presets are found in CryopodOfficerGen.java
             if (officerSettings.optBoolean("isSleeper"))
                 officer.getMemoryWithoutUpdate().set(MemFlags.EXCEPTIONAL_SLEEPER_POD_OFFICER, true);
 

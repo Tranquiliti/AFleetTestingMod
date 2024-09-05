@@ -22,19 +22,147 @@
         }
     },
 
-    "sleeper":{
-        "faction":"independent",
+    "sleeper_fast_high_tech":{
+        "faction":"tritachyon",
+        "level":7,
+        "personality":"steady",
+        "isSleeper":true,
+        "skills":{
+            "target_analysis":2,
+            "energy_weapon_mastery":2,
+            "field_modulation":2,
+            "gunnery_implants":2,
+            "systems_expertise":2,
+            "combat_endurance":1,
+            "helmsmanship":1
+        }
+    },
+
+    "sleeper_slow_high_tech":{
+        "faction":"tritachyon",
         "level":7,
         "personality":"steady",
         "isSleeper":true,
         "skills":{
             "helmsmanship":2,
-            "combat_endurance":2,
-            "damage_control":2,
+            "energy_weapon_mastery":2,
             "field_modulation":2,
+            "gunnery_implants":2,
+            "ordnance_expert":2,
             "target_analysis":1,
-            "gunnery_implants":1,
-            "ordnance_expert":2
+            "combat_endurance":1
+        }
+    },
+
+    "sleeper_hull_tank":{
+        "faction":"hegemony",
+        "level":7,
+        "personality":"steady",
+        "isSleeper":true,
+        "skills":{
+            "damage_control":2,
+            "impact_mitigation":2,
+            "polarized_armor":2,
+            "ballistic_mastery":2,
+            "target_analysis":2,
+            "missile_specialization":1,
+            "gunnery_implants":1
+        }
+    },
+
+    "sleeper_low_tech":{
+        "faction":"hegemony",
+        "level":7,
+        "personality":"steady",
+        "isSleeper":true,
+        "skills":{
+            "ordnance_expert":2,
+            "impact_mitigation":2,
+            "polarized_armor":2,
+            "ballistic_mastery":2,
+            "target_analysis":2,
+            "missile_specialization":1,
+            "gunnery_implants":1
+        }
+    },
+
+    "sleeper_phase_ship":{
+        "faction":"tritachyon",
+        "level":7,
+        "personality":"steady",
+        "isSleeper":true,
+        "skills":{
+            "impact_mitigation":2,
+            "field_modulation":2,
+            "target_analysis":2,
+            "systems_expertise":2,
+            "combat_endurance":2,
+            "polarized_armor":1,
+            "energy_weapon_mastery":1
+        }
+    },
+
+    "sleeper_1":{
+        "faction":"independent",
+        "level":7,
+        "personality":"steady",
+        "isSleeper":true,
+        "skills":{
+            "field_modulation":2,
+            "ordnance_expert":2,
+            "target_analysis":2,
+            "point_defense":2,
+            "gunnery_implants":2,
+            "helmsmanship":1,
+            "combat_endurance":1
+        }
+    },
+
+    "sleeper_2":{
+        "faction":"independent",
+        "level":7,
+        "personality":"steady",
+        "isSleeper":true,
+        "skills":{
+            "field_modulation":2,
+            "ordnance_expert":2,
+            "target_analysis":2,
+            "impact_mitigation":2,
+            "gunnery_implants":2,
+            "helmsmanship":1,
+            "combat_endurance":1
+        }
+    },
+
+    "sleeper_SO_ballistic":{
+        "faction":"hegemony",
+        "level":7,
+        "personality":"steady",
+        "isSleeper":true,
+        "skills":{
+            "combat_endurance":2,
+            "target_analysis":2,
+            "systems_expertise":2,
+            "damage_control":2,
+            "impact_mitigation":2,
+            "field_modulation":1,
+            "ballistic_mastery":1
+        }
+    },
+
+    "sleeper_SO_energy":{
+        "faction":"tritachyon",
+        "level":7,
+        "personality":"steady",
+        "isSleeper":true,
+        "skills":{
+            "combat_endurance":2,
+            "target_analysis":2,
+            "systems_expertise":2,
+            "damage_control":2,
+            "impact_mitigation":2,
+            "field_modulation":1,
+            "energy_weapon_mastery":1
         }
     },
 
@@ -48,4 +176,4 @@
 
 
 
-}
+} # Keep this bracket here!
