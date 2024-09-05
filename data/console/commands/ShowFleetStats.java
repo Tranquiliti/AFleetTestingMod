@@ -57,8 +57,8 @@ public class ShowFleetStats implements BaseCommand {
     }
 
     private void showStats(CampaignFleetAPI fleet, StringBuilder print) {
-        int baseDP = 0;
-        int realDP = 0;
+        float baseDP = 0;
+        float realDP = 0;
         for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
             baseDP += member.getUnmodifiedDeploymentPointsCost();
             realDP += member.getDeploymentPointsCost();

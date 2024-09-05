@@ -1,5 +1,5 @@
 # A Fleet Testing Mod
-A test mod containing several Console Commands commands designed for easier fleet testing, as well as a MagicLib bounty containing a REDACTED test fleet.
+A test mod containing several Console Commands commands designed for easier fleet testing, as well as a few test-only MagicLib bounties against the [REDACTED].
 
 # Credits
 <b>LazyWizard</b> - For the Console Commands mod!<br>

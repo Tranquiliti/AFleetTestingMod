@@ -3,9 +3,13 @@
         "trigger_market_id":["asharu"],
         "trigger_player_minLevel":15,
         "trigger_weight_mult":1,
+        "trigger_memKeys_all":{
+            "$afleettestingmod_InitiateFleetTest":true
+        },
 
         "job_name":"Double Ordo Simulator",
         "job_comm_reply":"The comms crackle and whine as a frantic pattern of interweaving lines takes shape.\n\nquery. query. query target. is omega? omega? no. revert function.\n\nINTERRUPT\n\n\" -SERIAL]. This unit has not cleared your vessel for approach and will employ the latest Tri-Tachyon Defense Products to ensure its integrity. Tri-Tachyon Corporation is pleased to wish you a 'Very Safe Day.'\"",
+        "job_credit_reward":0,
         "job_type":"obliteration",
         "job_show_captain":true,
         "job_show_fleet":"all",
@@ -22,14 +26,13 @@
         "target_level":8,
         "target_skills":{
             # Remnant fleets always have below commander skills
-            "electronic_warfare":1,
             "flux_regulation":1,
             "coordinated_maneuvers":1,
-            # Alpha Cores piloting Remnant capital ships always have below combat skills,
-            # replacing Combat Endurance with Polarized Armor
+            # Alpha Core skills
             "helmsmanship":2,
             "impact_mitigation":2,
-            "polarized_armor":2,
+            #"combat_endurance":2, # If flagship is NOT a capital
+            "polarized_armor":2, # If flagship is a capital
             "damage_control":2,
             "field_modulation":2,
             "target_analysis":2,
@@ -69,9 +72,13 @@
         "trigger_market_id":["asharu"],
         "trigger_player_minLevel":15,
         "trigger_weight_mult":1,
+        "trigger_memKeys_all":{
+            "$afleettestingmod_InitiateFleetTest":true
+        },
 
         "job_name":"Remnant Dueling Simulator",
         "job_comm_reply":"The comms crackle and whine as a frantic pattern of interweaving lines takes shape.\n\nquery. query. query target. is omega? omega? no. revert function.\n\nINTERRUPT\n\n\" -SERIAL]. This unit has not cleared your vessel for approach and will employ the latest Tri-Tachyon Defense Products to ensure its integrity. Tri-Tachyon Corporation is pleased to wish you a 'Very Safe Day.'\"",
+        "job_credit_reward":0,
         "job_type":"obliteration",
         "job_show_captain":true,
         "job_show_fleet":"all",
@@ -88,20 +95,19 @@
         "target_level":8,
         "target_skills":{
             # Remnant fleets always have below commander skills
-            "electronic_warfare":1,
             "flux_regulation":1,
             "coordinated_maneuvers":1,
-            # Alpha Cores piloting Remnant capital ships always have below combat skills,
-            # replacing Combat Endurance with Polarized Armor
+            # Alpha Core skills
             "helmsmanship":2,
             "impact_mitigation":2,
-            "combat_endurance":2, # Replaced with Polarized Armor if flagship is capital
-            #"polarized_armor":2, # Replaces Combat Endurance if flagship is capital
+            "combat_endurance":2, # If flagship is NOT a capital
+            #"polarized_armor":2, # If flagship is a capital
             "damage_control":2,
             "field_modulation":2,
             "target_analysis":2,
             "gunnery_implants":2,
-            "energy_weapon_mastery":2
+            "point_defense":2, # Usually replaces EWM for the Standard Brilliant variant, as well as most Apex variants and autofits
+            #"energy_weapon_mastery":2
         },
 
         "fleet_name":"Remnant Fragment",

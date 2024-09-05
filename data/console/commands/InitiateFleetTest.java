@@ -17,6 +17,7 @@ import org.lazywizard.console.commands.*;
 public class InitiateFleetTest implements BaseCommand {
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
+        Global.getSector().getMemoryWithoutUpdate().set("$afleettestingmod_InitiateFleetTest", true);
         if (!context.isInCampaign()) {
             Console.showMessage(CommonStrings.ERROR_CAMPAIGN_ONLY);
             return CommandResult.WRONG_CONTEXT;
@@ -59,18 +60,19 @@ public class InitiateFleetTest implements BaseCommand {
         for (FleetMemberAPI member : player.getMembersListCopy())
             if (!member.isFlagship()) player.removeFleetMember(member);
 
-        // Jump to Asharu with max level and all equipment
-        new AddCredits().runCommand("9968000", context);
+        // Jump to the Abandoned Terraforming Station with max level and all equipment
+        Global.getSector().getStarSystem("corvus").getEntityById("corvus_abandoned_station").getMarket().addIndustry("spaceport");
+        Global.getSector().getPlayerFleet().getCargo().clear(); // Clear player inventory
+        new AddCredits().runCommand("19968000", context);
         new AddXP().runCommand("11710000", context); // Enough to go from level 1 to 15
-        new AddStoryPoints().runCommand("64", context);
-        new Jump().runCommand("Corvus", context);
-        new GoTo().runCommand("Asharu", context);
+        new AddStoryPoints().runCommand("184", context);
+        new Jump().runCommand("corvus", context);
+        new GoTo().runCommand("corvus_abandoned_station", context);
         new AllCommodities().runCommand("", context);
         new AllHullmods().runCommand("", context);
         new AllHulls().runCommand("", context);
         new AllWeapons().runCommand("", context);
         new AllWings().runCommand("", context);
-        Global.getSector().getPlayerFleet().getCargo().clear(); // Clear player inventory
         new AddSupplies().runCommand("", context);
         new AddCrew().runCommand("", context);
         new AddFuel().runCommand("", context);

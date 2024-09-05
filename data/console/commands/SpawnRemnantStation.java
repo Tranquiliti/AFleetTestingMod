@@ -9,7 +9,7 @@ import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.impl.campaign.fleets.FleetFactoryV3;
-import com.fs.starfarer.api.impl.campaign.ids.Factions;
+import com.fs.starfarer.api.impl.campaign.ids.*;
 import com.fs.starfarer.api.impl.campaign.procgen.themes.RemnantOfficerGeneratorPlugin;
 import com.fs.starfarer.api.impl.campaign.procgen.themes.RemnantStationFleetManager;
 import com.fs.starfarer.api.util.Misc;
@@ -59,26 +59,26 @@ public class SpawnRemnantStation implements BaseCommand {
     private void spawnStation(int pts, int maxFleets) {
         StarSystemAPI system = Global.getSector().getPlayerFleet().getStarSystem();
 
-        CampaignFleetAPI fleet = FleetFactoryV3.createEmptyFleet("remnant", "battlestation", null);
+        CampaignFleetAPI fleet = FleetFactoryV3.createEmptyFleet(Factions.REMNANTS, "battlestation", null);
         FleetMemberAPI member = Global.getFactory().createFleetMember(FleetMemberType.SHIP, "remnant_station2_Standard");
         fleet.getFleetData().addFleetMember(member);
-        fleet.getMemoryWithoutUpdate().set("$cfai_makeAggressive", true);
-        fleet.getMemoryWithoutUpdate().set("$cfai_noJump", true);
-        fleet.getMemoryWithoutUpdate().set("$cfai_makeAllowDisengage", true);
-        fleet.addTag("neutrino_high");
+        fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_MAKE_AGGRESSIVE, true);
+        fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_NO_JUMP, true);
+        fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_MAKE_ALLOW_DISENGAGE, true);
+        fleet.addTag(Tags.NEUTRINO_HIGH);
         fleet.setStationMode(true);
         addRemnantStationInteractionConfig(fleet);
         system.addEntity(fleet);
         fleet.clearAbilities();
-        fleet.addAbility("transponder");
-        fleet.getAbility("transponder").activate();
+        fleet.addAbility(Abilities.TRANSPONDER);
+        fleet.getAbility(Abilities.TRANSPONDER).activate();
         fleet.getDetectedRangeMod().modifyFlat("gen", 1000.0F);
         fleet.setAI(null);
 
         Vector2f v = Global.getSector().getPlayerFleet().getLocation();
         fleet.setLocation(v.x, v.y);
 
-        String coreId = "alpha_core";
+        String coreId = Commodities.ALPHA_CORE;
         Random random = new Random();
         AICoreOfficerPlugin plugin = Misc.getAICoreOfficerPlugin(coreId);
         PersonAPI commander = plugin.createPerson(coreId, fleet.getFaction().getId(), random);

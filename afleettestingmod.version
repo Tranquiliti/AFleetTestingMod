@@ -5,10 +5,10 @@
 	"modVersion":
 	{
 		"major":0,
-		"minor":3,
+		"minor":4,
 		"patch":0
 	},
-	"starsectorVersion":"0.96a-RC10",
-	"directDownloadURL":"https://github.com/Tranquiliti/Adversary/releases/download/v0.3.0/AFleetTestingMod-v0.3.0.zip",
+	"starsectorVersion":"0.97a-RC11",
+	"directDownloadURL":"https://github.com/Tranquiliti/Adversary/releases/download/v0.4.0/AFleetTestingMod-v0.4.0.zip",
 	"changelogURL":"https://raw.githubusercontent.com/Tranquiliti/AFleetTestingMod/main/changelog.txt"
 }
