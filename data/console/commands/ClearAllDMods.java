@@ -20,10 +20,10 @@ public class ClearAllDMods implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        boolean onlyOneShip = false;
+        boolean onlyOneShipType = false;
         if (!args.isEmpty()) try {
             Global.getSettings().getHullSpec(args);
-            onlyOneShip = true;
+            onlyOneShipType = true;
         } catch (RuntimeException e) {
             Console.showMessage(new StringBuilder().append("Error: hull id \"").append(args).append("\" does not exist!"));
             return CommandResult.ERROR;
@@ -31,12 +31,12 @@ public class ClearAllDMods implements BaseCommand {
 
         List<HullModSpecAPI> dMods = DModManager.getModsWithTags(Tags.HULLMOD_DMOD);
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
-            if (!onlyOneShip || member.getHullId().equals(args)) {
+            if (!onlyOneShipType || member.getHullId().equals(args)) {
                 for (HullModSpecAPI dMod : dMods) DModManager.removeDMod(member.getVariant(), dMod.getId());
                 FieldRepairsScript.restoreToNonDHull(member.getVariant());
             }
 
-        if (onlyOneShip)
+        if (onlyOneShipType)
             Console.showMessage(new StringBuilder().append("Restored to pristine condition all ships with hull id \"").append(args).append("\""));
         else Console.showMessage("Restored all ships to pristine condition!");
         return CommandResult.SUCCESS;

@@ -1,3 +1,14 @@
+Version 0.5.0
+
+* Added "ShowExceptionalPodOfficers", which will show the locations and skill sets of any exceptional pod officers in the Sector
+* Renamed "AddPresetOfficer" command to "AddPresetOfficers"
+  - Can now accept a "numOfOfficers" argument for spawning multiple officers at once
+  - Added "isMercenary" option for presetOfficer.json, which sets a preset officer as a mercenary
+  - Renamed "isSleeper" option to "isExceptional"
+* "ShowFleetStats" now also show the base XP for defeating a fleet.
+
+
+
 Version 0.4.0
 
 * Adjusted the "InitiateFleetTest" command

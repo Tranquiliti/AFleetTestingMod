@@ -8,6 +8,7 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.impl.campaign.DModManager;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
+import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.loading.VariantSource;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
@@ -61,7 +62,7 @@ public class InitiateFleetTest implements BaseCommand {
             if (!member.isFlagship()) player.removeFleetMember(member);
 
         // Jump to the Abandoned Terraforming Station with max level and all equipment
-        Global.getSector().getStarSystem("corvus").getEntityById("corvus_abandoned_station").getMarket().addIndustry("spaceport");
+        Global.getSector().getStarSystem("corvus").getEntityById("corvus_abandoned_station").getMarket().addIndustry(Industries.SPACEPORT);
         Global.getSector().getPlayerFleet().getCargo().clear(); // Clear player inventory
         new AddCredits().runCommand("19968000", context);
         new AddXP().runCommand("11710000", context); // Enough to go from level 1 to 15

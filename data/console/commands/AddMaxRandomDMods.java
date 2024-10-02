@@ -15,23 +15,23 @@ public class AddMaxRandomDMods implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        boolean onlyOneShip = false;
+        boolean onlyOneType = false;
         if (!args.isEmpty()) try {
             Global.getSettings().getHullSpec(args);
-            onlyOneShip = true;
+            onlyOneType = true;
         } catch (RuntimeException e) {
             Console.showMessage(new StringBuilder().append("Error: hull id \"").append(args).append("\" does not exist!"));
             return CommandResult.ERROR;
         }
 
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
-            if (!onlyOneShip || member.getHullId().equals(args)) {
+            if (!onlyOneType || member.getHullId().equals(args)) {
                 int addDModCount = DModManager.MAX_DMODS_FROM_COMBAT - DModManager.getNumDMods(member.getVariant());
                 if (addDModCount > 0) DModManager.addDMods(member, false, addDModCount, null);
                 DModManager.setDHull(member.getVariant());
             }
 
-        if (onlyOneShip)
+        if (onlyOneType)
             Console.showMessage(new StringBuilder().append("Applied maximum D-Mods to all ships with hull id \"").append(args).append("\""));
         else Console.showMessage("Applied maximum D-Mods to all ships!");
         return CommandResult.SUCCESS;

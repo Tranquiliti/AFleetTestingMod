@@ -44,7 +44,7 @@
         "fleet_faction":"remnant",
         "fleet_flagship_variant":"radiant_Assault",
         "fleet_flagship_autofit":false,
-        "fleet_preset_ships":{ # 815 DP, 640 ship FP (For reference, one fully-powered Ordo has average of 320 FP)
+        "fleet_preset_ships":{ # 815 DP, 640 ship FP (For reference, one fully-powered Ordo averages to 320 FP)
             "radiant_Standard":1,
             "nova_Attack":1,
             "nova_Standard":2,
