@@ -2,7 +2,6 @@ package data.console.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import com.fs.starfarer.api.impl.campaign.DModManager;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.loading.HullModSpecAPI;
 import org.lazywizard.console.BaseCommand;

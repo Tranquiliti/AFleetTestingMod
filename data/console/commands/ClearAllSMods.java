@@ -16,21 +16,21 @@ public class ClearAllSMods implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        boolean onlyOneShip = false;
+        boolean onlyOneShipType = false;
         if (!args.isEmpty()) try {
             Global.getSettings().getHullSpec(args);
-            onlyOneShip = true;
+            onlyOneShipType = true;
         } catch (RuntimeException e) {
             Console.showMessage(new StringBuilder().append("Error: hull id \"").append(args).append("\" does not exist!"));
             return CommandResult.ERROR;
         }
 
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
-            if (!onlyOneShip || member.getHullId().equals(args))
+            if (!onlyOneShipType || member.getHullId().equals(args))
                 for (String sMod : new ArrayList<String>(member.getVariant().getSMods()))
                     member.getVariant().removePermaMod(sMod);
 
-        if (onlyOneShip)
+        if (onlyOneShipType)
             Console.showMessage(new StringBuilder().append("Applied S-Mods to all ships with hull id \"").append(args).append("\""));
         else Console.showMessage("Cleared all S-Mods from all ships!");
         return CommandResult.SUCCESS;

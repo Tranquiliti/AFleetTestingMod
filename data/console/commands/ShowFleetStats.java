@@ -63,6 +63,30 @@ public class ShowFleetStats implements BaseCommand {
             baseDP += member.getUnmodifiedDeploymentPointsCost();
             realDP += member.getDeploymentPointsCost();
         }
-        print.append("--- ").append(fleet.getFullName()).append(" ---\nEffective strength: ").append(fleet.getEffectiveStrength()).append("\nTotal ship FP: ").append(fleet.getFleetPoints()).append("\nTotal base DP: ").append(baseDP).append("\nTotal effective DP: ").append(realDP).append("\nTotal number of ships: ").append(fleet.getNumShips()).append("\nTotal fleet size count: ").append(fleet.getFleetSizeCount()).append("\n");
+        print.append("--- ").append(fleet.getFullName()).append(" ---");
+        print.append("\nEffective strength: ").append(fleet.getEffectiveStrength());
+        print.append("\nTotal ship FP: ").append(fleet.getFleetPoints());
+        print.append("\nTotal base DP: ").append(baseDP);
+        print.append("\nTotal effective DP: ").append(realDP);
+        print.append("\nTotal number of ships: ").append(fleet.getNumShips());
+        print.append("\nTotal fleet size count: ").append(fleet.getFleetSizeCount());
+        print.append("\nTotal base XP: ").append(getBaseXP(fleet)).append("\n");
+    }
+
+    // See com.fs.starfarer.api.impl.campaign.FleetEncounterContext's gainXP() for vanilla implementation
+    private float getBaseXP(CampaignFleetAPI fleet) {
+        int fpTotal = 0;
+        for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
+            float fp = member.getFleetPointCost();
+            fp *= 1f + member.getCaptain().getStats().getLevel() / 5f;
+            fpTotal += fp;
+        }
+
+        float xp = (float) fpTotal * 250;
+        xp *= 2f;
+
+        xp *= Global.getSettings().getFloat("xpGainMult");
+
+        return xp;
     }
 }
