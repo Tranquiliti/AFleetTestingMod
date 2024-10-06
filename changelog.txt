@@ -1,3 +1,12 @@
+Version 0.6.0
+
+* Added 6 Target Practice-esque variants of vanilla ships to the simulator
+  - Inspired by Tartiflette's Target Practice mod
+  - Similar to Target Practice's cubes, these ships cannot move and are teleported to the map center for easier testing
+* Removed dependency on Console Commands (although it is still a major part of this mod)
+
+
+
 Version 0.5.0
 
 * Added "ShowExceptionalPodOfficers", which will show the locations and skill sets of any exceptional pod officers in the Sector

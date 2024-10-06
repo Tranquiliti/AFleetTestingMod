@@ -1,8 +1,9 @@
 # A Fleet Testing Mod
-A test mod containing several Console Commands commands designed for easier fleet testing, as well as a few test-only MagicLib bounties against the [REDACTED].
+A testing mod containing simulation-only target practice ships, several Console Commands commands designed for easier fleet testing, as well as a few test-only MagicBounties against the [REDACTED].
 
 # Credits
 <b>LazyWizard</b> - For the Console Commands mod!<br>
+<b>Tartiflette</b> - For the inspiration in the Target Practice mod!<br>
 <b>Tartiflette and Wispborne</b> - For the MagicLib library mod!<br>
 <b>Starsector Forums</b> - For the helpful modding tutorials and information<br>
 <b>Unofficial Starsector Discord</b> - For helpful modding information and tips<br>

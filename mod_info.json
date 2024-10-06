@@ -3,8 +3,8 @@
   "name":"A Fleet Testing Mod",
   "utility":"true",
   "author":"Tranquility",
-  "version":{"major":0,"minor":5,"patch":0},
-  "description":"A test mod that adds several Console Commands commands for fleet testing, plus a few test-only MagicLib bounties.",
+  "version":{"major":0,"minor":6,"patch":0},
+  "description":"A test mod that adds target practice ships to the simulator, several Console Commands commands for fleet testing, and a few test-only [REDACTED] MagicBounties.",
   "gameVersion":"0.97a-RC11",
-  "dependencies":[{"id":"lw_console","name":"Console Commands"}]
+  "jars":["jars/AFleetTestingMod.jar"]
 }
