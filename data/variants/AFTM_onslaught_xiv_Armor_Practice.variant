@@ -1,0 +1,72 @@
+{
+    "displayName": "Armor Practice",
+    "fluxCapacitors": 0,
+    "fluxVents": 13,
+    "hullId": "onslaught_xiv",
+    "hullMods": [
+        "shield_shunt",
+        "armoredweapons",
+        "blast_doors",
+        "heavyarmor",
+        "insulatedengine",
+        "reinforcedhull",
+        "AFTM_TargetPractice"
+    ],
+    "permaMods": ["shield_shunt"],
+    "sMods": ["shield_shunt"],
+    "variantId": "AFTM_onslaught_xiv_Armor_Practice",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 016": "tpc"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 017": "tpc"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 018": "multineedler"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 019": "multineedler"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 020": "multineedler"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 001": "heavyneedler",
+                "WS 003": "heavyneedler",
+                "WS 007": "heavyneedler",
+                "WS 010": "heavyneedler",
+                "WS 011": "heavyneedler",
+                "WS 012": "heavyneedler",
+                "WS 013": "heavyneedler",
+                "WS 014": "heavyneedler",
+                "WS 015": "heavyneedler"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 002": "lightneedler",
+                "WS 004": "lightneedler",
+                "WS 005": "lightneedler",
+                "WS 006": "lightneedler",
+                "WS 008": "lightneedler",
+                "WS 009": "lightneedler"
+            }
+        }
+    ]
+}

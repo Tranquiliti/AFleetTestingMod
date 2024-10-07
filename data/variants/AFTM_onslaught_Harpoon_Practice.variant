@@ -1,0 +1,76 @@
+{
+    "displayName": "Harpoon Practice",
+    "fluxCapacitors": 0,
+    "fluxVents": 50,
+    "hullId": "onslaught",
+    "hullMods": [
+        "autorepair",
+        "turretgyros",
+        "armoredweapons",
+        "fluxdistributor",
+        "fluxbreakers",
+        "missile_reload",
+        "AFTM_TargetPractice"
+    ],
+    "permaMods": ["autorepair"],
+    "sMods": ["autorepair"],
+    "variantId": "AFTM_onslaught_Harpoon_Practice",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 016": "tpc"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 017": "tpc"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 018": "gauss"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 019": "gauss"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 020": "gauss"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 002": "lightdualmg",
+                "WS 004": "lightdualmg",
+                "WS 005": "lightdualmg",
+                "WS 006": "lightdualmg",
+                "WS 008": "lightdualmg",
+                "WS 009": "lightdualmg",
+                "WS 021": "harpoonpod",
+                "WS 022": "harpoonpod",
+                "WS 023": "harpoonpod",
+                "WS 024": "harpoonpod"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 001": "heavyneedler",
+                "WS 003": "heavyneedler",
+                "WS 007": "heavyneedler",
+                "WS 010": "heavyneedler",
+                "WS 011": "heavyneedler",
+                "WS 012": "heavyneedler",
+                "WS 013": "heavyneedler",
+                "WS 014": "heavyneedler",
+                "WS 015": "heavyneedler"
+            }
+        }
+    ]
+}

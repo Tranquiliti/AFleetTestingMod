@@ -1,0 +1,46 @@
+{
+    "displayName": "Hull Practice",
+    "fluxCapacitors": 0,
+    "fluxVents": 10,
+    "hullId": "invictus",
+    "hullMods": [
+        "armoredweapons",
+        "blast_doors",
+        "insulatedengine",
+        "reinforcedhull",
+        "AFTM_TargetPractice"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "AFTM_invictus_Hull_Practice",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 001": "gauss",
+                "WS 002": "gauss",
+                "WS 009": "gauss",
+                "WS 010": "gauss"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 000": "gauss",
+                "WS 026": "gauss"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 003": "gauss",
+                "WS 005": "gauss",
+                "WS 006": "gauss",
+                "WS 008": "gauss"
+            }
+        }
+    ]
+}

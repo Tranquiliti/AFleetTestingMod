@@ -1,0 +1,59 @@
+{
+    "displayName": "PD Practice",
+    "fluxCapacitors": 20,
+    "fluxVents": 20,
+    "hullId": "astral",
+    "hullMods": [
+        "expanded_deck_crew",
+        "missile_reload",
+        "AFTM_TargetPractice"
+    ],
+    "permaMods": [],
+    "sMods": [],
+    "variantId": "AFTM_astral_PD_Practice",
+    "weaponGroups": [
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 011": "squall"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {"WS 012": "squall"}
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 013": "heavyburst",
+                "WS 014": "heavyburst",
+                "WS 015": "heavyburst",
+                "WS 023": "heavyburst",
+                "WS 024": "heavyburst"
+            }
+        },
+        {
+            "autofire": false,
+            "mode": "LINKED",
+            "weapons": {
+                "WS 001": "pdburst",
+                "WS 002": "pdburst",
+                "WS 003": "pdburst",
+                "WS 004": "pdburst",
+                "WS 005": "pdburst",
+                "WS 006": "pdburst",
+                "WS 007": "pdburst",
+                "WS 008": "pdburst"
+            }
+        }
+    ],
+    "wings": [
+        "warthog_wing",
+        "warthog_wing",
+        "warthog_wing",
+        "warthog_wing",
+        "warthog_wing",
+        "warthog_wing"
+    ]
+}
