@@ -22,7 +22,7 @@ import java.util.List;
 import static org.tranquility.afleettestingmod.AFTM_Util.MISSION_FP_STEP;
 import static org.tranquility.afleettestingmod.AFTM_Util.MISSION_QUALITY_STEP;
 
-// Code adapted from Dark.Revenant's Interstellar Imperium Station Tester
+// Code adapted from Dark.Revenant's Interstellar Imperium Station Tester mission
 public class MissionDefinition implements MissionDefinitionPlugin {
     private static List<String> STATIONS;
     private static int stationIndex;
@@ -52,7 +52,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
 
         boolean shiftEnabled = (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT));
 
-        if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
+        if (shiftEnabled && (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL))) {
             init();
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {

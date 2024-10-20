@@ -1,10 +1,10 @@
-Location: Unknown
+Location: In the outer reaches of an unknown star system
 Date: 206.03.02
 
 Hold down the following keys while clicking on the mission to customize.
 
 Spacebar: Re-roll ships
-Ctrl: Reset settings
+Shift + Ctrl: Reset settings
 
 Shift + Q/E: Previous/next player faction
 Shift + A/D: Decrease/increase player fleet points
@@ -19,3 +19,5 @@ T: Toggle 1-100x speed-up
 O: Toggle fleet officers
 F: Toggle autofit
 M: Toggle objective layout
+
+Add more factions by editing the .csv files in AFleetTestingMod/data/config/afleettestingmodConfig

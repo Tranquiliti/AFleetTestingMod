@@ -3,6 +3,7 @@ package org.tranquility.afleettestingmod;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FactionAPI;
+import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.fleets.DefaultFleetInflater;
@@ -26,6 +27,8 @@ import java.util.Random;
 public final class AFTM_Util {
     public static final byte MISSION_FP_STEP = 5;
     public static final byte MISSION_QUALITY_STEP = 5;
+    private static final int DEFAULT_FP = 160;
+    private static final int DEFAULT_QUALITY_PERCENT = 120;  // 120% is the minimum required to guarantee no random ship D-Mods in vanilla
 
     public static List<String> getMissionFactions() {
         try {
@@ -62,8 +65,11 @@ public final class AFTM_Util {
         CampaignFleetAPI fleet = params.initFleet(faction, balanceFleets, officers, autofit);
 
         api.initFleet(side, null, FleetGoal.ATTACK, true);
-        if (officers)
-            fleet.setCommander(Global.getSettings().createPerson()); // Mainly to prevent player from controlling the flagship
+        if (officers) {
+            PersonAPI dummy = Global.getSettings().createPerson();
+            dummy.setStats(fleet.getCommanderStats()); // Use real commander's stats to keep fleetwide skills active
+            fleet.setCommander(dummy); // Mainly to prevent player from controlling the flagship
+        }
         for (FleetMemberAPI member : fleet.getFleetData().getMembersInPriorityOrder())
             api.addFleetMember(side, member);
 
@@ -81,8 +87,8 @@ public final class AFTM_Util {
 
         public TesterFleetParams() {
             rand = new Random();
-            targetFleetPoints = 150;
-            fleetQuality = 120; // 120% is the minimum required to guarantee no random ship D-Mods in vanilla
+            targetFleetPoints = DEFAULT_FP;
+            fleetQuality = DEFAULT_QUALITY_PERCENT;
             bestDistance = Integer.MAX_VALUE;
             refreshFleet = true;
         }
@@ -90,8 +96,8 @@ public final class AFTM_Util {
         public void reset() {
             rand = new Random();
             factionIndex = 0;
-            targetFleetPoints = 150;
-            fleetQuality = 120;
+            targetFleetPoints = DEFAULT_FP;
+            fleetQuality = DEFAULT_QUALITY_PERCENT;
             refreshFleet = true;
         }
 

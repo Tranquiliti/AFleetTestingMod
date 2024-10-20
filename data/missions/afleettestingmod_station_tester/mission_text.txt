@@ -1,10 +1,10 @@
-Location: Unknown
+Location: In orbit around Chicomoztoc in the Aztlan system
 Date: 206.03.02
 
 Hold down the following keys while clicking on the mission to customize.
 
 Spacebar: Re-roll ships
-Ctrl: Reset settings
+Shift + Ctrl: Reset settings
 
 Shift + Q/E: Previous/next player station
 Shift + W: Toggle Alpha Core/Level 14 station
@@ -17,3 +17,5 @@ B: Toggle fleet point balancer
 T: Toggle 1-100x speed-up
 O: Toggle fleet officers
 F: Toggle autofit
+
+Add more station variants and factions by editing the .csv files in AFleetTestingMod/data/config/afleettestingmodConfig
