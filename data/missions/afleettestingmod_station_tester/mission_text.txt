@@ -1,0 +1,19 @@
+Location: Unknown
+Date: 206.03.02
+
+Hold down the following keys while clicking on the mission to customize.
+
+Spacebar: Re-roll ships
+Ctrl: Reset settings
+
+Shift + Q/E: Previous/next player station
+Shift + W: Toggle Alpha Core/Level 14 station
+
+Q/E: Previous/next enemy faction
+A/D: Decrease/increase enemy fleet points
+Z/C: Decrease/increase enemy ship quality
+
+B: Toggle fleet point balancer
+T: Toggle 1-100x speed-up
+O: Toggle fleet officers
+F: Toggle autofit
