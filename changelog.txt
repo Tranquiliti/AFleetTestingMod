@@ -1,3 +1,14 @@
+Version 0.7.0
+
+* Added 2 main menu missions
+  - Inspired by the Station Tester mission from Dark.Revenant's Interstellar Imperium mod
+  - First mission is a fleet vs. fleet battle for testing faction strength relative to another
+  - Second mission is a station vs. fleet battle for testing station strength
+  - Adding factions/stations to the missions can be done via mergeable .csv files in AFleetTestingMod/data/config/afleettestingmodConfig
+* Moved all Console Commands code to compiled source folder
+
+
+
 Version 0.6.0
 
 * Added 6 Target Practice-esque variants of vanilla ships to the simulator

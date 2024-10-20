@@ -8,8 +8,7 @@ import com.fs.starfarer.api.combat.ShipEngineControllerAPI.ShipEngineAPI;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * Code adapted from the Target Practice mod by Tartiflette
- * <a href="https://fractalsoftworks.com/forum/index.php?topic=9438.0">https://fractalsoftworks.com/forum/index.php?topic=9438.0</a>
+ * Code adapted from Tartiflette's <a href="https://fractalsoftworks.com/forum/index.php?topic=9438.0">Target Practice</a> mod
  */
 public class AFTM_TargetPractice extends BaseHullMod {
     @Override

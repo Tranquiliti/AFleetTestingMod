@@ -1,4 +1,4 @@
-package data.console.commands;
+package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
@@ -19,7 +19,7 @@ public class ShowPlayerDMods implements BaseCommand {
         }
 
         StringBuilder print = new StringBuilder();
-        TreeMap<String, TreeMap<String, Integer>> shipModCount = new TreeMap<String, TreeMap<String, Integer>>();
+        TreeMap<String, TreeMap<String, Integer>> shipModCount = new TreeMap<>();
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy()) {
             String hullName = member.getHullSpec().getHullName();
             if (!shipModCount.containsKey(hullName)) shipModCount.put(hullName, new TreeMap<String, Integer>());
@@ -29,9 +29,9 @@ public class ShowPlayerDMods implements BaseCommand {
                 HullModSpecAPI modSpec = Global.getSettings().getHullModSpec(permaMod);
                 if (modSpec.hasTag(Tags.HULLMOD_DMOD)) {
                     String display = modSpec.getDisplayName();
-                    TreeMap<String, Integer> modCount = (TreeMap<String, Integer>) shipModCount.get(hullName);
+                    TreeMap<String, Integer> modCount = shipModCount.get(hullName);
                     if (!modCount.containsKey(display)) modCount.put(display, 1);
-                    else modCount.put(display, (Integer) modCount.get(display) + 1);
+                    else modCount.put(display, modCount.get(display) + 1);
 
                     print.append(display).append(", ");
                 }
@@ -41,7 +41,7 @@ public class ShowPlayerDMods implements BaseCommand {
 
         for (String hull : shipModCount.keySet()) {
             print.append("--- D-Mod distribution for ").append(hull).append(" ---\n");
-            TreeMap<String, Integer> modCount = (TreeMap<String, Integer>) shipModCount.get(hull);
+            TreeMap<String, Integer> modCount = shipModCount.get(hull);
             for (String display : modCount.keySet())
                 print.append(display).append(": ").append(modCount.get(display)).append("\n");
         }

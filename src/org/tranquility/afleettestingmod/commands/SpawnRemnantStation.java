@@ -1,4 +1,4 @@
-package data.console.commands;
+package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.AICoreOfficerPlugin;
