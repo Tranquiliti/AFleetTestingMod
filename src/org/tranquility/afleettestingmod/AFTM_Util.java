@@ -153,7 +153,7 @@ public final class AFTM_Util {
                 p.seed = bestFleetSeed;
                 p.quality = fleetQuality / 100f;
                 p.allWeapons = !autofit;
-                if (!autofit) p.rProb = 0f; // autofit probability
+                if (!autofit) p.rProb = 0f; // Set autofit randomize probability to 0
                 p.factionId = factionId;
                 new DefaultFleetInflater(p).inflate(bestFleet);
             }

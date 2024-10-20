@@ -1,4 +1,4 @@
-package data.console.commands;
+package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
@@ -30,7 +30,7 @@ public class ShowFleetStats implements BaseCommand {
             return CommandResult.SUCCESS;
         } else if (!(args.equals("nearest") || args.equals("all"))) return CommandResult.BAD_SYNTAX;
 
-        TreeSet<CampaignFleetAPI> nearbyFleets = new TreeSet<CampaignFleetAPI>(new Comparator<Object>() {
+        TreeSet<CampaignFleetAPI> nearbyFleets = new TreeSet<>(new Comparator<Object>() {
             @Override
             public int compare(Object o1, Object o2) {
                 if (o1 == o2) return 0;
@@ -49,7 +49,7 @@ public class ShowFleetStats implements BaseCommand {
         if (nearbyFleets.size() == 1) // Assuming player fleet is always the closest
             showStats(Global.getSector().getPlayerFleet(), print.append("No other fleet found in current location! Resorting to showing player fleet!\n"));
         else if (args.equals("nearest"))
-            showStats((CampaignFleetAPI) Objects.requireNonNull(nearbyFleets.higher(nearbyFleets.first())), print);
+            showStats(Objects.requireNonNull(nearbyFleets.higher(nearbyFleets.first())), print);
         else for (CampaignFleetAPI fleet : nearbyFleets) showStats(fleet, print);
 
         Console.showMessage(print);
@@ -74,6 +74,7 @@ public class ShowFleetStats implements BaseCommand {
     }
 
     // See com.fs.starfarer.api.impl.campaign.FleetEncounterContext's gainXP() for vanilla implementation
+    @SuppressWarnings("lossy-conversions")
     private float getBaseXP(CampaignFleetAPI fleet) {
         int fpTotal = 0;
         for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {

@@ -1,4 +1,4 @@
-package data.console.commands;
+package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.characters.PersonAPI;
@@ -16,6 +16,7 @@ import java.util.Iterator;
 
 public class AddPresetOfficers implements BaseCommand {
     @Override
+    @SuppressWarnings("unchecked")
     public CommandResult runCommand(String args, CommandContext context) {
         if (!context.isInCampaign()) {
             Console.showMessage(CommonStrings.ERROR_CAMPAIGN_ONLY);
@@ -28,7 +29,7 @@ public class AddPresetOfficers implements BaseCommand {
             if (args.isEmpty()) {
                 StringBuilder print = new StringBuilder();
                 for (Iterator<String> iter = presets.keys(); iter.hasNext(); ) {
-                    String presetID = (String) iter.next();
+                    String presetID = iter.next();
                     print.append(presetID).append('\n');
                 }
                 Console.showMessage(print.toString());
@@ -64,7 +65,7 @@ public class AddPresetOfficers implements BaseCommand {
 
                 JSONObject skills = officerSettings.optJSONObject("skills");
                 if (skills != null) for (Iterator<String> iter = skills.keys(); iter.hasNext(); ) {
-                    String skillId = (String) iter.next();
+                    String skillId = iter.next();
                     officer.getStats().setSkillLevel(skillId, skills.getInt(skillId));
                 }
                 officer.getStats().setSkipRefresh(false);

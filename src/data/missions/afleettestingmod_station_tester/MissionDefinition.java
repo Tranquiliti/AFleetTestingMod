@@ -22,7 +22,10 @@ import java.util.List;
 import static org.tranquility.afleettestingmod.AFTM_Util.MISSION_FP_STEP;
 import static org.tranquility.afleettestingmod.AFTM_Util.MISSION_QUALITY_STEP;
 
-// Code adapted from Dark.Revenant's Interstellar Imperium Station Tester mission
+/**
+ * Code adapted from Dark.Revenant's <a href="https://fractalsoftworks.com/forum/index.php?topic=8007.0">Interstellar Imperium</a> Station Tester mission
+ */
+@SuppressWarnings("unused")
 public class MissionDefinition implements MissionDefinitionPlugin {
     private static List<String> STATIONS;
     private static int stationIndex;
@@ -35,11 +38,12 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         if (enemyParams != null) enemyParams.reset();
         else enemyParams = new AFTM_Util.TesterFleetParams();
 
-        balanceFleets = true;
-        autofit = false;
-        officers = false;
-        speedUp = true;
+        stationIndex = 0;
         stationCoreType = 0;
+        balanceFleets = true;
+        speedUp = true;
+        officers = false;
+        autofit = false;
     }
 
     @Override
@@ -136,8 +140,8 @@ public class MissionDefinition implements MissionDefinitionPlugin {
             api.addPlugin(new BaseEveryFrameCombatPlugin() {
                 @Override
                 public void advance(float amount, List<InputEventAPI> events) {
-                    if (Global.getCombatEngine().isPaused()) return;
-                    Global.getCombatEngine().getTimeMult().modifyMult("afleettestingmod_station_tester", Math.max(1f, 1f / (Global.getCombatEngine().getElapsedInLastFrame() * 30f)));
+                    if (!Global.getCombatEngine().isPaused())
+                        Global.getCombatEngine().getTimeMult().modifyMult("afleettestingmod_station_tester", Math.max(1f, 1f / (Global.getCombatEngine().getElapsedInLastFrame() * 30f)));
                 }
             });
             optionBrief += "1-100x Speed-Up, ";

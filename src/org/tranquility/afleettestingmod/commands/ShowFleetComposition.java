@@ -1,4 +1,4 @@
-package data.console.commands;
+package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
@@ -17,16 +17,16 @@ public class ShowFleetComposition implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        TreeMap<String, TreeMap<String, Integer>> factions = new TreeMap<String, TreeMap<String, Integer>>();
+        TreeMap<String, TreeMap<String, Integer>> factions = new TreeMap<>();
         for (CampaignFleetAPI fleet : Global.getSector().getPlayerFleet().getContainingLocation().getFleets()) {
             String factionName = fleet.getFaction().getDisplayName();
             if (!factions.containsKey(factionName)) factions.put(factionName, new TreeMap<String, Integer>());
 
-            TreeMap<String, Integer> fleetComp = (TreeMap<String, Integer>) factions.get(factionName);
+            TreeMap<String, Integer> fleetComp = factions.get(factionName);
             for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
                 String hullName = member.getHullSpec().getHullName();
                 if (!fleetComp.containsKey(hullName)) fleetComp.put(hullName, 1);
-                else fleetComp.put(hullName, (Integer) fleetComp.get(hullName) + 1);
+                else fleetComp.put(hullName, fleetComp.get(hullName) + 1);
             }
         }
 
@@ -38,10 +38,10 @@ public class ShowFleetComposition implements BaseCommand {
         StringBuilder print = new StringBuilder();
         for (String factionId : factions.keySet()) {
             print.append("--- ").append(factionId).append(" ---\n");
-            TreeMap<String, Integer> factionComp = (TreeMap<String, Integer>) factions.get(factionId);
+            TreeMap<String, Integer> factionComp = factions.get(factionId);
             int totalHulls = 0;
             for (String hullId : factionComp.keySet()) {
-                int hullCount = (Integer) factionComp.get(hullId);
+                int hullCount = factionComp.get(hullId);
                 print.append(hullId).append(": ").append(hullCount).append("\n");
                 totalHulls += hullCount;
             }

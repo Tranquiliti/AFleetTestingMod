@@ -1,4 +1,4 @@
-package data.console.commands;
+package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
@@ -27,7 +27,7 @@ public class ClearAllSMods implements BaseCommand {
 
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
             if (!onlyOneShipType || member.getHullId().equals(args))
-                for (String sMod : new ArrayList<String>(member.getVariant().getSMods()))
+                for (String sMod : new ArrayList<>(member.getVariant().getSMods()))
                     member.getVariant().removePermaMod(sMod);
 
         if (onlyOneShipType)
