@@ -18,4 +18,6 @@ T: Toggle 1-100x speed-up
 O: Toggle fleet officers
 F: Toggle autofit
 
-Add more station variants and factions by editing the .csv files in AFleetTestingMod/data/config/afleettestingmodConfig
+Add more stations by editing the .csv files in AFleetTestingMod/data/config/afleettestingmodConfig.
+
+When enabling officers, load a campaign save first to properly generate officers for certain factions.

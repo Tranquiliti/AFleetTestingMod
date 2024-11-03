@@ -4,6 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
+import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin;
 import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.fleets.DefaultFleetInflater;
@@ -11,6 +12,7 @@ import com.fs.starfarer.api.impl.campaign.fleets.DefaultFleetInflaterParams;
 import com.fs.starfarer.api.impl.campaign.fleets.FleetFactoryV3;
 import com.fs.starfarer.api.impl.campaign.fleets.FleetParamsV3;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
+import com.fs.starfarer.api.input.InputEventAPI;
 import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import org.json.JSONArray;
@@ -29,6 +31,16 @@ public final class AFTM_Util {
     public static final byte MISSION_QUALITY_STEP = 5;
     private static final int DEFAULT_FP = 160;
     private static final int DEFAULT_QUALITY_PERCENT = 120;  // 120% is the minimum required to guarantee no random ship D-Mods in vanilla
+
+    public static BaseEveryFrameCombatPlugin createSpeedUpPlugin() {
+        return new BaseEveryFrameCombatPlugin() {
+            @Override
+            public void advance(float amount, List<InputEventAPI> events) {
+                if (!Global.getCombatEngine().isPaused())
+                    Global.getCombatEngine().getTimeMult().modifyMult("afleettestingmod", Math.max(1f, 1f / (Global.getCombatEngine().getElapsedInLastFrame() * 30f)));
+            }
+        };
+    }
 
     public static List<String> getMissionFactions() {
         try {
@@ -65,11 +77,6 @@ public final class AFTM_Util {
         CampaignFleetAPI fleet = params.initFleet(faction, balanceFleets, officers, autofit);
 
         api.initFleet(side, null, FleetGoal.ATTACK, true);
-        if (officers) {
-            PersonAPI dummy = Global.getSettings().createPerson();
-            dummy.setStats(fleet.getCommanderStats()); // Use real commander's stats to keep fleetwide skills active
-            fleet.setCommander(dummy); // Mainly to prevent player from controlling the flagship
-        }
         for (FleetMemberAPI member : fleet.getFleetData().getMembersInPriorityOrder())
             api.addFleetMember(side, member);
 
@@ -137,8 +144,6 @@ public final class AFTM_Util {
                 CampaignFleetAPI fleet = FleetFactoryV3.createFleet(params);
                 if (!refreshFleet) bestFleet = fleet;
 
-                if (fleet == null) continue;
-
                 int distance = Math.abs(fleet.getFleetPoints() - targetFleetPoints);
                 if (distance < bestDistance) {
                     bestDistance = distance;
@@ -147,8 +152,9 @@ public final class AFTM_Util {
                 }
                 if (distance == 0) break;
             }
-            refreshFleet = false;
-            if (bestFleet != null) { // Inflator is required to enable ship quality and autofit changes
+
+            if (bestFleet != null) {
+                // Inflator is required to enable ship quality and autofit changes
                 DefaultFleetInflaterParams p = new DefaultFleetInflaterParams();
                 p.seed = bestFleetSeed;
                 p.quality = fleetQuality / 100f;
@@ -156,7 +162,18 @@ public final class AFTM_Util {
                 if (!autofit) p.rProb = 0f; // Set autofit randomize probability to 0
                 p.factionId = factionId;
                 new DefaultFleetInflater(p).inflate(bestFleet);
+
+                // Note for factions affected by an implemented GenerateFleetOfficersPlugin:
+                // The plugin only takes effect if a campaign save was loaded at any point during a game session
+                // So, these factions don't get AI cores or custom officers if a campaign save hasn't been loaded yet
+                if (withOfficers) {
+                    PersonAPI dummy = Global.getSettings().createPerson();
+                    dummy.setStats(bestFleet.getCommanderStats()); // Use real commander's stats to keep fleetwide skills active
+                    bestFleet.setCommander(dummy); // Mainly to prevent player from controlling the flagship
+                }
             }
+            refreshFleet = false;
+
             return bestFleet;
         }
     }

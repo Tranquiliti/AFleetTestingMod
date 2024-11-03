@@ -2,7 +2,6 @@ package data.missions.afleettestingmod_station_tester;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.characters.PersonAPI;
-import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin;
 import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.fleet.FleetMemberType;
@@ -10,7 +9,6 @@ import com.fs.starfarer.api.impl.campaign.AICoreOfficerPluginImpl;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.ids.Skills;
-import com.fs.starfarer.api.input.InputEventAPI;
 import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import com.fs.starfarer.api.mission.MissionDefinitionPlugin;
@@ -18,9 +16,6 @@ import org.lwjgl.input.Keyboard;
 import org.tranquility.afleettestingmod.AFTM_Util;
 
 import java.util.List;
-
-import static org.tranquility.afleettestingmod.AFTM_Util.MISSION_FP_STEP;
-import static org.tranquility.afleettestingmod.AFTM_Util.MISSION_QUALITY_STEP;
 
 /**
  * Code adapted from Dark.Revenant's <a href="https://fractalsoftworks.com/forum/index.php?topic=8007.0">Interstellar Imperium</a> Station Tester mission
@@ -79,16 +74,16 @@ public class MissionDefinition implements MissionDefinitionPlugin {
             if (stationCoreType > 2) stationCoreType = 0;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            enemyParams.incrementFP(-MISSION_FP_STEP);
+            enemyParams.incrementFP(-AFTM_Util.MISSION_FP_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            enemyParams.incrementFP(MISSION_FP_STEP);
+            enemyParams.incrementFP(AFTM_Util.MISSION_FP_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
-            enemyParams.incrementQuality(-MISSION_QUALITY_STEP);
+            enemyParams.incrementQuality(-AFTM_Util.MISSION_QUALITY_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
-            enemyParams.incrementQuality(MISSION_QUALITY_STEP);
+            enemyParams.incrementQuality(AFTM_Util.MISSION_QUALITY_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
             balanceFleets = !balanceFleets;
@@ -137,13 +132,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         String optionBrief = "";
         if (balanceFleets) optionBrief += "Fleet Balancer, ";
         if (speedUp) {
-            api.addPlugin(new BaseEveryFrameCombatPlugin() {
-                @Override
-                public void advance(float amount, List<InputEventAPI> events) {
-                    if (!Global.getCombatEngine().isPaused())
-                        Global.getCombatEngine().getTimeMult().modifyMult("afleettestingmod_station_tester", Math.max(1f, 1f / (Global.getCombatEngine().getElapsedInLastFrame() * 30f)));
-                }
-            });
+            api.addPlugin(AFTM_Util.createSpeedUpPlugin());
             optionBrief += "1-100x Speed-Up, ";
         }
         if (officers) optionBrief += "Officers, ";
