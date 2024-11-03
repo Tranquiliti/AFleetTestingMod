@@ -1,3 +1,10 @@
+Version 0.7.1
+
+* Added to the main menu mission descriptions a note regarding officer generation for certain factions
+* Minor code refactors
+
+
+
 Version 0.7.0
 
 * Added 2 main menu missions

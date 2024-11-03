@@ -20,4 +20,6 @@ O: Toggle fleet officers
 F: Toggle autofit
 M: Toggle objective layout
 
-Add more factions by editing the .csv files in AFleetTestingMod/data/config/afleettestingmodConfig
+Add more factions by editing the .csv files in AFleetTestingMod/data/config/afleettestingmodConfig.
+
+When enabling officers, load a campaign save first to properly generate officers for certain factions.
