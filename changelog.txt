@@ -1,3 +1,18 @@
+Version 0.8.0
+
+* Added "SpawnFactionFleets" command
+  - Spawns a number of faction fleets using their best faction market or, if they have no markets, a fake (good) market
+  - Also outputs an aggregated list of average fleet stats, similar to "ShowFleetStats"
+  - Has an option to clear the spawned fleets instantly; useful for only grabbing the aggregated fleet stats
+* "ShowFleetStats" now also displays the following:
+  - Average max CR
+  - Total officers
+  - Average d-mod count
+  - Total frigates/destroyers/cruisers/capitals
+  - Auto-resolve strength (similar to effective strength, except civilian ships count for far less)
+
+
+
 Version 0.7.1
 
 * Added to the main menu mission descriptions a note regarding officer generation for certain factions

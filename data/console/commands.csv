@@ -11,3 +11,10 @@ ShowHullIDs,org.tranquility.afleettestingmod.commands.ShowHullIDs,"fleettesting,
 ClearAllDMods,org.tranquility.afleettestingmod.commands.ClearAllDMods,"fleettesting,campaign,cheat",clearalldmods [hullID],"Clears all D-Mods from all ships in the player fleet, restoring them to pristine condition. Can specifiy a hull ID to only remove D-Mods from matching player ships."
 AddPresetOfficers,org.tranquility.afleettestingmod.commands.AddPresetOfficers,"fleettesting,campaign,cheat",addpresetofficer [officerID] [numOfOfficers],"Adds a number of preset officers to the players fleet. If no arguments are entered, lists all available preset officer IDs. Preset officer IDs and configurations can be modified in AFleetTestingMod/data/config/presetOfficers.json."
 ShowExceptionalPodOfficers,org.tranquility.afleettestingmod.commands.ShowExceptionalPodOfficers,"fleettesting,campaign,cheat",showexceptionalpodofficers (no arguments),Shows the location of all exceptional pod officers in this sector.
+SpawnFactionFleets,org.tranquility.afleettestingmod.commands.SpawnFactionFleets,"fleettesting,campaign,cheat",spawnfactionfleets [-OPTIONS] <factionId> [numOfFleets] [patrolType],"Spawns a number of faction fleets with the specified patrol type. Also shows aggregated fleet stats for the spawned fleets. Defaults to spawning heavy patrols, or detachments.
+
+Options (if first parameter starts with '-', followed by these characters):
+  'c' - Clears all spawned fleets immediately; useful for simply getting the aggregated fleet stats
+  'f' - Force spawned fleets to use a fake market for spawning purposes
+
+Example usage: ""spawnfactionfleets -c player 1000 patrolMedium"""
