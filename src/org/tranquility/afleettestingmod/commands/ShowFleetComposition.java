@@ -2,12 +2,13 @@ package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
+import org.tranquility.afleettestingmod.AFTM_Util;
 
-import java.util.TreeMap;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class ShowFleetComposition implements BaseCommand {
     @Override
@@ -17,35 +18,25 @@ public class ShowFleetComposition implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        TreeMap<String, TreeMap<String, Integer>> factions = new TreeMap<>();
+        HashMap<String, AFTM_Util.FleetCompositionData> factionComps = new HashMap<>();
         for (CampaignFleetAPI fleet : Global.getSector().getPlayerFleet().getContainingLocation().getFleets()) {
-            String factionName = fleet.getFaction().getDisplayName();
-            if (!factions.containsKey(factionName)) factions.put(factionName, new TreeMap<String, Integer>());
+            String factionId = fleet.getFaction().getId();
+            if (!factionComps.containsKey(factionId)) factionComps.put(factionId, new AFTM_Util.FleetCompositionData());
 
-            TreeMap<String, Integer> fleetComp = factions.get(factionName);
-            for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
-                String hullName = member.getHullSpec().getHullName();
-                if (!fleetComp.containsKey(hullName)) fleetComp.put(hullName, 1);
-                else fleetComp.put(hullName, fleetComp.get(hullName) + 1);
-            }
+            factionComps.get(factionId).addMembers(fleet);
         }
 
-        if (factions.isEmpty()) {
+        if (factionComps.isEmpty()) {
             Console.showMessage("Error: no fleet found in current location!");
             return CommandResult.ERROR;
         }
 
         StringBuilder print = new StringBuilder();
-        for (String factionId : factions.keySet()) {
-            print.append("--- ").append(factionId).append(" ---\n");
-            TreeMap<String, Integer> factionComp = factions.get(factionId);
-            int totalHulls = 0;
-            for (String hullId : factionComp.keySet()) {
-                int hullCount = factionComp.get(hullId);
-                print.append(hullId).append(": ").append(hullCount).append("\n");
-                totalHulls += hullCount;
-            }
-            print.append("Total number of ships: ").append(totalHulls).append("\n");
+        Object[] sortedSet = factionComps.keySet().toArray();
+        Arrays.sort(sortedSet);
+        for (Object id : sortedSet) {
+            String factionId = (String) id;
+            factionComps.get(factionId).appendComposition(factionId, print);
         }
 
         Console.showMessage(print);

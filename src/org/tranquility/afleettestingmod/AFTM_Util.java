@@ -5,8 +5,13 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.characters.PersonAPI;
 import com.fs.starfarer.api.combat.BaseEveryFrameCombatPlugin;
+import com.fs.starfarer.api.combat.MutableShipStatsAPI;
+import com.fs.starfarer.api.combat.ShieldAPI;
+import com.fs.starfarer.api.combat.ShipHullSpecAPI;
 import com.fs.starfarer.api.fleet.FleetGoal;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.impl.campaign.BattleAutoresolverPluginImpl;
+import com.fs.starfarer.api.impl.campaign.DModManager;
 import com.fs.starfarer.api.impl.campaign.fleets.DefaultFleetInflater;
 import com.fs.starfarer.api.impl.campaign.fleets.DefaultFleetInflaterParams;
 import com.fs.starfarer.api.impl.campaign.fleets.FleetFactoryV3;
@@ -15,13 +20,12 @@ import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.input.InputEventAPI;
 import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;
+import com.fs.starfarer.api.util.Misc;
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Utility class for A Fleet Testing Mod
@@ -31,6 +35,92 @@ public final class AFTM_Util {
     public static final byte MISSION_QUALITY_STEP = 5;
     private static final int DEFAULT_FP = 160;
     private static final int DEFAULT_QUALITY_PERCENT = 120;  // 120% is the minimum required to guarantee no random ship D-Mods in vanilla
+
+    private static final float AVG_RANDOM_FLOAT = 0.5f;
+
+    // See com.fs.starfarer.api.impl.campaign.BattleAutoresolverPluginImpl's computeDataForFleet() for vanilla implementation
+    public static float computeDataForFleet(CampaignFleetAPI fleet) {
+        BattleAutoresolverPluginImpl.FleetAutoresolveData fleetData = new BattleAutoresolverPluginImpl.FleetAutoresolveData();
+        fleetData.fleet = fleet;
+
+        fleetData.fightingStrength = 0;
+        for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
+            BattleAutoresolverPluginImpl.FleetMemberAutoresolveData data = computeDataForMember(member);
+            if (data.combatReady) fleetData.fightingStrength += data.strength;
+        }
+
+        return fleetData.fightingStrength;
+    }
+
+    public static BattleAutoresolverPluginImpl.FleetMemberAutoresolveData computeDataForMember(FleetMemberAPI member) {
+        BattleAutoresolverPluginImpl.FleetMemberAutoresolveData data = new BattleAutoresolverPluginImpl.FleetMemberAutoresolveData();
+
+        data.member = member;
+        ShipHullSpecAPI hullSpec = data.member.getHullSpec();
+        if ((member.isCivilian()) || !member.canBeDeployedForCombat()) {
+            data.strength = 0.25f;
+            if (hullSpec.getShieldType() != ShieldAPI.ShieldType.NONE) {
+                data.shieldRatio = 0.5f;
+            }
+            data.combatReady = false;
+            return data;
+        }
+
+        data.combatReady = true;
+
+        MutableShipStatsAPI stats = data.member.getStats();
+
+        float normalizedHullStr = stats.getHullBonus().computeEffective(hullSpec.getHitpoints()) + stats.getArmorBonus().computeEffective(hullSpec.getArmorRating()) * 10f;
+
+        float normalizedShieldStr = stats.getFluxCapacity().getModifiedValue() + stats.getFluxDissipation().getModifiedValue() * 10f;
+
+
+        if (hullSpec.getShieldType() == ShieldAPI.ShieldType.NONE) {
+            normalizedShieldStr = 0;
+        } else {
+            float shieldFluxPerDamage = hullSpec.getBaseShieldFluxPerDamageAbsorbed();
+            shieldFluxPerDamage *= stats.getShieldAbsorptionMult().getModifiedValue() * stats.getShieldDamageTakenMult().getModifiedValue();
+
+            if (shieldFluxPerDamage < 0.1f) shieldFluxPerDamage = 0.1f;
+            float shieldMult = 1f / shieldFluxPerDamage;
+            normalizedShieldStr *= shieldMult;
+        }
+
+        if (normalizedHullStr < 1) normalizedHullStr = 1;
+        if (normalizedShieldStr < 1) normalizedShieldStr = 1;
+
+        data.shieldRatio = normalizedShieldStr / (normalizedShieldStr + normalizedHullStr);
+        if (member.isStation()) {
+            data.shieldRatio = 0.5f;
+        }
+
+        float strength = Misc.getMemberStrength(member, true, true, true);
+
+        strength *= 0.85f + 0.3f * AVG_RANDOM_FLOAT; // No randomness
+
+        data.strength = Math.max(strength, 0.25f);
+
+        return data;
+    }
+
+    // See com.fs.starfarer.api.impl.campaign.FleetEncounterContext's gainXP() for vanilla implementation
+    // The lossy-conversion will (hopefully) be fixed in 0.98: https://fractalsoftworks.com/forum/index.php?topic=31542.0
+    @SuppressWarnings("lossy-conversions")
+    public static float getBaseXP(CampaignFleetAPI fleet) {
+        int fpTotal = 0;
+        for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
+            float fp = member.getFleetPointCost();
+            fp *= 1f + member.getCaptain().getStats().getLevel() / 5f;
+            fpTotal += fp;
+        }
+
+        float xp = (float) fpTotal * 250;
+        xp *= 2f;
+
+        xp *= Global.getSettings().getFloat("xpGainMult");
+
+        return xp;
+    }
 
     public static BaseEveryFrameCombatPlugin createSpeedUpPlugin() {
         return new BaseEveryFrameCombatPlugin() {
@@ -83,6 +173,115 @@ public final class AFTM_Util {
         api.setFleetTagline(side, String.format("%s (%d FP [Target: %d]) (%d%% ship quality)", faction, fleet.getFleetPoints(), params.targetFleetPoints, params.fleetQuality));
     }
 
+    // Aggregates fleet composition data
+    public static class FleetCompositionData {
+        private final HashMap<String, Integer> fleetComposition = new HashMap<>();
+        private int numHulls;
+
+        public void addMembers(CampaignFleetAPI fleet) {
+            for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
+                String hullId = member.getHullSpec().getDParentHullId(); // To avoid marking (D) hulls as separate
+                if (hullId == null) hullId = member.getHullId();
+                if (!fleetComposition.containsKey(hullId)) fleetComposition.put(hullId, 1);
+                else fleetComposition.put(hullId, fleetComposition.get(hullId) + 1);
+                numHulls++;
+            }
+        }
+
+        public void appendComposition(String name, StringBuilder print) {
+            print.append("----- ").append(name).append(" -----\n");
+            Object[] sortedSet = fleetComposition.keySet().toArray();
+            Arrays.sort(sortedSet); // Sort by hull ID
+            for (Object memberId : sortedSet) {
+                int hullCount = fleetComposition.get((String) memberId);
+                print.append(memberId).append(": ").append(hullCount).append(" (").append(hullCount / (float) numHulls * 100f).append("%)\n");
+            }
+            print.append("Total number of ships: ").append(numHulls).append("\n");
+        }
+    }
+
+    // Aggregates stat data from fleets
+    public static class FleetStatData {
+        // All floats since they can be divided to get the average
+        private float baseDP = 0;
+        private float realDP = 0;
+        private float avgMaxCR = 0;
+        private float numOfficers = 0;
+        private float avgNumDMods = 0;
+        private float fleetFP = 0;
+        private float numShips = 0;
+        private float numFrigates = 0;
+        private float numDestroyers = 0;
+        private float numCruisers = 0;
+        private float numCapitals = 0;
+        private float baseXP = 0;
+        private float effectiveStrength = 0;
+        private float autoResolveStrength = 0;
+
+        private int numMembers = 0;
+        private int numFleets = 0;
+
+        public void addStat(CampaignFleetAPI fleet) {
+            if (fleet == null) return;
+            numFleets++;
+
+            for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
+                numMembers++;
+                baseDP += member.getUnmodifiedDeploymentPointsCost();
+                realDP += member.getDeploymentPointsCost();
+                avgMaxCR += member.getRepairTracker().getMaxCR();
+                if (!member.getCaptain().isDefault()) numOfficers++;
+                avgNumDMods += DModManager.getNumDMods(member.getVariant());
+            }
+
+            fleetFP += fleet.getFleetPoints();
+            numShips += fleet.getNumShips();
+            numFrigates += fleet.getNumFrigates();
+            numDestroyers += fleet.getNumDestroyers();
+            numCruisers += fleet.getNumCruisers();
+            numCapitals += fleet.getNumCapitals();
+            baseXP += getBaseXP(fleet);
+            effectiveStrength += fleet.getEffectiveStrength();
+            autoResolveStrength += computeDataForFleet(fleet);
+        }
+
+        // Averages out the stats using numFleets and numMembers
+        public void aggregateStats() {
+            if (numFleets == 0 || numMembers == 0) return;
+
+            baseDP /= numFleets;
+            realDP /= numFleets;
+            avgMaxCR /= numMembers;
+            numOfficers /= numFleets;
+            avgNumDMods /= numMembers;
+            fleetFP /= numFleets;
+            numShips /= numFleets;
+            numFrigates /= numFleets;
+            numDestroyers /= numFleets;
+            numCruisers /= numFleets;
+            numCapitals /= numFleets;
+            baseXP /= numFleets;
+            effectiveStrength /= numFleets;
+            autoResolveStrength /= numFleets;
+        }
+
+        public void appendStats(String name, StringBuilder print) {
+            print.append("----- ").append(name).append(" -----");
+            print.append("\nTotal base DP: ").append(baseDP);
+            print.append("\nTotal effective DP: ").append(realDP);
+            print.append("\nAverage ship max CR: ").append(avgMaxCR * 100).append("%");
+            print.append("\nTotal officers: ").append(numOfficers);
+            print.append("\nAverage ship d-mod count: ").append(avgNumDMods);
+            print.append("\nTotal ship FP: ").append(fleetFP);
+            print.append("\nTotal number of ships: ").append(numShips);
+            print.append("\nTotal frigates/destroyers/cruisers/capitals: ").append(numFrigates).append(" / ").append(numDestroyers).append(" / ").append(numCruisers).append(" / ").append(numCapitals);
+            print.append("\nTotal base XP: ").append(baseXP);
+            print.append("\nEffective strength: ").append(effectiveStrength);
+            print.append("\nAuto-resolve strength: ").append(autoResolveStrength).append("\n");
+        }
+    }
+
+    // For missions
     public static class TesterFleetParams {
         private Random rand;
         private int factionIndex;
@@ -158,7 +357,7 @@ public final class AFTM_Util {
                 DefaultFleetInflaterParams p = new DefaultFleetInflaterParams();
                 p.seed = bestFleetSeed;
                 p.quality = fleetQuality / 100f;
-                p.allWeapons = !autofit;
+                p.allWeapons = !autofit; // FleetParamsV3 has it default to 'null'
                 if (!autofit) p.rProb = 0f; // Set autofit randomize probability to 0
                 p.factionId = factionId;
                 new DefaultFleetInflater(p).inflate(bestFleet);

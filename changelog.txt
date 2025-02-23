@@ -1,3 +1,23 @@
+Version 0.8.0
+
+* Added "SpawnFactionFleets" command
+  - Spawns a number of faction fleets using their best faction market or, if they have no markets, a fake (good) market
+  - Also supports options like printing the spawned fleets' aggregated stats and composition data
+* "ShowFleetStats" now also displays the following:
+  - Average max CR
+  - Total officers
+  - Average d-mod count
+  - Total frigates/destroyers/cruisers/capitals
+  - Auto-resolve strength (similar to effective strength, except civilian ships count for far less)
+* Updated "ShowFleetComposition" command
+  - Now shows faction and hull IDs rather than their display names
+  - No longer considers (D) hulls as separate hulls; they will simply be grouped with their pristine versions
+  - Also displays for each hull the percentage of the hull count divided by the total number of ships
+* "ShowPlayerDMods" now shows hull IDs instead of the display name
+* Some code refactors
+
+
+
 Version 0.7.1
 
 * Added to the main menu mission descriptions a note regarding officer generation for certain factions
