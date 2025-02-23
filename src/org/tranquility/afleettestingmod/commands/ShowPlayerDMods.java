@@ -19,17 +19,17 @@ public class ShowPlayerDMods implements BaseCommand {
         }
 
         StringBuilder print = new StringBuilder();
-        TreeMap<String, TreeMap<String, Integer>> shipModCount = new TreeMap<>();
+        TreeMap<String, TreeMap<String, Integer>> hullsDMods = new TreeMap<>();
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy()) {
-            String hullName = member.getHullSpec().getHullName();
-            if (!shipModCount.containsKey(hullName)) shipModCount.put(hullName, new TreeMap<String, Integer>());
+            String hullId = member.getHullSpec().getHullId();
+            if (!hullsDMods.containsKey(hullId)) hullsDMods.put(hullId, new TreeMap<String, Integer>());
 
-            print.append(member.getShipName()).append(" (").append(hullName).append("): ");
+            print.append(member.getShipName()).append(" (").append(hullId).append("): ");
             for (String permaMod : member.getVariant().getPermaMods()) {
                 HullModSpecAPI modSpec = Global.getSettings().getHullModSpec(permaMod);
                 if (modSpec.hasTag(Tags.HULLMOD_DMOD)) {
                     String display = modSpec.getDisplayName();
-                    TreeMap<String, Integer> modCount = shipModCount.get(hullName);
+                    TreeMap<String, Integer> modCount = hullsDMods.get(hullId);
                     if (!modCount.containsKey(display)) modCount.put(display, 1);
                     else modCount.put(display, modCount.get(display) + 1);
 
@@ -39,9 +39,9 @@ public class ShowPlayerDMods implements BaseCommand {
             print.delete(print.length() - 2, print.length()).append("\n");
         }
 
-        for (String hull : shipModCount.keySet()) {
-            print.append("--- D-Mod distribution for ").append(hull).append(" ---\n");
-            TreeMap<String, Integer> modCount = shipModCount.get(hull);
+        for (String hull : hullsDMods.keySet()) {
+            print.append("----- D-mod distribution for ").append(hull).append(" -----\n");
+            TreeMap<String, Integer> modCount = hullsDMods.get(hull);
             for (String display : modCount.keySet())
                 print.append(display).append(": ").append(modCount.get(display)).append("\n");
         }

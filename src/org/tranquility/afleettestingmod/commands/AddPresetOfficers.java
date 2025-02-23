@@ -36,16 +36,16 @@ public class AddPresetOfficers implements BaseCommand {
                 return CommandResult.SUCCESS;
             }
 
-            int numOfOfficers = 1;
+            int numOfficers = 1;
             String[] tmp = args.split(" ");
             if (tmp.length > 1) try {
-                numOfOfficers = Integer.parseInt(tmp[1]);
+                numOfficers = Integer.parseInt(tmp[1]);
             } catch (NumberFormatException ex) {
-                Console.showMessage("Error: numOfOfficers must be a number!");
-                return CommandResult.BAD_SYNTAX;
+                Console.showMessage("Error: numOfficers must be a whole number!");
+                return CommandResult.ERROR;
             }
 
-            for (int count = 0; count < numOfOfficers; count++) {
+            for (int count = 0; count < numOfficers; count++) {
                 JSONObject officerSettings = presets.optJSONObject(tmp[0]);
                 if (officerSettings == null) {
                     Console.showMessage("Error: preset officer ID not found!");
@@ -82,7 +82,7 @@ public class AddPresetOfficers implements BaseCommand {
 
                 Global.getSector().getPlayerFleet().getFleetData().addOfficer(officer);
             }
-            Console.showMessage("Successfully created " + numOfOfficers + " \"" + tmp[0] + "\" officer" + (numOfOfficers > 1 ? "s!" : "!"));
+            Console.showMessage("Successfully created " + numOfficers + " \"" + tmp[0] + "\" officer" + (numOfficers > 1 ? "s!" : "!"));
         } catch (Exception e) {
             Console.showMessage(e);
             return CommandResult.ERROR;

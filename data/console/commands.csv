@@ -1,6 +1,6 @@
 command,class,tags,syntax,help
 InitiateFleetTest,org.tranquility.afleettestingmod.commands.InitiateFleetTest,"fleettesting,campaign,cheat",initiatefleettest (no arguments),"Sets up the player fleet for fleet testing, removes all current ships and officers, and teleports the player to the Abandoned Terraforming Platform in Corvus. If MagicLib is enabled, also allows the test-only [REDACTED] MagicBounties to appear."
-SpawnRemnantStation,org.tranquility.afleettestingmod.commands.SpawnRemnantStation,"fleettesting,campaign,cheat",spawnremnantstation [pts] [numOfFleets],"Spawns on your location a Remnant station, which generates a specified number of fleets with a specified initial Fleet Points. Also sets relationship with Remnants to Inhospitable. If no arguments are entered, initial FP for spawned fleets is 128 and max number of fleets is 10."
+SpawnRemnantStation,org.tranquility.afleettestingmod.commands.SpawnRemnantStation,"fleettesting,campaign,cheat",spawnremnantstation [pts] [numFleets],"Spawns on your location a Remnant station, which generates a specified number of fleets with a specified initial Fleet Points. Also sets relationship with Remnants to Inhospitable. If no arguments are entered, initial FP for spawned fleets is 128 and max number of fleets is 10."
 ShowFleetStats,org.tranquility.afleettestingmod.commands.ShowFleetStats,"fleettesting,campaign",showfleetstats [player|nearest|all],"Shows fleet stats for a specified fleet within the current location. If no arguments are entered, defaults to showing player fleet stats."
 ShowFleetComposition,org.tranquility.afleettestingmod.commands.ShowFleetComposition,"fleettesting,campaign",showfleetcomposition (no arguments),Shows the overall fleet composition numbers for each faction within the current location.
 ShowPlayerDMods,org.tranquility.afleettestingmod.commands.ShowPlayerDMods,"fleettesting,campaign",showplayerdmods (no arguments),Shows all D-Mods and their distribution within the player's fleet.
@@ -9,12 +9,19 @@ AddSMods,org.tranquility.afleettestingmod.commands.AddSMods,"fleettesting,campai
 ClearAllSMods,org.tranquility.afleettestingmod.commands.ClearAllSMods,"fleettesting,campaign,cheat",clearallsmods [hullID],Clears all S-Mods from all ships in the player fleet. Can specifiy a hull ID to only remove S-Mods from matching player ships.
 ShowHullIDs,org.tranquility.afleettestingmod.commands.ShowHullIDs,"fleettesting,campaign",showhullids (no arguments),Shows the hull IDs of all ships in the player fleet.
 ClearAllDMods,org.tranquility.afleettestingmod.commands.ClearAllDMods,"fleettesting,campaign,cheat",clearalldmods [hullID],"Clears all D-Mods from all ships in the player fleet, restoring them to pristine condition. Can specifiy a hull ID to only remove D-Mods from matching player ships."
-AddPresetOfficers,org.tranquility.afleettestingmod.commands.AddPresetOfficers,"fleettesting,campaign,cheat",addpresetofficer [officerID] [numOfOfficers],"Adds a number of preset officers to the players fleet. If no arguments are entered, lists all available preset officer IDs. Preset officer IDs and configurations can be modified in AFleetTestingMod/data/config/presetOfficers.json."
+AddPresetOfficers,org.tranquility.afleettestingmod.commands.AddPresetOfficers,"fleettesting,campaign,cheat",addpresetofficer [officerID] [numOfficers],"Adds a number of preset officers to the players fleet. If no arguments are entered, lists all available preset officer IDs. Preset officer IDs and configurations can be modified in AFleetTestingMod/data/config/presetOfficers.json."
 ShowExceptionalPodOfficers,org.tranquility.afleettestingmod.commands.ShowExceptionalPodOfficers,"fleettesting,campaign,cheat",showexceptionalpodofficers (no arguments),Shows the location of all exceptional pod officers in this sector.
-SpawnFactionFleets,org.tranquility.afleettestingmod.commands.SpawnFactionFleets,"fleettesting,campaign,cheat",spawnfactionfleets [-OPTIONS] <factionId> [numOfFleets] [patrolType],"Spawns a number of faction fleets with the specified patrol type. Also shows aggregated fleet stats for the spawned fleets. Defaults to spawning heavy patrols, or detachments.
+SpawnFactionFleets,org.tranquility.afleettestingmod.commands.SpawnFactionFleets,"fleettesting,campaign,cheat",spawnfactionfleets [-OPTIONS] <factionId> [numFleets] [patrolType|fp],"Spawns a number of faction fleets with the specified patrol type or base combat FP. Uses stats from the faction's best market or, if the faction has no markets, a fake market with base 95% ship quality and 383% fleet size.
 
-Options (if first parameter starts with '-', followed by these characters):
-  'c' - Clears all spawned fleets immediately; useful for simply getting the aggregated fleet stats
-  'f' - Force spawned fleets to use a fake market for spawning purposes
+Options (if first parameter starts with '-', followed by any of these characters):
+  'c' - Clears all spawned fleets immediately; best used alongside the 'v' option
+  'f' - Always use a fake market for spawning the fleets
+  'v' - Also prints the aggregated fleet stats and composition data for spawned fleets
 
-Example usage: ""spawnfactionfleets -c player 1000 patrolMedium"""
+Fleet type options (all FP is scaled by the market fleet size):
+  'patrolLarge' - Default option; spawns fleets with, on average, 62.5 combat FP, 5 tanker FP, and 5 freighter FP
+  'patrolMedium' - Spawns fleets with, on average, 37.5 combat FP and 2.5 tanker FP
+  'patrolSmall' - Spawns fleets with, on average, 20 combat FP
+  Any integer 'fp' - Spawns fleets with the specified combat FP
+
+Example usage: ""spawnfactionfleets -cv player 1000 patrolMedium"""

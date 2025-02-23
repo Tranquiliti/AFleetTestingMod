@@ -26,7 +26,7 @@ public class ShowExceptionalPodOfficers implements BaseCommand {
         for (StarSystemAPI system : Global.getSector().getStarSystems())
             findExceptionalPodOfficers(system, print);
 
-        // Officer pods can be found in hyperspace, so also check that
+        // Officer pods could be found in hyperspace, so also check that
         findExceptionalPodOfficers(Global.getSector().getHyperspace(), print);
 
         if (print.length() == 0) print.append("No exceptional pod officers found!\n");

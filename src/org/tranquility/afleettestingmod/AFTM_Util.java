@@ -25,9 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Utility class for A Fleet Testing Mod
@@ -38,7 +36,7 @@ public final class AFTM_Util {
     private static final int DEFAULT_FP = 160;
     private static final int DEFAULT_QUALITY_PERCENT = 120;  // 120% is the minimum required to guarantee no random ship D-Mods in vanilla
 
-    public static final float AVG_RANDOM_FLOAT = 0.5f;
+    private static final float AVG_RANDOM_FLOAT = 0.5f;
 
     // See com.fs.starfarer.api.impl.campaign.BattleAutoresolverPluginImpl's computeDataForFleet() for vanilla implementation
     public static float computeDataForFleet(CampaignFleetAPI fleet) {
@@ -98,7 +96,7 @@ public final class AFTM_Util {
 
         float strength = Misc.getMemberStrength(member, true, true, true);
 
-        strength *= 0.85f + 0.3f * 0.5f; //(float) Math.random();
+        strength *= 0.85f + 0.3f * AVG_RANDOM_FLOAT; // No randomness
 
         data.strength = Math.max(strength, 0.25f);
 
@@ -175,7 +173,34 @@ public final class AFTM_Util {
         api.setFleetTagline(side, String.format("%s (%d FP [Target: %d]) (%d%% ship quality)", faction, fleet.getFleetPoints(), params.targetFleetPoints, params.fleetQuality));
     }
 
-    // Aggregates data from fleets
+    // Aggregates fleet composition data
+    public static class FleetCompositionData {
+        private final HashMap<String, Integer> fleetComposition = new HashMap<>();
+        private int numHulls;
+
+        public void addMembers(CampaignFleetAPI fleet) {
+            for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
+                String hullId = member.getHullSpec().getDParentHullId(); // To avoid marking (D) hulls as separate
+                if (hullId == null) hullId = member.getHullId();
+                if (!fleetComposition.containsKey(hullId)) fleetComposition.put(hullId, 1);
+                else fleetComposition.put(hullId, fleetComposition.get(hullId) + 1);
+                numHulls++;
+            }
+        }
+
+        public void appendComposition(String name, StringBuilder print) {
+            print.append("----- ").append(name).append(" -----\n");
+            Object[] sortedSet = fleetComposition.keySet().toArray();
+            Arrays.sort(sortedSet); // Sort by hull ID
+            for (Object memberId : sortedSet) {
+                int hullCount = fleetComposition.get((String) memberId);
+                print.append(memberId).append(": ").append(hullCount).append(" (").append(hullCount / (float) numHulls * 100f).append("%)\n");
+            }
+            print.append("Total number of ships: ").append(numHulls).append("\n");
+        }
+    }
+
+    // Aggregates stat data from fleets
     public static class FleetStatData {
         // All floats since they can be divided to get the average
         private float baseDP = 0;
@@ -244,9 +269,9 @@ public final class AFTM_Util {
             print.append("----- ").append(name).append(" -----");
             print.append("\nTotal base DP: ").append(baseDP);
             print.append("\nTotal effective DP: ").append(realDP);
-            print.append("\nAverage max CR: ").append(avgMaxCR);
+            print.append("\nAverage ship max CR: ").append(avgMaxCR * 100).append("%");
             print.append("\nTotal officers: ").append(numOfficers);
-            print.append("\nAverage d-mod count: ").append(avgNumDMods);
+            print.append("\nAverage ship d-mod count: ").append(avgNumDMods);
             print.append("\nTotal ship FP: ").append(fleetFP);
             print.append("\nTotal number of ships: ").append(numShips);
             print.append("\nTotal frigates/destroyers/cruisers/capitals: ").append(numFrigates).append(" / ").append(numDestroyers).append(" / ").append(numCruisers).append(" / ").append(numCapitals);
@@ -332,7 +357,7 @@ public final class AFTM_Util {
                 DefaultFleetInflaterParams p = new DefaultFleetInflaterParams();
                 p.seed = bestFleetSeed;
                 p.quality = fleetQuality / 100f;
-                p.allWeapons = !autofit;
+                p.allWeapons = !autofit; // FleetParamsV3 has it default to 'null'
                 if (!autofit) p.rProb = 0f; // Set autofit randomize probability to 0
                 p.factionId = factionId;
                 new DefaultFleetInflater(p).inflate(bestFleet);

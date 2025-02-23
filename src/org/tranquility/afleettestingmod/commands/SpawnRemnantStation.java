@@ -35,24 +35,24 @@ public class SpawnRemnantStation implements BaseCommand {
         if (!args.isEmpty() && tmp.length > 0) try {
             pts = Integer.parseInt(tmp[0]);
         } catch (NumberFormatException ex) {
-            Console.showMessage("Error: pts must be a number!");
-            return CommandResult.BAD_SYNTAX;
+            Console.showMessage("Error: pts must be a whole number!");
+            return CommandResult.ERROR;
         }
 
-        int numOfFleets = 10;
+        int numFleets = 10;
         if (tmp.length > 1) try {
-            numOfFleets = Integer.parseInt(tmp[1]);
+            numFleets = Integer.parseInt(tmp[1]);
         } catch (NumberFormatException ex) {
-            Console.showMessage("Error: numOfFleets must be a number!");
-            return CommandResult.BAD_SYNTAX;
+            Console.showMessage("Error: numFleets must be a whole number!");
+            return CommandResult.ERROR;
         }
 
         // Setting rep to Inhospitable so player doesn't immediately get attacked
         Global.getSector().getPlayerFaction().setRelationship(Factions.REMNANTS, RepLevel.INHOSPITABLE);
         pts = pts / 8; // RemnantStationFleetManager will multiply the final combat pts by 8 to get the real combat FP value
-        spawnStation(pts, numOfFleets);
+        spawnStation(pts, numFleets);
 
-        Console.showMessage(new StringBuilder("Fully-operational Nexus online, spawning up to ").append(numOfFleets).append(" fleets with initial total ship FP of ").append(pts * 8));
+        Console.showMessage(new StringBuilder("Fully-operational Nexus online, spawning up to ").append(numFleets).append(" fleets with initial total ship FP of ").append(pts * 8));
         return CommandResult.SUCCESS;
     }
 
