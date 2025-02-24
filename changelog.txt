@@ -1,3 +1,16 @@
+Version 0.8.1
+
+* Updated "SpawnFactionFleets" command
+  - "fp" argument now accepts floating-point values
+  - Added 'i' option to ignore market fleet size multiplier when spawning fleets
+  - Added 'o' option to make fleets spawn without officers
+  - Added "qualityOverride" argument to override market ship quality
+* Updated "ShowFleetStats"
+  - Now shows officer levels and counts
+  - Now shows flight deck counts as well as fighter wings types and counts
+
+
+
 Version 0.8.0
 
 * Added "SpawnFactionFleets" command
@@ -77,29 +90,3 @@ Version 0.3.0 (Update for Starsector 0.97)
 * "InitiateFleetTest" now also clears the player inventory; adds max supplies, crew, and fuel; and repairs the fleet/ship
 * Added another MagicBounty for dueling against a single Remnant ship
 * Reduced likelihood the testing bounties will be shown over other bounties
-
-
-
-Version 0.2.0
-
-* Added "ShowHullIDs" command, which shows the hull IDs for all player ships.
-* Added "ClearAllSMods" command, which removes all S-Mods from either all player ships or ships with a specified hull ID
-* Added "ClearAllDMods" command, which removes all D-Mods from either all player ships or ships with a specified hull ID.
-* "AddMaxRandomDMods" can now optionally specify a hull ID to only apply D-Mods to matching player ships.
-  - Now also sets all affected ships to their D-Modded variants
-* Expanded "ShowFleetStats" to show ship number count and fleet size count.
-* Fixed some command error messages being superseded by early RuntimeExceptions
-
-
-
-Version 0.1.1
-
-* Removed dependency on MagicLib (still recommend to keep it, though)
-* Fixed Version Checker failing due to wrong version file link
-* Marginal performance improvements
-
-
-
-Version 0.1.0
-
-* Initial release

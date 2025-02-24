@@ -18,6 +18,7 @@ public class ShowPlayerDMods implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
+        // Too much effort (and not much gain) to change TreeMap to HashMap while keeping output sorted
         StringBuilder print = new StringBuilder();
         TreeMap<String, TreeMap<String, Integer>> hullsDMods = new TreeMap<>();
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy()) {
@@ -28,12 +29,12 @@ public class ShowPlayerDMods implements BaseCommand {
             for (String permaMod : member.getVariant().getPermaMods()) {
                 HullModSpecAPI modSpec = Global.getSettings().getHullModSpec(permaMod);
                 if (modSpec.hasTag(Tags.HULLMOD_DMOD)) {
-                    String display = modSpec.getDisplayName();
+                    String modDisplay = modSpec.getDisplayName();
                     TreeMap<String, Integer> modCount = hullsDMods.get(hullId);
-                    if (!modCount.containsKey(display)) modCount.put(display, 1);
-                    else modCount.put(display, modCount.get(display) + 1);
+                    if (modCount.containsKey(modDisplay)) modCount.put(modDisplay, modCount.get(modDisplay) + 1);
+                    else modCount.put(modDisplay, 1);
 
-                    print.append(display).append(", ");
+                    print.append(modDisplay).append(", ");
                 }
             }
             print.delete(print.length() - 2, print.length()).append("\n");

@@ -9,19 +9,23 @@ AddSMods,org.tranquility.afleettestingmod.commands.AddSMods,"fleettesting,campai
 ClearAllSMods,org.tranquility.afleettestingmod.commands.ClearAllSMods,"fleettesting,campaign,cheat",clearallsmods [hullID],Clears all S-Mods from all ships in the player fleet. Can specifiy a hull ID to only remove S-Mods from matching player ships.
 ShowHullIDs,org.tranquility.afleettestingmod.commands.ShowHullIDs,"fleettesting,campaign",showhullids (no arguments),Shows the hull IDs of all ships in the player fleet.
 ClearAllDMods,org.tranquility.afleettestingmod.commands.ClearAllDMods,"fleettesting,campaign,cheat",clearalldmods [hullID],"Clears all D-Mods from all ships in the player fleet, restoring them to pristine condition. Can specifiy a hull ID to only remove D-Mods from matching player ships."
-AddPresetOfficers,org.tranquility.afleettestingmod.commands.AddPresetOfficers,"fleettesting,campaign,cheat",addpresetofficer [officerID] [numOfficers],"Adds a number of preset officers to the players fleet. If no arguments are entered, lists all available preset officer IDs. Preset officer IDs and configurations can be modified in AFleetTestingMod/data/config/presetOfficers.json."
+AddPresetOfficers,org.tranquility.afleettestingmod.commands.AddPresetOfficers,"fleettesting,campaign,cheat",addpresetofficers [officerID] [numOfficers],"Adds a number of preset officers to the players fleet. If no arguments are entered, lists all available preset officer IDs. Preset officer IDs and configurations can be modified in AFleetTestingMod/data/config/presetOfficers.json."
 ShowExceptionalPodOfficers,org.tranquility.afleettestingmod.commands.ShowExceptionalPodOfficers,"fleettesting,campaign,cheat",showexceptionalpodofficers (no arguments),Shows the location of all exceptional pod officers in this sector.
-SpawnFactionFleets,org.tranquility.afleettestingmod.commands.SpawnFactionFleets,"fleettesting,campaign,cheat",spawnfactionfleets [-OPTIONS] <factionId> [numFleets] [patrolType|fp],"Spawns a number of faction fleets with the specified patrol type or base combat FP. Uses stats from the faction's best market or, if the faction has no markets, a fake market with base 95% ship quality and 383% fleet size.
+SpawnFactionFleets,org.tranquility.afleettestingmod.commands.SpawnFactionFleets,"fleettesting,campaign,cheat",spawnfactionfleets [-OPTIONS] <factionId> [numFleets] [patrolType|fp] [qualityOverride],"Spawns a number of faction fleets with the specified patrol type or base combat fleet points (FP). Uses stats from the faction's best market or, if the faction has no markets, a fake market with base 95% ship quality and ~383% fleet size.
 
-Options (if first parameter starts with '-', followed by any of these characters):
+Options (if first argument starts with '-', followed by any of these characters):
   'c' - Clears all spawned fleets immediately; best used alongside the 'v' option
   'f' - Always use a fake market for spawning the fleets
   'v' - Also prints the aggregated fleet stats and composition data for spawned fleets
+  'i' - Ignore market fleet size scaling
+  'o' - Spawns fleets without officers
 
-Fleet type options (all FP is scaled by the market fleet size):
+Fleet type options (all FP are scaled by the market fleet size, unless the 'i' option is enabled):
   'patrolLarge' - Default option; spawns fleets with, on average, 62.5 combat FP, 5 tanker FP, and 5 freighter FP
   'patrolMedium' - Spawns fleets with, on average, 37.5 combat FP and 2.5 tanker FP
   'patrolSmall' - Spawns fleets with, on average, 20 combat FP
-  Any integer 'fp' - Spawns fleets with the specified combat FP
+  Any floating-point number 'fp' - Spawns fleets with the specified combat FP
 
-Example usage: ""spawnfactionfleets -cv player 1000 patrolMedium"""
+'qualityOverride' - If set, overrides market quality with a specified floating-point number (e.g., 0.5 = 50%, 1.0 = 100%, 1.2 = 120%)
+
+Example usages: ""spawnfactionfleets -cv player 1000 patrolMedium""; ""spawnfactionfleets -cfvi remnant 5 320 1"""
