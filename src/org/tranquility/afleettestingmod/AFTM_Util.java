@@ -182,8 +182,9 @@ public final class AFTM_Util {
             for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
                 String hullId = member.getHullSpec().getDParentHullId(); // To avoid marking (D) hulls as separate
                 if (hullId == null) hullId = member.getHullId();
-                if (!fleetComposition.containsKey(hullId)) fleetComposition.put(hullId, 1);
-                else fleetComposition.put(hullId, fleetComposition.get(hullId) + 1);
+                if (fleetComposition.containsKey(hullId))
+                    fleetComposition.put(hullId, fleetComposition.get(hullId) + 1);
+                else fleetComposition.put(hullId, 1);
                 numHulls++;
             }
         }
@@ -214,12 +215,16 @@ public final class AFTM_Util {
         private float numDestroyers = 0;
         private float numCruisers = 0;
         private float numCapitals = 0;
+        private float numFlightDecks = 0;
         private float baseXP = 0;
         private float effectiveStrength = 0;
         private float autoResolveStrength = 0;
 
-        private int numMembers = 0;
-        private int numFleets = 0;
+        private final HashMap<Integer, Float> officers = new HashMap<>();
+        private final HashMap<String, Float> wings = new HashMap<>();
+
+        private float numMembers = 0;
+        private float numFleets = 0;
 
         public void addStat(CampaignFleetAPI fleet) {
             if (fleet == null) return;
@@ -230,8 +235,18 @@ public final class AFTM_Util {
                 baseDP += member.getUnmodifiedDeploymentPointsCost();
                 realDP += member.getDeploymentPointsCost();
                 avgMaxCR += member.getRepairTracker().getMaxCR();
-                if (!member.getCaptain().isDefault()) numOfficers++;
+                if (!member.getCaptain().isDefault()) {
+                    numOfficers++;
+                    int level = member.getCaptain().getStats().getLevel();
+                    if (officers.containsKey(level)) officers.put(level, officers.get(level) + 1f);
+                    else officers.put(level, 1f);
+                }
                 avgNumDMods += DModManager.getNumDMods(member.getVariant());
+                numFlightDecks += member.getNumFlightDecks();
+                for (String id : member.getVariant().getWings()) {
+                    if (wings.containsKey(id)) wings.put(id, wings.get(id) + 1f);
+                    else wings.put(id, 1f);
+                }
             }
 
             fleetFP += fleet.getFleetPoints();
@@ -246,6 +261,7 @@ public final class AFTM_Util {
         }
 
         // Averages out the stats using numFleets and numMembers
+        // Does not average out the counts in the officers and wings HashMaps
         public void aggregateStats() {
             if (numFleets == 0 || numMembers == 0) return;
 
@@ -254,6 +270,7 @@ public final class AFTM_Util {
             avgMaxCR /= numMembers;
             numOfficers /= numFleets;
             avgNumDMods /= numMembers;
+            numFlightDecks /= numFleets;
             fleetFP /= numFleets;
             numShips /= numFleets;
             numFrigates /= numFleets;
@@ -271,13 +288,40 @@ public final class AFTM_Util {
             print.append("\nTotal effective DP: ").append(realDP);
             print.append("\nAverage ship max CR: ").append(avgMaxCR * 100).append("%");
             print.append("\nTotal officers: ").append(numOfficers);
+            appendOfficers(print);
             print.append("\nAverage ship d-mod count: ").append(avgNumDMods);
+            print.append("\nTotal flight decks: ").append(numFlightDecks);
+            appendWings(print);
             print.append("\nTotal ship FP: ").append(fleetFP);
             print.append("\nTotal number of ships: ").append(numShips);
             print.append("\nTotal frigates/destroyers/cruisers/capitals: ").append(numFrigates).append(" / ").append(numDestroyers).append(" / ").append(numCruisers).append(" / ").append(numCapitals);
             print.append("\nTotal base XP: ").append(baseXP);
             print.append("\nEffective strength: ").append(effectiveStrength);
             print.append("\nAuto-resolve strength: ").append(autoResolveStrength).append("\n");
+        }
+
+        private void appendOfficers(StringBuilder print) {
+            if (officers.isEmpty()) return;
+            Object[] sortedSet = officers.keySet().toArray();
+            Arrays.sort(sortedSet);
+            print.append("\n  {\"");
+            for (Object obj : sortedSet) {
+                Integer level = (Integer) obj;
+                print.append(level).append("\": ").append(officers.get(level) / numFleets).append(", \"");
+            }
+            print.delete(print.length() - 3, print.length()).append("}");
+        }
+
+        private void appendWings(StringBuilder print) {
+            if (wings.isEmpty()) return;
+            Object[] sortedSet = wings.keySet().toArray();
+            Arrays.sort(sortedSet);
+            print.append("\n  {\"");
+            for (Object obj : sortedSet) {
+                String id = (String) obj;
+                print.append(id).append("\": ").append(wings.get(id) / numFleets).append(", \"");
+            }
+            print.delete(print.length() - 3, print.length()).append("}");
         }
     }
 

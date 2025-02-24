@@ -35,6 +35,8 @@ public class SpawnFactionFleets implements BaseCommand {
         boolean clear = false;
         boolean forceFake = false;
         boolean verbose = false;
+        boolean ignoreMarketFleetSizeMult = false;
+        boolean withOfficers = true;
         int offset = 0;
         if (tmp[0].charAt(0) == '-') {
             String command = tmp[0].toLowerCase();
@@ -50,6 +52,12 @@ public class SpawnFactionFleets implements BaseCommand {
                         break;
                     case 'v':
                         verbose = true;
+                        break;
+                    case 'i':
+                        ignoreMarketFleetSizeMult = true;
+                        break;
+                    case 'o':
+                        withOfficers = false;
                         break;
                 }
             }
@@ -72,12 +80,12 @@ public class SpawnFactionFleets implements BaseCommand {
             return CommandResult.ERROR;
         }
 
-        int combat = 0;
+        float combat = 0;
         String patrolType = FleetTypes.PATROL_LARGE;
         if (tmp.length > 2 + offset) {
             String patrolString = tmp[2 + offset];
             try {
-                combat = Integer.parseInt(patrolString);
+                combat = Float.parseFloat(patrolString);
                 patrolType = FleetTypes.TASK_FORCE;
             } catch (NumberFormatException e) {
                 switch (patrolString) {
@@ -87,10 +95,18 @@ public class SpawnFactionFleets implements BaseCommand {
                         patrolType = patrolString;
                         break;
                     default:
-                        Console.showMessage("Error: " + patrolString + " is not a valid patrol type or whole number!");
+                        Console.showMessage("Error: " + patrolString + " is not a valid patrol type or floating-point number!");
                         return CommandResult.ERROR;
                 }
             }
+        }
+
+        Float qualityOverride = null;
+        if (tmp.length > 3 + offset) try {
+            qualityOverride = Float.parseFloat(tmp[3 + offset]);
+        } catch (NumberFormatException ex) {
+            Console.showMessage("Error: qualityOverride must be a floating-point number!");
+            return CommandResult.ERROR;
         }
 
         MarketAPI bestMarket = null;
@@ -100,7 +116,7 @@ public class SpawnFactionFleets implements BaseCommand {
         AFTM_Util.FleetStatData statData = verbose ? new AFTM_Util.FleetStatData() : null;
         AFTM_Util.FleetCompositionData fleetCompData = verbose ? new AFTM_Util.FleetCompositionData() : null;
         for (int i = 0; i < numFleets; i++) {
-            CampaignFleetAPI fleet = createPatrol(combat, patrolType, factionId, bestMarket);
+            CampaignFleetAPI fleet = createPatrol(bestMarket, factionId, qualityOverride, patrolType, combat, ignoreMarketFleetSizeMult, withOfficers);
             fleet.inflateIfNeeded(); // Inflate to apply d-mods
             fleet.forceSync();
 
@@ -111,15 +127,16 @@ public class SpawnFactionFleets implements BaseCommand {
 
             if (clear) fleet.despawn();
             else {
-                Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0, 0, fleet);
+                Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, fleet);
                 fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.3f);
             }
         }
 
-        final float bestMarketQuality = Misc.getShipQuality(bestMarket, factionId) * 100;
-        final float bestMarketFleetSize = bestMarket.getStats().getDynamic().getMod(Stats.COMBAT_FLEET_SIZE_MULT).computeEffective(0f) * 100;
         StringBuilder print = new StringBuilder(clear ? "Showing " : "Spawned ").append(numFleets).append(" ").append(factionId).append(" ").append(patrolType).append(" fleets, using stats from ");
-        print.append(bestMarket.getName()).append(" with ship quality ").append(bestMarketQuality).append("% and fleet size ").append(bestMarketFleetSize).append("%").append(verbose ? ":" : ".").append("\n");
+        print.append(bestMarket.getName()).append(" with ship quality ").append((qualityOverride == null ? Misc.getShipQuality(bestMarket, factionId) : qualityOverride) * 100f).append("%");
+        if (!ignoreMarketFleetSizeMult)
+            print.append(" and fleet size ").append(bestMarket.getStats().getDynamic().getMod(Stats.COMBAT_FLEET_SIZE_MULT).computeEffective(0f) * 100f).append("%");
+        print.append(verbose ? ":" : ".").append("\n");
 
         if (verbose) {
             statData.aggregateStats();
@@ -170,7 +187,7 @@ public class SpawnFactionFleets implements BaseCommand {
     }
 
     // See com.fs.starfarer.api.impl.campaign.econ.impl.MilitaryBase's createPatrol() for vanilla implementation
-    private static CampaignFleetAPI createPatrol(float combat, String fleetType, String factionId, MarketAPI market) {
+    private static CampaignFleetAPI createPatrol(MarketAPI market, String factionId, Float qualityOverride, String fleetType, float combat, boolean ignoreMarketFleetSizeMult, boolean withOfficers) {
         float tanker = 0f;
         float freighter = 0f;
 
@@ -193,7 +210,7 @@ public class SpawnFactionFleets implements BaseCommand {
             }
         }
 
-        FleetParamsV3 params = new FleetParamsV3(market, null, factionId, null, fleetType, combat, // combatPts
+        FleetParamsV3 params = new FleetParamsV3(market, null, factionId, qualityOverride, fleetType, combat, // combatPts
                 freighter, // freighterPts
                 tanker, // tankerPts
                 0f, // transportPts
@@ -202,6 +219,8 @@ public class SpawnFactionFleets implements BaseCommand {
                 0f // qualityMod
         );
         params.random = random;
+        params.ignoreMarketFleetSizeMult = ignoreMarketFleetSizeMult;
+        params.withOfficers = withOfficers;
         CampaignFleetAPI fleet = FleetFactoryV3.createFleet(params);
 
         String rankId;

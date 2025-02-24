@@ -21,9 +21,8 @@ public class ShowFleetComposition implements BaseCommand {
         HashMap<String, AFTM_Util.FleetCompositionData> factionComps = new HashMap<>();
         for (CampaignFleetAPI fleet : Global.getSector().getPlayerFleet().getContainingLocation().getFleets()) {
             String factionId = fleet.getFaction().getId();
-            if (!factionComps.containsKey(factionId)) factionComps.put(factionId, new AFTM_Util.FleetCompositionData());
-
-            factionComps.get(factionId).addMembers(fleet);
+            if (factionComps.containsKey(factionId)) factionComps.get(factionId).addMembers(fleet);
+            else factionComps.put(factionId, new AFTM_Util.FleetCompositionData());
         }
 
         if (factionComps.isEmpty()) {
@@ -34,8 +33,8 @@ public class ShowFleetComposition implements BaseCommand {
         StringBuilder print = new StringBuilder();
         Object[] sortedSet = factionComps.keySet().toArray();
         Arrays.sort(sortedSet);
-        for (Object id : sortedSet) {
-            String factionId = (String) id;
+        for (Object obj : sortedSet) {
+            String factionId = (String) obj;
             factionComps.get(factionId).appendComposition(factionId, print);
         }
 
