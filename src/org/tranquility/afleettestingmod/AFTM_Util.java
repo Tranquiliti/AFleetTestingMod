@@ -104,17 +104,15 @@ public final class AFTM_Util {
     }
 
     // See com.fs.starfarer.api.impl.campaign.FleetEncounterContext's gainXP() for vanilla implementation
-    // The lossy-conversion will (hopefully) be fixed in 0.98: https://fractalsoftworks.com/forum/index.php?topic=31542.0
-    @SuppressWarnings("lossy-conversions")
     public static float getBaseXP(CampaignFleetAPI fleet) {
-        int fpTotal = 0;
+        float fpTotal = 0;
         for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
             float fp = member.getFleetPointCost();
             fp *= 1f + member.getCaptain().getStats().getLevel() / 5f;
             fpTotal += fp;
         }
 
-        float xp = (float) fpTotal * 250;
+        float xp = fpTotal * 250;
         xp *= 2f;
 
         xp *= Global.getSettings().getFloat("xpGainMult");

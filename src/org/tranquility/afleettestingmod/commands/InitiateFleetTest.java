@@ -34,17 +34,17 @@ public class InitiateFleetTest implements BaseCommand {
         variant.setVariantDisplayName("Raider");
         variant.setNumFluxCapacitors(3);
 
-        // S-Mods
+        // S-mods
         variant.addPermaMod(HullMods.AUGMENTEDENGINES, true);
         variant.addPermaMod(HullMods.INSULATEDENGINE, true);
         variant.addPermaMod(HullMods.SOLAR_SHIELDING, true);
-        // D-Mods
+        // D-mods
         variant.addPermaMod(HullMods.COMP_ARMOR, false);
         variant.addPermaMod("damaged_mounts", false);
         variant.addPermaMod("degraded_shields", false);
         variant.addPermaMod(HullMods.COMP_STRUCTURE, false);
         variant.addPermaMod(HullMods.FRAGILE_SUBSYSTEMS, false);
-        // Hull-Mods
+        // Hullmods
         variant.addMod(HullMods.EFFICIENCY_OVERHAUL);
         variant.addMod("hiressensors");
         variant.addMod(HullMods.NAV_RELAY);

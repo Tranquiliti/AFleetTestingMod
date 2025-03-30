@@ -1,3 +1,10 @@
+Version 1.0.0 (Update for Starsector 0.98a)
+
+* Compiled for Java 17
+* Updated "ShowFleetStats" XP calculations to account for the vanilla XP bugfix
+
+
+
 Version 0.8.1
 
 * Updated "SpawnFactionFleets" command
@@ -55,38 +62,3 @@ Version 0.6.0
   - Inspired by Tartiflette's Target Practice mod
   - Similar to Target Practice's cubes, these ships cannot move and are teleported to the map center for easier testing
 * Removed dependency on Console Commands (although it is still a major part of this mod)
-
-
-
-Version 0.5.0
-
-* Added "ShowExceptionalPodOfficers", which will show the locations and skill sets of any exceptional pod officers in the Sector
-* Renamed "AddPresetOfficer" command to "AddPresetOfficers"
-  - Can now accept a "numOfOfficers" argument for spawning multiple officers at once
-  - Added "isMercenary" option for presetOfficer.json, which sets a preset officer as a mercenary
-  - Renamed "isSleeper" option to "isExceptional"
-* "ShowFleetStats" now also show the base XP for defeating a fleet.
-
-
-
-Version 0.4.0
-
-* Adjusted the "InitiateFleetTest" command
-  - Now teleports directly to the Abandoned Terraforming Station
-  - Adds a Spaceport to the Abandoned Terraforming Station, allowing dock repairs and refits for dock-only hullmods
-  - Increased the amount of added credits and SPs
-* Adjusted the Remnant test bounties
-  - Adjusted fleet/ship skills to account for 0.97 Remnant skills changes
-  - Now no longer appears unless the "InitiateFleetTest" command is executed (i.e. no more test bounties during normal gameplay).
-* Added all level 7 sleeper officer presets to presetOfficers.json, replacing the sole "sleeper" preset
-* "AddPresetOfficer" now prints all available preset officer IDs if no arguments are entered
-
-
-
-Version 0.3.0 (Update for Starsector 0.97)
-
-* Updated to Starsector 0.97
-* Added "AddPresetOfficer" command, which can spawn preset officers from a JSON file
-* "InitiateFleetTest" now also clears the player inventory; adds max supplies, crew, and fuel; and repairs the fleet/ship
-* Added another MagicBounty for dueling against a single Remnant ship
-* Reduced likelihood the testing bounties will be shown over other bounties

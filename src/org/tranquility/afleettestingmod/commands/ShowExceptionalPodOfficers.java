@@ -29,7 +29,7 @@ public class ShowExceptionalPodOfficers implements BaseCommand {
         // Officer pods could be found in hyperspace, so also check that
         findExceptionalPodOfficers(Global.getSector().getHyperspace(), print);
 
-        if (print.length() == 0) print.append("No exceptional pod officers found!\n");
+        if (print.isEmpty()) print.append("No exceptional pod officers found!\n");
 
         int numAlreadyCreated = Global.getSector().getMemoryWithoutUpdate().getInt("$SleeperPodsSpecialCreator_exceptionalCount");
         if (numAlreadyCreated < MAX_EXCEPTIONAL_PODS_OFFICERS)
