@@ -223,18 +223,11 @@ public class SpawnFactionFleets implements BaseCommand {
         params.withOfficers = withOfficers;
         CampaignFleetAPI fleet = FleetFactoryV3.createFleet(params);
 
-        String rankId;
-        switch (fleetType) {
-            case FleetTypes.PATROL_SMALL:
-                rankId = Ranks.SPACE_LIEUTENANT;
-                break;
-            case FleetTypes.PATROL_MEDIUM:
-                rankId = Ranks.SPACE_COMMANDER;
-                break;
-            default:
-                rankId = Ranks.SPACE_CAPTAIN;
-                break;
-        }
+        String rankId = switch (fleetType) {
+            case FleetTypes.PATROL_SMALL -> Ranks.SPACE_LIEUTENANT;
+            case FleetTypes.PATROL_MEDIUM -> Ranks.SPACE_COMMANDER;
+            default -> Ranks.SPACE_CAPTAIN;
+        };
 
         fleet.getCommander().setPostId(Ranks.POST_PATROL_COMMANDER);
         fleet.getCommander().setRankId(rankId);

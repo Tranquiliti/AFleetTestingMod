@@ -10,7 +10,6 @@ import org.lwjgl.util.vector.Vector2f;
 import org.tranquility.afleettestingmod.AFTM_Util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 import static org.tranquility.afleettestingmod.AFTM_Util.FleetStatData;
@@ -38,13 +37,10 @@ public class ShowFleetStats implements BaseCommand {
             return CommandResult.ERROR;
         }
 
-        Collections.sort(nearbyFleets, new Comparator<Object>() {
-            @Override
-            public int compare(Object o1, Object o2) {
-                if (o1 == o2) return 0;
-                Vector2f pLoc = Global.getSector().getPlayerFleet().getLocation();
-                return Float.compare(Misc.getDistance(pLoc, ((CampaignFleetAPI) o1).getLocation()), Misc.getDistance(pLoc, ((CampaignFleetAPI) o2).getLocation()));
-            }
+        nearbyFleets.sort((Comparator<Object>) (o1, o2) -> {
+            if (o1 == o2) return 0;
+            Vector2f pLoc = Global.getSector().getPlayerFleet().getLocation();
+            return Float.compare(Misc.getDistance(pLoc, ((CampaignFleetAPI) o1).getLocation()), Misc.getDistance(pLoc, ((CampaignFleetAPI) o2).getLocation()));
         });
 
         StringBuilder print = new StringBuilder();

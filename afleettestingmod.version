@@ -4,11 +4,11 @@
 	"modThreadId":27367,
 	"modVersion":
 	{
-		"major":0,
-		"minor":8,
-		"patch":1
+		"major":1,
+		"minor":0,
+		"patch":0
 	},
-	"starsectorVersion":"0.97a-RC11",
-	"directDownloadURL":"https://github.com/Tranquiliti/Adversary/releases/download/v0.8.1/AFleetTestingMod-v0.8.1.zip",
+	"starsectorVersion":"0.98a-RC5",
+	"directDownloadURL":"https://github.com/Tranquiliti/Adversary/releases/download/v1.0.0/AFleetTestingMod-v1.0.0.zip",
 	"changelogURL":"https://raw.githubusercontent.com/Tranquiliti/AFleetTestingMod/main/changelog.txt"
 }
