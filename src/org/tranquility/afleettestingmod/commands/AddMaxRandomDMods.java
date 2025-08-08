@@ -32,8 +32,8 @@ public class AddMaxRandomDMods implements BaseCommand {
             }
 
         if (onlyOneType)
-            Console.showMessage(new StringBuilder().append("Applied maximum D-Mods to all ships with hull id \"").append(args).append("\""));
-        else Console.showMessage("Applied maximum D-Mods to all ships!");
+            Console.showMessage(new StringBuilder().append("Applied maximum d-mods to all ships with hull id \"").append(args).append("\""));
+        else Console.showMessage("Applied maximum d-mods to all ships!");
         return CommandResult.SUCCESS;
     }
 }

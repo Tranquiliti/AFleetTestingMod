@@ -3,12 +3,12 @@ InitiateFleetTest,org.tranquility.afleettestingmod.commands.InitiateFleetTest,"f
 SpawnRemnantStation,org.tranquility.afleettestingmod.commands.SpawnRemnantStation,"fleettesting,campaign,cheat",spawnremnantstation [pts] [numFleets],"Spawns on your location a Remnant station, which generates a specified number of fleets with a specified initial Fleet Points. Also sets relationship with Remnants to Inhospitable. If no arguments are entered, initial FP for spawned fleets is 128 and max number of fleets is 10."
 ShowFleetStats,org.tranquility.afleettestingmod.commands.ShowFleetStats,"fleettesting,campaign",showfleetstats [player|nearest|all],"Shows fleet stats for a specified fleet within the current location. If no arguments are entered, defaults to showing player fleet stats."
 ShowFleetComposition,org.tranquility.afleettestingmod.commands.ShowFleetComposition,"fleettesting,campaign",showfleetcomposition (no arguments),Shows the overall fleet composition numbers for each faction within the current location.
-ShowPlayerDMods,org.tranquility.afleettestingmod.commands.ShowPlayerDMods,"fleettesting,campaign",showplayerdmods (no arguments),Shows all D-Mods and their distribution within the player's fleet.
-AddMaxRandomDMods,org.tranquility.afleettestingmod.commands.AddMaxRandomDMods,"fleettesting,campaign,cheat",addmaxrandomdmods [hullID],"Applies the maximum number of D-Mods to all ships in the player fleet. Does not include any destroyed D-Mods, like Structural Damage. Can specifiy a hull ID to only add D-Mods to matching player ships."
-AddSMods,org.tranquility.afleettestingmod.commands.AddSMods,"fleettesting,campaign,cheat",addsmods <hullID> <hullmodID1> [hullmodID2] [hullmodID3...],Applies specified S-Mods to all player ships matching a specified hull ID. Can specify any number of hullmods to S-Mod at once.
-ClearAllSMods,org.tranquility.afleettestingmod.commands.ClearAllSMods,"fleettesting,campaign,cheat",clearallsmods [hullID],Clears all S-Mods from all ships in the player fleet. Can specifiy a hull ID to only remove S-Mods from matching player ships.
+ShowPlayerDMods,org.tranquility.afleettestingmod.commands.ShowPlayerDMods,"fleettesting,campaign",showplayerdmods (no arguments),Shows all d-mods and their distribution within the player's fleet.
+AddMaxRandomDMods,org.tranquility.afleettestingmod.commands.AddMaxRandomDMods,"fleettesting,campaign,cheat",addmaxrandomdmods [hullID],"Applies the maximum number of d-mods to all ships in the player fleet. Does not include any destroyed d-mods, like Structural Damage. Can specifiy a hull ID to only add d-mods to matching player ships."
+AddSMods,org.tranquility.afleettestingmod.commands.AddSMods,"fleettesting,campaign,cheat",addsmods <hullID> <hullmodID1> [hullmodID2] [hullmodID3...],Applies specified s-mods to all player ships matching a specified hull ID. Can specify any number of hullmods to s-mod at once.
+ClearAllSMods,org.tranquility.afleettestingmod.commands.ClearAllSMods,"fleettesting,campaign,cheat",clearallsmods [hullID],Clears all s-mods from all ships in the player fleet. Can specifiy a hull ID to only remove s-mods from matching player ships.
 ShowHullIDs,org.tranquility.afleettestingmod.commands.ShowHullIDs,"fleettesting,campaign",showhullids (no arguments),Shows the hull IDs of all ships in the player fleet.
-ClearAllDMods,org.tranquility.afleettestingmod.commands.ClearAllDMods,"fleettesting,campaign,cheat",clearalldmods [hullID],"Clears all D-Mods from all ships in the player fleet, restoring them to pristine condition. Can specifiy a hull ID to only remove D-Mods from matching player ships."
+ClearAllDMods,org.tranquility.afleettestingmod.commands.ClearAllDMods,"fleettesting,campaign,cheat",clearalldmods [hullID],"Clears all d-mods from all ships in the player fleet, restoring them to pristine condition. Can specifiy a hull ID to only remove d-mods from matching player ships."
 AddPresetOfficers,org.tranquility.afleettestingmod.commands.AddPresetOfficers,"fleettesting,campaign,cheat",addpresetofficers [officerID] [numOfficers],"Adds a number of preset officers to the players fleet. If no arguments are entered, lists all available preset officer IDs. Preset officer IDs and configurations can be modified in AFleetTestingMod/data/config/presetOfficers.json."
 ShowExceptionalPodOfficers,org.tranquility.afleettestingmod.commands.ShowExceptionalPodOfficers,"fleettesting,campaign,cheat",showexceptionalpodofficers (no arguments),Shows the location of all exceptional pod officers in this sector.
 SpawnFactionFleets,org.tranquility.afleettestingmod.commands.SpawnFactionFleets,"fleettesting,campaign,cheat",spawnfactionfleets [-OPTIONS] <factionId> [numFleets] [patrolType|fp] [qualityOverride],"Spawns a number of faction fleets with the specified patrol type or base combat fleet points (FP). Uses stats from the faction's best market or, if the faction has no markets, a fake market with base 95% ship quality and ~383% fleet size.
@@ -29,3 +29,19 @@ Fleet type options (all FP are scaled by the market fleet size, unless the 'i' o
 'qualityOverride' - If set, overrides market quality with a specified floating-point number (e.g., 0.5 = 50%, 1.0 = 100%, 1.2 = 120%)
 
 Example usages: ""spawnfactionfleets -cv player 1000 patrolMedium""; ""spawnfactionfleets -cfvi remnant 5 320 1"""
+SpawnDwellerFleets,org.tranquility.afleettestingmod.commands.SpawnDwellerFleets,"fleettesting,campaign,cheat",spawndwellerfleets [str] [numFleets],"Spawns a number of Shrouded Dweller manifestations. Size of the manifestation can vary based on the specified strength.
+
+'str' - Dictates the strength of the Shrouded Dweller manifestation, defaulting to ""HIGH"" if not specified:
+ ""LOW"" - Lesser Manifestation
+ ""MEDIUM"" - Greater Manifestation
+ ""HIGH"" - Transcendent Manifestation
+ ""EXTREME"" - Unused in-game"
+SpawnThreatFleets,org.tranquility.afleettestingmod.commands.SpawnThreatFleets,"fleettesting,campaign,cheat",spawnthreatfleets [depth] [numFleets],"Spawns a number of Threat strike fleets, where the Threat fleet composition depends on the specified abyssal depth and the number of existing Second/Third Strike fleets within a star system (including those that will be spawned via this command). The player must be in a star system for the command to work.
+
+'depth' - Dictates Threat fleet composition, defaulting to the player's current abyssal depth if not specified:
+ 'depth' < 2.0 - No Fabricators, with only low-to-high-strength escorts
+ 'depth' < 3.0 - 1 Fabricator, with no escorts or only low-to-medium-strength escorts
+ 'depth' < 4.0 - 2 Fabricators with low-to-high-strength escorts, or 1 Fabricator with maximum-strength escorts
+ 'depth' >= 4.0 - 3 Fabricators with low-to-medium strength escorts, or 2 Fabricators with high-to-maximum-strength escorts
+ 
+The actual depth used to spawn the fleets can be capped to lower depth levels if a Third Strike already exists and/or if enough Second Strikes are present."

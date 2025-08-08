@@ -34,7 +34,12 @@ public final class AFTM_Util {
     public static final byte MISSION_FP_STEP = 5;
     public static final byte MISSION_QUALITY_STEP = 5;
     private static final int DEFAULT_FP = 160;
-    private static final int DEFAULT_QUALITY_PERCENT = 120;  // 120% is the minimum required to guarantee no random ship D-Mods in vanilla
+    private static final int DEFAULT_QUALITY_PERCENT = 120;  // 120% is the minimum required to guarantee no random ship d-mods in vanilla
+
+    private static final float MAX_SPEED_UP_MULT = 100f;
+    // Recommended to avoid AI bugs like this:
+    // https://fractalsoftworks.com/forum/index.php?topic=32491.msg474622#msg474622
+    private static final float CAP_TO_FPS = 60f;
 
     private static final float AVG_RANDOM_FLOAT = 0.5f;
 
@@ -124,8 +129,15 @@ public final class AFTM_Util {
         return new BaseEveryFrameCombatPlugin() {
             @Override
             public void advance(float amount, List<InputEventAPI> events) {
-                if (!Global.getCombatEngine().isPaused())
-                    Global.getCombatEngine().getTimeMult().modifyMult("afleettestingmod", Math.max(1f, 1f / (Global.getCombatEngine().getElapsedInLastFrame() * 30f)));
+                if (Global.getCombatEngine().isPaused()) return;
+
+                // Provided by Dark.Revenant
+                int roundedFrameTimeMsec = (int) Math.ceil(1000f * Global.getCombatEngine().getElapsedInLastFrame() + 1);
+                float scaledFPS = 1000f / roundedFrameTimeMsec;
+                float unscaledFPS = Global.getCombatEngine().getTimeMult().getModifiedValue() * scaledFPS;
+                float cappedTimeMult = Math.max(1f, unscaledFPS / CAP_TO_FPS);
+                float newTimeMult = Math.min(cappedTimeMult, MAX_SPEED_UP_MULT);
+                Global.getCombatEngine().getTimeMult().modifyMult("afleettestingmod_speedUp", newTimeMult);
             }
         };
     }

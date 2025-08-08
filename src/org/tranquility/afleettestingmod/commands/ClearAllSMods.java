@@ -31,8 +31,8 @@ public class ClearAllSMods implements BaseCommand {
                     member.getVariant().removePermaMod(sMod);
 
         if (onlyOneShipType)
-            Console.showMessage(new StringBuilder().append("Applied S-Mods to all ships with hull id \"").append(args).append("\""));
-        else Console.showMessage("Cleared all S-Mods from all ships!");
+            Console.showMessage(new StringBuilder().append("Applied s-mods to all ships with hull id \"").append(args).append("\""));
+        else Console.showMessage("Cleared all s-mods from all ships!");
         return CommandResult.SUCCESS;
     }
 }
