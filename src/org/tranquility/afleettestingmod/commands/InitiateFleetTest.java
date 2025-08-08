@@ -69,6 +69,7 @@ public class InitiateFleetTest implements BaseCommand {
         new AddStoryPoints().runCommand("184", context);
         new Jump().runCommand("corvus", context);
         new GoTo().runCommand("corvus_abandoned_station", context);
+        new AllBlueprints().runCommand("", context);
         new AllCommodities().runCommand("", context);
         new AllHullmods().runCommand("", context);
         new AllHulls().runCommand("", context);

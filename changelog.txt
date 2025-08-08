@@ -1,3 +1,17 @@
+Version 1.1.0
+
+* Added "SpawnDwellerFleets" command
+  - Spawns Shrouded Dweller manifestations that match how they normally spawn
+* Added "SpawnThreatFleets" command
+  - Spawns Threat fleets that largely match how they normally spawn
+  - Fleet composition based on the specified abyssal depth and the number of Second/Third Strike fleets present in-system
+  - Can only be run while the player is in a star system
+* Modified 1-100x speed up option for main menu missions to consistently ensure battle fidelity
+  - Thanks to Dark.Revenant for the code!
+* "InitiateFleetTest" command now automatically runs the "AllBlueprints" command
+
+
+
 Version 1.0.0 (Update for Starsector 0.98a)
 
 * Compiled for Java 17

@@ -41,7 +41,7 @@ public class AddSMods implements BaseCommand {
             if (member.getHullId().equals(tmp[0])) for (int i = 1; i < tmp.length; i++)
                 member.getVariant().addPermaMod(tmp[i], true);
 
-        Console.showMessage(print.append("Applied S-Mods to all ships with hull id \"").append(tmp[0]).append("\""));
+        Console.showMessage(print.append("Applied s-mods to all ships with hull id \"").append(tmp[0]).append("\""));
         return CommandResult.SUCCESS;
     }
 }

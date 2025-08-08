@@ -1,14 +1,13 @@
 {
-	"masterVersionFile":"https://raw.githubusercontent.com/Tranquiliti/AFleetTestingMod/main/afleettestingmod.version",
-	"modName":"A Fleet Testing Mod",
-	"modThreadId":27367,
-	"modVersion":
-	{
-		"major":1,
-		"minor":0,
-		"patch":0
+	"masterVersionFile": "https://raw.githubusercontent.com/Tranquiliti/AFleetTestingMod/main/afleettestingmod.version",
+	"modName": "A Fleet Testing Mod",
+	"modThreadId": 27367,
+	"modVersion": {
+		"major": 1,
+		"minor": 1,
+		"patch": 0
 	},
-	"starsectorVersion":"0.98a-RC5",
-	"directDownloadURL":"https://github.com/Tranquiliti/Adversary/releases/download/v1.0.0/AFleetTestingMod-v1.0.0.zip",
-	"changelogURL":"https://raw.githubusercontent.com/Tranquiliti/AFleetTestingMod/main/changelog.txt"
+	"starsectorVersion": "0.98a-RC8",
+	"directDownloadURL": "https://github.com/Tranquiliti/Adversary/releases/download/v1.1.0/AFleetTestingMod-v1.1.0.zip",
+	"changelogURL": "https://raw.githubusercontent.com/Tranquiliti/AFleetTestingMod/main/changelog.txt"
 }

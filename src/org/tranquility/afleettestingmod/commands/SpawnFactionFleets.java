@@ -179,7 +179,7 @@ public class SpawnFactionFleets implements BaseCommand {
         market.getStats().getDynamic().getMod(Stats.FLEET_QUALITY_MOD).modifyFlat("AFTM_qualityDoctrine", market.getFaction().getDoctrine().getShipQualityContribution());
 
         // 382.8125% fleet size with all fleet size bonuses
-        // Hypercognition admin (+20%), size 6 colony (+125%), Cryoarithmetic Engine (+100%), 10 stability (x1.25), Alpha core on High Command (x1.25)
+        // Hypercognition admin (+20%), size 6 colony (+125%), Cryoarithmetic Engine (+100%), 10 stability (x1.25), Alpha Core on High Command (x1.25)
         market.getStats().getDynamic().getMod(Stats.COMBAT_FLEET_SIZE_MULT).modifyFlat("AFTM_fake", 3.828125f);
         market.getStats().getDynamic().getMod(Stats.COMBAT_FLEET_SIZE_MULT).modifyMult("AFTM_shipDoctrine", FleetFactoryV3.getDoctrineNumShipsMult(market.getFaction().getDoctrine().getNumShips()));
 
