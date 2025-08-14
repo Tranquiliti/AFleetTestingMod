@@ -19,6 +19,8 @@ import org.tranquility.afleettestingmod.AFTM_Util;
 import java.util.List;
 import java.util.Random;
 
+import static com.fs.starfarer.api.impl.campaign.procgen.themes.RemnantSeededFleetManager.initRemnantFleetProperties;
+
 public class SpawnFactionFleets implements BaseCommand {
     @Override
     public BaseCommand.CommandResult runCommand(String args, BaseCommand.CommandContext context) {
@@ -37,6 +39,7 @@ public class SpawnFactionFleets implements BaseCommand {
         boolean verbose = false;
         boolean ignoreMarketFleetSizeMult = false;
         boolean withOfficers = true;
+        boolean useRemnantProperties = false;
         int offset = 0;
         if (tmp[0].charAt(0) == '-') {
             String command = tmp[0].toLowerCase();
@@ -58,6 +61,9 @@ public class SpawnFactionFleets implements BaseCommand {
                         break;
                     case 'o':
                         withOfficers = false;
+                        break;
+                    case 'r':
+                        useRemnantProperties = true;
                         break;
                 }
             }
@@ -128,7 +134,8 @@ public class SpawnFactionFleets implements BaseCommand {
             if (clear) fleet.despawn();
             else {
                 Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, fleet);
-                fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.3f);
+                fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
+                if (useRemnantProperties) initRemnantFleetProperties(null, fleet, false);
             }
         }
 
