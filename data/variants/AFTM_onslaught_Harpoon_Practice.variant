@@ -10,7 +10,7 @@
         "fluxdistributor",
         "fluxbreakers",
         "missile_reload",
-        "AFTM_TargetPractice"
+        "AFTMTargetPractice"
     ],
     "permaMods": ["autorepair"],
     "sMods": ["autorepair"],

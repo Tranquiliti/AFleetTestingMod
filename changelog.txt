@@ -1,11 +1,17 @@
-Version 1.1.1
+Version 1.2.0
 
+* Updated test MagicBounties:
+  - Removed the dueling bounty
+  - Split the double Remnant Ordo bounty fleet into three bounties, each representing a full-strength Ordo fleet
+  - Modified bounty fleet AI for easier testing
 * Updated "InitiateFleetTest" command:
   - Now also spawns 10000 of each Threat/Shrouded special item
-  - Can no longer execute if the storage location is not set to the Abandoned Terraforming Station in Corvus
+  - No longer executes if the storage location is not set to the Abandoned Terraforming Station in Corvus
 * Updated "SpawnFactionFleets" command:
+  - Added 'a' option to force spawned fleets to have no fleet AI and, therefore, remain dormant
   - Added 'r' option to make fleets act like vanilla Remnant fleets (no retreats in-battle, no Emergency Burn, etc.)
   - Decreased delay before spawned fleets can interact with the player
+* Some code refactors
 
 
 

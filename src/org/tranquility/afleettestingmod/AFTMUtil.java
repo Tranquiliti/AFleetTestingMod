@@ -30,7 +30,7 @@ import java.util.*;
 /**
  * Utility class for A Fleet Testing Mod
  */
-public final class AFTM_Util {
+public final class AFTMUtil {
     public static final byte MISSION_FP_STEP = 5;
     public static final byte MISSION_QUALITY_STEP = 5;
     private static final int DEFAULT_FP = 160;

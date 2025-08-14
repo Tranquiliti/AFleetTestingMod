@@ -1,0 +1,5 @@
+id,trigger,conditions,script,text,options,notes
+# MagicBounty scripts,,,,,,
+afleettestingmod_Ordo_1,AFTMOrdo1Picked,,AFTMBountyScript afleettestingmod_Ordo_1,,,
+afleettestingmod_Ordo_2,AFTMOrdo2Picked,,AFTMBountyScript afleettestingmod_Ordo_2,,,
+afleettestingmod_Ordo_3,AFTMOrdo3Picked,,AFTMBountyScript afleettestingmod_Ordo_3,,,

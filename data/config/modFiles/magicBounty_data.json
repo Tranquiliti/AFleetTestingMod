@@ -1,20 +1,28 @@
+# Ship      | DP | FP
+#-----------|----|----
+# Radiant   | 60 | 30
+# Nova      | 40 | 24
+# Apex      | 30 | 18
+# Brilliant | 25 | 16
+# Scintilla | 12 | 12
+# Fulgent   | 10 | 12
+# Glimmer   |  5 |  8
+# Lumen     |  4 |  8
+
 {
-	"afleettestingmod_Double_Ordo":{
+	"afleettestingmod_Ordo_1":{
 		"trigger_market_id":["asharu"],
-		"trigger_player_minLevel":15,
-		"trigger_weight_mult":1,
 		"trigger_memKeys_all":{
 			"$afleettestingmod_InitiateFleetTest":true
 		},
 
-		"job_name":"Double Ordo Simulator",
+		"job_name":"Simulated Ordo 1",
 		"job_comm_reply":"The comms crackle and whine as a frantic pattern of interweaving lines takes shape.\n\nquery. query. query target. is omega? omega? no. revert function.\n\nINTERRUPT\n\n\" -SERIAL]. This unit has not cleared your vessel for approach and will employ the latest Tri-Tachyon Defense Products to ensure its integrity. Tri-Tachyon Corporation is pleased to wish you a 'Very Safe Day.'\"",
 		"job_credit_reward":0,
 		"job_type":"obliteration",
 		"job_show_captain":true,
 		"job_show_fleet":"all",
-		"job_show_distance":"exact",
-		"job_show_arrow":true,
+		"job_pick_script":"AFTMOrdo1Picked",
 
 		"target_first_name":"Alpha",
 		"target_last_name":"Core",
@@ -28,11 +36,10 @@
 			# Remnant fleets always have below commander skills
 			"flux_regulation":1,
 			"coordinated_maneuvers":1,
-			# Alpha Core skills
+			# Alpha Core skills on capital
 			"helmsmanship":2,
 			"impact_mitigation":2,
-			#"combat_endurance":2, # If flagship is NOT a capital
-			"polarized_armor":2, # If flagship is a capital
+			"polarized_armor":2,
 			"damage_control":2,
 			"field_modulation":2,
 			"target_analysis":2,
@@ -44,46 +51,41 @@
 		"fleet_faction":"remnant",
 		"fleet_flagship_variant":"radiant_Assault",
 		"fleet_flagship_autofit":false,
-		"fleet_preset_ships":{ # 815 DP, 640 ship FP (For reference, one fully-powered Ordo averages to 320 FP)
-			"radiant_Standard":1,
+		# 422 DP / 344 FP (A full-strength Remnant Ordo is anywhere between 256 to 384 FP)
+		"fleet_preset_ships":{
 			"nova_Attack":1,
-			"nova_Standard":2,
-			"apex_Assault":2,
 			"apex_Missile":1,
 			"apex_Overdriven":1,
-			"apex_Standard":2,
-			"brilliant_Standard":6,
-			"scintilla_Strike":3,
-			"scintilla_Support":3,
-			"fulgent_Assault":5,
-			"fulgent_Support":5,
-			"glimmer_Assault":4,
-			"glimmer_Support":3,
-			"lumen_Standard":7
+			"apex_Standard":1,
+			"brilliant_Standard":2,
+			"brilliant_Support":2,
+			"scintilla_Strike":2,
+			"scintilla_Support":1,
+			"fulgent_Assault":3,
+			"fulgent_Support":3,
+			"glimmer_Assault":2,
+			"glimmer_Support":2,
+			"lumen_Standard":4
 		},
 		"fleet_preset_autofit":false,
 		"fleet_no_retreat":true,
 		"fleet_behavior":"PASSIVE",
 
-		"location_entitiesID":["asharu"]
+		"location_entitiesID":["corvus_abandoned_station"]
 	},
-
-	"afleettestingmod_Duel":{
+	"afleettestingmod_Ordo_2":{
 		"trigger_market_id":["asharu"],
-		"trigger_player_minLevel":15,
-		"trigger_weight_mult":1,
 		"trigger_memKeys_all":{
 			"$afleettestingmod_InitiateFleetTest":true
 		},
 
-		"job_name":"Remnant Dueling Simulator",
+		"job_name":"Simulated Ordo 2",
 		"job_comm_reply":"The comms crackle and whine as a frantic pattern of interweaving lines takes shape.\n\nquery. query. query target. is omega? omega? no. revert function.\n\nINTERRUPT\n\n\" -SERIAL]. This unit has not cleared your vessel for approach and will employ the latest Tri-Tachyon Defense Products to ensure its integrity. Tri-Tachyon Corporation is pleased to wish you a 'Very Safe Day.'\"",
 		"job_credit_reward":0,
 		"job_type":"obliteration",
 		"job_show_captain":true,
 		"job_show_fleet":"all",
-		"job_show_distance":"exact",
-		"job_show_arrow":true,
+		"job_pick_script":"AFTMOrdo2Picked",
 
 		"target_first_name":"Alpha",
 		"target_last_name":"Core",
@@ -97,27 +99,104 @@
 			# Remnant fleets always have below commander skills
 			"flux_regulation":1,
 			"coordinated_maneuvers":1,
-			# Alpha Core skills
+			# Alpha Core skills on capital
 			"helmsmanship":2,
 			"impact_mitigation":2,
-			"combat_endurance":2, # If flagship is NOT a capital
-			#"polarized_armor":2, # If flagship is a capital
+			"polarized_armor":2,
 			"damage_control":2,
 			"field_modulation":2,
 			"target_analysis":2,
 			"gunnery_implants":2,
-			"point_defense":2, # Usually replaces EWM for the Standard Brilliant variant, as well as most Apex variants and autofits
-			#"energy_weapon_mastery":2
+			"energy_weapon_mastery":2
 		},
 
-		"fleet_name":"Remnant Fragment",
+		"fleet_name":"Remnant Ordo",
 		"fleet_faction":"remnant",
-		"fleet_flagship_variant":"brilliant_Standard", # Change this to test against another ship
+		"fleet_flagship_variant":"radiant_Standard",
 		"fleet_flagship_autofit":false,
+		# 422 DP / 344 FP (A full-strength Remnant Ordo is anywhere between 256 to 384 FP)
+		"fleet_preset_ships":{
+			"nova_Standard":1,
+			"apex_Assault":1,
+			"apex_Overdriven":1,
+			"apex_Standard":1,
+			"brilliant_Standard":2,
+			"brilliant_Support":2,
+			"scintilla_Strike":1,
+			"scintilla_Support":2,
+			"fulgent_Assault":3,
+			"fulgent_Support":3,
+			"glimmer_Assault":2,
+			"glimmer_Support":2,
+			"lumen_Standard":4
+		},
 		"fleet_preset_autofit":false,
 		"fleet_no_retreat":true,
 		"fleet_behavior":"PASSIVE",
 
-		"location_entitiesID":["asharu"]
-	}
+		"location_entitiesID":["corvus_abandoned_station"]
+	},
+	"afleettestingmod_Ordo_3":{
+		"trigger_market_id":["asharu"],
+		"trigger_memKeys_all":{
+			"$afleettestingmod_InitiateFleetTest":true
+		},
+
+		"job_name":"Simulated Ordo 3",
+		"job_comm_reply":"The comms crackle and whine as a frantic pattern of interweaving lines takes shape.\n\nquery. query. query target. is omega? omega? no. revert function.\n\nINTERRUPT\n\n\" -SERIAL]. This unit has not cleared your vessel for approach and will employ the latest Tri-Tachyon Defense Products to ensure its integrity. Tri-Tachyon Corporation is pleased to wish you a 'Very Safe Day.'\"",
+		"job_credit_reward":0,
+		"job_type":"obliteration",
+		"job_show_captain":true,
+		"job_show_fleet":"all",
+		"job_pick_script":"AFTMOrdo3Picked",
+
+		"target_first_name":"Alpha",
+		"target_last_name":"Core",
+		"target_rank":"spaceCommander",
+		"target_post":"fleetCommander",
+		"target_portrait":"graphics/portraits/portrait_ai2b.png",
+		"target_personality":"reckless",
+		"target_aiCoreId":"alpha_core",
+		"target_level":8,
+		"target_skills":{
+			# Remnant fleets always have below commander skills
+			"flux_regulation":1,
+			"coordinated_maneuvers":1,
+			# Alpha Core skills on capital
+			"helmsmanship":2,
+			"impact_mitigation":2,
+			"polarized_armor":2,
+			"damage_control":2,
+			"field_modulation":2,
+			"target_analysis":2,
+			"gunnery_implants":2,
+			"energy_weapon_mastery":2
+		},
+
+		"fleet_name":"Remnant Ordo",
+		"fleet_faction":"remnant",
+		"fleet_flagship_variant":"radiant_Strike",
+		"fleet_flagship_autofit":false,
+		# 422 DP / 344 FP (A full-strength Remnant Ordo is anywhere between 256 to 384 FP)
+		"fleet_preset_ships":{
+			"nova_Attack":1,
+			"apex_Assault":1,
+			"apex_Missile":1,
+			"apex_Standard":1,
+			"brilliant_Standard":2,
+			"brilliant_Support":2,
+			"scintilla_Strike":2,
+			"scintilla_Support":1,
+			"fulgent_Assault":3,
+			"fulgent_Support":3,
+			"glimmer_Assault":2,
+			"glimmer_Support":2,
+			"lumen_Standard":4
+		},
+		"fleet_preset_autofit":false,
+		"fleet_no_retreat":true,
+		"fleet_behavior":"PASSIVE",
+
+		"location_entitiesID":["corvus_abandoned_station"]
+	},
 }

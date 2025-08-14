@@ -14,7 +14,7 @@ import com.fs.starfarer.api.util.Misc;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
-import org.tranquility.afleettestingmod.AFTM_Util;
+import org.tranquility.afleettestingmod.AFTMUtil;
 
 import java.util.List;
 import java.util.Random;
@@ -34,12 +34,13 @@ public class SpawnFactionFleets implements BaseCommand {
             return BaseCommand.CommandResult.BAD_SYNTAX;
         }
 
+        boolean disableAI = false;
         boolean clear = false;
         boolean forceFake = false;
-        boolean verbose = false;
         boolean ignoreMarketFleetSizeMult = false;
         boolean withOfficers = true;
         boolean useRemnantProperties = false;
+        boolean verbose = false;
         int offset = 0;
         if (tmp[0].charAt(0) == '-') {
             String command = tmp[0].toLowerCase();
@@ -47,14 +48,14 @@ public class SpawnFactionFleets implements BaseCommand {
 
             for (int i = 1; i < command.length(); i++) {
                 switch (command.charAt(i)) {
+                    case 'a':
+                        disableAI = true;
+                        break;
                     case 'c':
                         clear = true;
                         break;
                     case 'f':
                         forceFake = true;
-                        break;
-                    case 'v':
-                        verbose = true;
                         break;
                     case 'i':
                         ignoreMarketFleetSizeMult = true;
@@ -64,6 +65,9 @@ public class SpawnFactionFleets implements BaseCommand {
                         break;
                     case 'r':
                         useRemnantProperties = true;
+                        break;
+                    case 'v':
+                        verbose = true;
                         break;
                 }
             }
@@ -119,8 +123,8 @@ public class SpawnFactionFleets implements BaseCommand {
         if (!forceFake) bestMarket = getBestMarket(factionId);
         if (bestMarket == null) bestMarket = createFakeMarket(factionId);
 
-        AFTM_Util.FleetStatData statData = verbose ? new AFTM_Util.FleetStatData() : null;
-        AFTM_Util.FleetCompositionData fleetCompData = verbose ? new AFTM_Util.FleetCompositionData() : null;
+        AFTMUtil.FleetStatData statData = verbose ? new AFTMUtil.FleetStatData() : null;
+        AFTMUtil.FleetCompositionData fleetCompData = verbose ? new AFTMUtil.FleetCompositionData() : null;
         for (int i = 0; i < numFleets; i++) {
             CampaignFleetAPI fleet = createPatrol(bestMarket, factionId, qualityOverride, patrolType, combat, ignoreMarketFleetSizeMult, withOfficers);
             fleet.inflateIfNeeded(); // Inflate to apply d-mods
@@ -136,6 +140,12 @@ public class SpawnFactionFleets implements BaseCommand {
                 Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, fleet);
                 fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
                 if (useRemnantProperties) initRemnantFleetProperties(null, fleet, false);
+                if (disableAI) {
+                    fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_MAKE_ALLOW_DISENGAGE, true);
+                    fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_MAKE_AGGRESSIVE, true);
+                    fleet.setAI(null);
+                    fleet.setNullAIActionText("dormant");
+                }
             }
         }
 

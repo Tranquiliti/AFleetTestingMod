@@ -10,7 +10,7 @@
         "heavyarmor",
         "insulatedengine",
         "reinforcedhull",
-        "AFTM_TargetPractice"
+        "AFTMTargetPractice"
     ],
     "permaMods": ["shield_shunt"],
     "sMods": ["shield_shunt"],

@@ -14,6 +14,7 @@ ShowExceptionalPodOfficers,org.tranquility.afleettestingmod.commands.ShowExcepti
 SpawnFactionFleets,org.tranquility.afleettestingmod.commands.SpawnFactionFleets,"fleettesting,campaign,cheat",spawnfactionfleets [-OPTIONS] <factionId> [numFleets] [patrolType|fp] [qualityOverride],"Spawns a number of faction fleets with the specified patrol type or base combat fleet points (FP). Uses stats from the faction's best market or, if the faction has no markets, a fake market with base 95% ship quality and ~383% fleet size.
 
 Options (if first argument starts with '-', followed by any of these characters):
+  'a' - Spawned fleets will no fleet AI, becoming dormant in the campaign map
   'c' - Clears all spawned fleets immediately; best used alongside the 'v' option
   'f' - Always use a fake market for spawning the fleets
   'i' - Ignore market fleet size scaling

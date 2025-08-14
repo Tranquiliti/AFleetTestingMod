@@ -10,7 +10,7 @@ import org.lwjgl.util.vector.Vector2f;
 /**
  * Code adapted from Tartiflette's <a href="https://fractalsoftworks.com/forum/index.php?topic=9438.0">Target Practice</a> mod
  */
-public class AFTM_TargetPractice extends BaseHullMod {
+public class AFTMTargetPractice extends BaseHullMod {
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
         // Makes non-missile weapons useless
