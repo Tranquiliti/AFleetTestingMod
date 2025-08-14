@@ -13,7 +13,7 @@ import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import com.fs.starfarer.api.mission.MissionDefinitionPlugin;
 import org.lwjgl.input.Keyboard;
-import org.tranquility.afleettestingmod.AFTM_Util;
+import org.tranquility.afleettestingmod.AFTMUtil;
 
 import java.util.List;
 
@@ -26,12 +26,12 @@ public class MissionDefinition implements MissionDefinitionPlugin {
     private static int stationIndex;
     private static byte stationCoreType;
     private static List<String> FACTIONS;
-    private static AFTM_Util.TesterFleetParams enemyParams;
+    private static AFTMUtil.TesterFleetParams enemyParams;
     private static boolean balanceFleets, speedUp, officers, autofit;
 
     private void init() {
         if (enemyParams != null) enemyParams.reset();
-        else enemyParams = new AFTM_Util.TesterFleetParams();
+        else enemyParams = new AFTMUtil.TesterFleetParams();
 
         stationIndex = 0;
         stationCoreType = 0;
@@ -44,8 +44,8 @@ public class MissionDefinition implements MissionDefinitionPlugin {
     @Override
     public void defineMission(MissionDefinitionAPI api) {
         if (STATIONS == null) { // Initializing mission
-            STATIONS = AFTM_Util.getMissionStations();
-            FACTIONS = AFTM_Util.getMissionFactions();
+            STATIONS = AFTMUtil.getMissionStations();
+            FACTIONS = AFTMUtil.getMissionFactions();
             init();
         }
 
@@ -74,16 +74,16 @@ public class MissionDefinition implements MissionDefinitionPlugin {
             if (stationCoreType > 2) stationCoreType = 0;
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            enemyParams.incrementFP(-AFTM_Util.MISSION_FP_STEP);
+            enemyParams.incrementFP(-AFTMUtil.MISSION_FP_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            enemyParams.incrementFP(AFTM_Util.MISSION_FP_STEP);
+            enemyParams.incrementFP(AFTMUtil.MISSION_FP_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
-            enemyParams.incrementQuality(-AFTM_Util.MISSION_QUALITY_STEP);
+            enemyParams.incrementQuality(-AFTMUtil.MISSION_QUALITY_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
-            enemyParams.incrementQuality(AFTM_Util.MISSION_QUALITY_STEP);
+            enemyParams.incrementQuality(AFTMUtil.MISSION_QUALITY_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
             balanceFleets = !balanceFleets;
@@ -120,7 +120,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         api.addFleetMember(FleetSide.PLAYER, playerStation);
         api.setFleetTagline(FleetSide.PLAYER, STATIONS.get(stationIndex));
 
-        AFTM_Util.initMissionFleet(api, FleetSide.ENEMY, enemyParams, FACTIONS, balanceFleets, officers, autofit);
+        AFTMUtil.initMissionFleet(api, FleetSide.ENEMY, enemyParams, FACTIONS, balanceFleets, officers, autofit);
 
         // Values taken from BattleCreationPluginImpl.java
         float width = 18000f, height = 18000f; // Default size of battle map with no objectives
@@ -132,7 +132,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         String optionBrief = "";
         if (balanceFleets) optionBrief += "Fleet Balancer, ";
         if (speedUp) {
-            api.addPlugin(AFTM_Util.createSpeedUpPlugin());
+            api.addPlugin(AFTMUtil.createSpeedUpPlugin());
             optionBrief += "1-100x Speed-Up, ";
         }
         if (officers) optionBrief += "Officers, ";

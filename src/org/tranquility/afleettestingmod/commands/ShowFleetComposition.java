@@ -5,7 +5,7 @@ import com.fs.starfarer.api.campaign.CampaignFleetAPI;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
-import org.tranquility.afleettestingmod.AFTM_Util;
+import org.tranquility.afleettestingmod.AFTMUtil;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,11 +18,11 @@ public class ShowFleetComposition implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        HashMap<String, AFTM_Util.FleetCompositionData> factionComps = new HashMap<>();
+        HashMap<String, AFTMUtil.FleetCompositionData> factionComps = new HashMap<>();
         for (CampaignFleetAPI fleet : Global.getSector().getPlayerFleet().getContainingLocation().getFleets()) {
             String factionId = fleet.getFaction().getId();
             if (factionComps.containsKey(factionId)) factionComps.get(factionId).addMembers(fleet);
-            else factionComps.put(factionId, new AFTM_Util.FleetCompositionData());
+            else factionComps.put(factionId, new AFTMUtil.FleetCompositionData());
         }
 
         if (factionComps.isEmpty()) {

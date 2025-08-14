@@ -1,7 +1,9 @@
 package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
+import com.fs.starfarer.api.campaign.SpecialItemData;
 import com.fs.starfarer.api.characters.OfficerDataAPI;
 import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
@@ -9,6 +11,7 @@ import com.fs.starfarer.api.fleet.FleetMemberType;
 import com.fs.starfarer.api.impl.campaign.DModManager;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
+import com.fs.starfarer.api.impl.campaign.ids.Items;
 import com.fs.starfarer.api.loading.VariantSource;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
@@ -22,6 +25,11 @@ public class InitiateFleetTest implements BaseCommand {
         if (!context.isInCampaign()) {
             Console.showMessage(CommonStrings.ERROR_CAMPAIGN_ONLY);
             return CommandResult.WRONG_CONTEXT;
+        }
+
+        if (Storage.getStorageEntity() == null || !Storage.getStorageEntity().getId().equals("corvus_abandoned_station")) {
+            Console.showMessage("Error: Storage is not set to the Abandoned Terraforming Station in the Corvus star system");
+            return CommandResult.ERROR;
         }
 
         // Sets player flagship to a special Kite (LP) variant
@@ -79,6 +87,12 @@ public class InitiateFleetTest implements BaseCommand {
         new AddCrew().runCommand("", context);
         new AddFuel().runCommand("", context);
         new Repair().runCommand("", context);
+        CargoAPI cargo = Storage.retrieveStorage();
+        cargo.addSpecial(new SpecialItemData(Items.FRAGMENT_FABRICATOR, null), 10000);
+        cargo.addSpecial(new SpecialItemData(Items.THREAT_PROCESSING_UNIT, null), 10000);
+        cargo.addSpecial(new SpecialItemData(Items.SHROUDED_THUNDERHEAD, null), 10000);
+        cargo.addSpecial(new SpecialItemData(Items.SHROUDED_MANTLE, null), 10000);
+        cargo.addSpecial(new SpecialItemData(Items.SHROUDED_LENS, null), 10000);
 
         Console.showMessage("Player fleet configured for fleet testing.");
         return CommandResult.SUCCESS;

@@ -6,7 +6,7 @@
     "hullMods": [
         "expanded_deck_crew",
         "missile_reload",
-        "AFTM_TargetPractice"
+        "AFTMTargetPractice"
     ],
     "permaMods": [],
     "sMods": [],

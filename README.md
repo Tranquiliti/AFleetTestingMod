@@ -1,5 +1,5 @@
 # A Fleet Testing Mod
-A fleet-testing-centric mod containing simulation-only target practice ships, two main menu missions, several Console Commands commands, and a few test-only MagicBounties against the [REDACTED].
+A fleet-testing-centric mod containing simulation-only target practice ships, two main menu missions, several console commands, and test-only [REDACTED] MagicBounties.
 
 # Credits
 <b>LazyWizard</b> - For the Console Commands mod!<br>

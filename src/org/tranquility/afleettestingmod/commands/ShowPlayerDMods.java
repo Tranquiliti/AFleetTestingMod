@@ -23,7 +23,7 @@ public class ShowPlayerDMods implements BaseCommand {
         TreeMap<String, TreeMap<String, Integer>> hullsDMods = new TreeMap<>();
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy()) {
             String hullId = member.getHullSpec().getHullId();
-            if (!hullsDMods.containsKey(hullId)) hullsDMods.put(hullId, new TreeMap<String, Integer>());
+            if (!hullsDMods.containsKey(hullId)) hullsDMods.put(hullId, new TreeMap<>());
 
             print.append(member.getShipName()).append(" (").append(hullId).append("): ");
             for (String permaMod : member.getVariant().getPermaMods()) {

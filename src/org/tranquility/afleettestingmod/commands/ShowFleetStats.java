@@ -7,12 +7,12 @@ import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 import org.lwjgl.util.vector.Vector2f;
-import org.tranquility.afleettestingmod.AFTM_Util;
+import org.tranquility.afleettestingmod.AFTMUtil;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import static org.tranquility.afleettestingmod.AFTM_Util.FleetStatData;
+import static org.tranquility.afleettestingmod.AFTMUtil.FleetStatData;
 
 public class ShowFleetStats implements BaseCommand {
     @Override
@@ -23,6 +23,7 @@ public class ShowFleetStats implements BaseCommand {
         }
 
         if (args.isEmpty()) args = "player";
+        else args = args.toLowerCase();
 
         if (args.equals("player")) { // Just show player stats; no need to do anything else
             StringBuilder playerPrint = new StringBuilder();
@@ -54,7 +55,7 @@ public class ShowFleetStats implements BaseCommand {
     }
 
     private void showStats(CampaignFleetAPI fleet, StringBuilder print) {
-        AFTM_Util.FleetStatData data = new FleetStatData();
+        AFTMUtil.FleetStatData data = new FleetStatData();
         data.addStat(fleet);
         data.aggregateStats();
         data.appendStats(fleet.getName(), print);

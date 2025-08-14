@@ -9,7 +9,7 @@
         "advancedshieldemitter",
         "extendedshieldemitter",
         "hardenedshieldemitter",
-        "AFTM_TargetPractice"
+        "AFTMTargetPractice"
     ],
     "permaMods": [
         "frontemitter",

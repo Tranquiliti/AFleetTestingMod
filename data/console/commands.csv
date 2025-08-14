@@ -14,11 +14,13 @@ ShowExceptionalPodOfficers,org.tranquility.afleettestingmod.commands.ShowExcepti
 SpawnFactionFleets,org.tranquility.afleettestingmod.commands.SpawnFactionFleets,"fleettesting,campaign,cheat",spawnfactionfleets [-OPTIONS] <factionId> [numFleets] [patrolType|fp] [qualityOverride],"Spawns a number of faction fleets with the specified patrol type or base combat fleet points (FP). Uses stats from the faction's best market or, if the faction has no markets, a fake market with base 95% ship quality and ~383% fleet size.
 
 Options (if first argument starts with '-', followed by any of these characters):
+  'a' - Spawned fleets will no fleet AI, becoming dormant in the campaign map
   'c' - Clears all spawned fleets immediately; best used alongside the 'v' option
   'f' - Always use a fake market for spawning the fleets
-  'v' - Also prints the aggregated fleet stats and composition data for spawned fleets
   'i' - Ignore market fleet size scaling
   'o' - Spawns fleets without officers
+  'r' - Spawned fleets will use Remnant fleet properties (no retreats in-battle, will not use Emergency Burn, etc.)
+  'v' - Also prints the aggregated fleet stats and composition data for spawned fleets
 
 Fleet type options (all FP are scaled by the market fleet size, unless the 'i' option is enabled):
   'patrolLarge' - Default option; spawns fleets with, on average, 62.5 combat FP, 5 tanker FP, and 5 freighter FP
@@ -28,7 +30,7 @@ Fleet type options (all FP are scaled by the market fleet size, unless the 'i' o
 
 'qualityOverride' - If set, overrides market quality with a specified floating-point number (e.g., 0.5 = 50%, 1.0 = 100%, 1.2 = 120%)
 
-Example usages: ""spawnfactionfleets -cv player 1000 patrolMedium""; ""spawnfactionfleets -cfvi remnant 5 320 1"""
+Example usages: ""spawnfactionfleets -cv player 1000 patrolLarge""; ""spawnfactionfleets -fir remnant 2 320 1.0"""
 SpawnDwellerFleets,org.tranquility.afleettestingmod.commands.SpawnDwellerFleets,"fleettesting,campaign,cheat",spawndwellerfleets [str] [numFleets],"Spawns a number of Shrouded Dweller manifestations. Size of the manifestation can vary based on the specified strength.
 
 'str' - Dictates the strength of the Shrouded Dweller manifestation, defaulting to ""HIGH"" if not specified:

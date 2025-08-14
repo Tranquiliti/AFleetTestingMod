@@ -5,7 +5,7 @@ import com.fs.starfarer.api.mission.FleetSide;
 import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import com.fs.starfarer.api.mission.MissionDefinitionPlugin;
 import org.lwjgl.input.Keyboard;
-import org.tranquility.afleettestingmod.AFTM_Util;
+import org.tranquility.afleettestingmod.AFTMUtil;
 
 import java.util.List;
 
@@ -15,16 +15,16 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class MissionDefinition implements MissionDefinitionPlugin {
     private static List<String> FACTIONS;
-    private static AFTM_Util.TesterFleetParams playerParams;
-    private static AFTM_Util.TesterFleetParams enemyParams;
+    private static AFTMUtil.TesterFleetParams playerParams;
+    private static AFTMUtil.TesterFleetParams enemyParams;
     private static boolean balanceFleets, speedUp, officers, autofit;
     private static byte objectiveType;
 
     private void init() {
         if (playerParams != null) playerParams.reset();
-        else playerParams = new AFTM_Util.TesterFleetParams();
+        else playerParams = new AFTMUtil.TesterFleetParams();
         if (enemyParams != null) enemyParams.reset();
-        else enemyParams = new AFTM_Util.TesterFleetParams();
+        else enemyParams = new AFTMUtil.TesterFleetParams();
 
         balanceFleets = true;
         speedUp = true;
@@ -36,7 +36,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
     @Override
     public void defineMission(MissionDefinitionAPI api) {
         if (FACTIONS == null) { // Initializing mission
-            FACTIONS = AFTM_Util.getMissionFactions();
+            FACTIONS = AFTMUtil.getMissionFactions();
             init();
         }
 
@@ -58,20 +58,20 @@ public class MissionDefinition implements MissionDefinitionPlugin {
             else enemyParams.incrementIndex(1, FACTIONS);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            if (shiftEnabled) playerParams.incrementFP(-AFTM_Util.MISSION_FP_STEP);
-            else enemyParams.incrementFP(-AFTM_Util.MISSION_FP_STEP);
+            if (shiftEnabled) playerParams.incrementFP(-AFTMUtil.MISSION_FP_STEP);
+            else enemyParams.incrementFP(-AFTMUtil.MISSION_FP_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            if (shiftEnabled) playerParams.incrementFP(AFTM_Util.MISSION_FP_STEP);
-            else enemyParams.incrementFP(AFTM_Util.MISSION_FP_STEP);
+            if (shiftEnabled) playerParams.incrementFP(AFTMUtil.MISSION_FP_STEP);
+            else enemyParams.incrementFP(AFTMUtil.MISSION_FP_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_Z)) {
-            if (shiftEnabled) playerParams.incrementQuality(-AFTM_Util.MISSION_QUALITY_STEP);
-            else enemyParams.incrementQuality(-AFTM_Util.MISSION_QUALITY_STEP);
+            if (shiftEnabled) playerParams.incrementQuality(-AFTMUtil.MISSION_QUALITY_STEP);
+            else enemyParams.incrementQuality(-AFTMUtil.MISSION_QUALITY_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_C)) {
-            if (shiftEnabled) playerParams.incrementQuality(AFTM_Util.MISSION_QUALITY_STEP);
-            else enemyParams.incrementQuality(AFTM_Util.MISSION_QUALITY_STEP);
+            if (shiftEnabled) playerParams.incrementQuality(AFTMUtil.MISSION_QUALITY_STEP);
+            else enemyParams.incrementQuality(AFTMUtil.MISSION_QUALITY_STEP);
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_B)) {
             balanceFleets = !balanceFleets;
@@ -90,9 +90,9 @@ public class MissionDefinition implements MissionDefinitionPlugin {
             if (objectiveType == 5) objectiveType = 0;
         }
 
-        AFTM_Util.initMissionFleet(api, FleetSide.PLAYER, playerParams, FACTIONS, balanceFleets, officers, autofit);
+        AFTMUtil.initMissionFleet(api, FleetSide.PLAYER, playerParams, FACTIONS, balanceFleets, officers, autofit);
 
-        AFTM_Util.initMissionFleet(api, FleetSide.ENEMY, enemyParams, FACTIONS, balanceFleets, officers, autofit);
+        AFTMUtil.initMissionFleet(api, FleetSide.ENEMY, enemyParams, FACTIONS, balanceFleets, officers, autofit);
 
         // Values taken from BattleCreationPluginImpl.java
         float width = objectiveType == 0 ? 18000f : 24000f;
@@ -102,7 +102,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         String optionBrief = "";
         if (balanceFleets) optionBrief += "Fleet Balancer, ";
         if (speedUp) {
-            api.addPlugin(AFTM_Util.createSpeedUpPlugin());
+            api.addPlugin(AFTMUtil.createSpeedUpPlugin());
             optionBrief += "1-100x Speed-Up, ";
         }
         if (officers) optionBrief += "Officers, ";

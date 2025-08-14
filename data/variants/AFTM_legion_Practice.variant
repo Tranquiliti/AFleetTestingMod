@@ -5,7 +5,7 @@
     "hullId": "legion",
     "hullMods": [
         "advancedshieldemitter",
-        "AFTM_TargetPractice"
+        "AFTMTargetPractice"
     ],
     "permaMods": [],
     "sMods": [],

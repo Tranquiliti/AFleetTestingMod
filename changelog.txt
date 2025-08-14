@@ -1,3 +1,20 @@
+Version 1.2.0
+
+* Updated test MagicBounties:
+  - Removed the dueling bounty
+  - Split the double Remnant Ordo bounty fleet into three bounties, each representing a full-strength Ordo fleet
+  - Modified bounty fleet AI for easier testing
+* Updated "InitiateFleetTest" command:
+  - Now also spawns 10000 of each Threat/Shrouded special item
+  - No longer executes if the storage location is not set to the Abandoned Terraforming Station in Corvus
+* Updated "SpawnFactionFleets" command:
+  - Added 'a' option to force spawned fleets to have no fleet AI and, therefore, remain dormant
+  - Added 'r' option to make fleets act like vanilla Remnant fleets (no retreats in-battle, no Emergency Burn, etc.)
+  - Decreased delay before spawned fleets can interact with the player
+* Some code refactors
+
+
+
 Version 1.1.0
 
 * Added "SpawnDwellerFleets" command
@@ -49,30 +66,3 @@ Version 0.8.0
   - Also displays for each hull the percentage of the hull count divided by the total number of ships
 * "ShowPlayerDMods" now shows hull IDs instead of the display name
 * Some code refactors
-
-
-
-Version 0.7.1
-
-* Added to the main menu mission descriptions a note regarding officer generation for certain factions
-* Minor code refactors
-
-
-
-Version 0.7.0
-
-* Added 2 main menu missions
-  - Inspired by the Station Tester mission from Dark.Revenant's Interstellar Imperium mod
-  - First mission is a fleet vs. fleet battle for testing faction strength relative to another
-  - Second mission is a station vs. fleet battle for testing station strength
-  - Adding factions/stations to the missions can be done via mergeable .csv files in AFleetTestingMod/data/config/afleettestingmodConfig
-* Moved all Console Commands code to compiled source folder
-
-
-
-Version 0.6.0
-
-* Added 6 Target Practice-esque variants of vanilla ships to the simulator
-  - Inspired by Tartiflette's Target Practice mod
-  - Similar to Target Practice's cubes, these ships cannot move and are teleported to the map center for easier testing
-* Removed dependency on Console Commands (although it is still a major part of this mod)
