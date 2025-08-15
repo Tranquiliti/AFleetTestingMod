@@ -44,7 +44,7 @@ public class SpawnThreatFleets implements BaseCommand {
 
         int numFleets = 1;
         if (tmp.length > 1) try {
-            numFleets = Integer.parseInt(tmp[0]);
+            numFleets = Integer.parseInt(tmp[1]);
         } catch (NumberFormatException ex) {
             Console.showMessage("Error: numFleets must be a whole number!");
             return CommandResult.ERROR;
@@ -53,7 +53,7 @@ public class SpawnThreatFleets implements BaseCommand {
         for (int i = 0; i < numFleets; i++) {
             CampaignFleetAPI f = spawnThreatFleet(system, depth);
             Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, f);
-            f.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.3f);
+            f.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
         }
 
         Console.showMessage(String.format("Spawned %d Threat fleets with abyssal depth of %f!", numFleets, depth));

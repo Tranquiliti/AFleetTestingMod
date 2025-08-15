@@ -36,7 +36,7 @@ public class SpawnDwellerFleets implements BaseCommand {
         if (!args.isEmpty() && tmp.length > 0) try {
             str = DwellerCMD.DwellerStrength.valueOf(tmp[0].toUpperCase());
         } catch (IllegalArgumentException e) {
-            Console.showMessage("Error: invalid Dweller strength \"" + str + "\"!");
+            Console.showMessage("Error: invalid Dweller strength \"" + tmp[0] + "\"!");
             return CommandResult.ERROR;
         }
 
@@ -52,7 +52,7 @@ public class SpawnDwellerFleets implements BaseCommand {
             CampaignFleetAPI fleet = createDwellerFleet(str, new Random());
             configureDwellerFleet(fleet, str);
             Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, fleet);
-            fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.3f);
+            fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
         }
 
         Console.showMessage(String.format("Spawned %d Shrouded Dweller manifestations with %s difficulty", numFleets, str.toString().toLowerCase()));
