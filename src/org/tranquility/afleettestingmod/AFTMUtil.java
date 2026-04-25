@@ -23,6 +23,7 @@ import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import com.fs.starfarer.api.util.Misc;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.lwjgl.util.vector.Vector2f;
 
 import java.io.IOException;
 import java.util.*;
@@ -42,6 +43,17 @@ public final class AFTMUtil {
     private static final float CAP_TO_FPS = 60f;
 
     private static final float AVG_RANDOM_FLOAT = 0.5f;
+
+    public static List<CampaignFleetAPI> getNearbyFleets() {
+        List<CampaignFleetAPI> fleetList = new ArrayList<>(Global.getSector().getPlayerFleet().getContainingLocation().getFleets());
+        fleetList.sort((fleet1, fleet2) -> {
+            if (fleet1 == fleet2) return 0;
+            Vector2f pLoc = Global.getSector().getPlayerFleet().getLocation();
+            return Float.compare(Misc.getDistance(pLoc, fleet1.getLocation()), Misc.getDistance(pLoc, fleet2.getLocation()));
+        });
+
+        return fleetList;
+    }
 
     // See com.fs.starfarer.api.impl.campaign.BattleAutoresolverPluginImpl's computeDataForFleet() for vanilla implementation
     public static float computeDataForFleet(CampaignFleetAPI fleet) {

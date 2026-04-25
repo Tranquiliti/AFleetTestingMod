@@ -2,13 +2,16 @@ package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import org.lazywizard.console.BaseCommand;
+import org.lazywizard.console.BaseCommandWithSuggestion;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 
-public class ClearAllSMods implements BaseCommand {
+public class ClearAllSMods implements BaseCommandWithSuggestion {
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
         if (!context.isInCampaign()) {
@@ -34,5 +37,16 @@ public class ClearAllSMods implements BaseCommand {
             Console.showMessage(new StringBuilder().append("Applied s-mods to all ships with hull id \"").append(args).append("\""));
         else Console.showMessage("Cleared all s-mods from all ships!");
         return CommandResult.SUCCESS;
+    }
+
+    @Override
+    public List<String> getSuggestions(int parameter, List<String> previous, CommandContext context) {
+        if (!context.isInCampaign() || parameter != 0) return List.of();
+
+        Set<String> playerShips = new LinkedHashSet<>();
+        for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
+            playerShips.add(member.getHullId());
+
+        return playerShips.stream().toList();
     }
 }

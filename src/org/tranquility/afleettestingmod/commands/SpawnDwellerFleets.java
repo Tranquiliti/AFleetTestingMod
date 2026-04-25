@@ -11,18 +11,20 @@ import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.impl.campaign.rulecmd.DwellerCMD;
 import com.fs.starfarer.api.util.Misc;
-import org.lazywizard.console.BaseCommand;
+import org.lazywizard.console.BaseCommandWithSuggestion;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.fs.starfarer.api.impl.campaign.rulecmd.DwellerCMD.GUARANTEED_FIRST_TIME_ITEMS;
 import static com.fs.starfarer.api.impl.campaign.rulecmd.DwellerCMD.createDwellerFleet;
 
-public class SpawnDwellerFleets implements BaseCommand {
+public class SpawnDwellerFleets implements BaseCommandWithSuggestion {
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
         if (!context.isInCampaign()) {
@@ -53,6 +55,7 @@ public class SpawnDwellerFleets implements BaseCommand {
             configureDwellerFleet(fleet, str);
             Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, fleet);
             fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
+            fleet.getMemoryWithoutUpdate().unset(MemFlags.MEMORY_KEY_MAKE_HOSTILE);
         }
 
         Console.showMessage(String.format("Spawned %d Shrouded Dweller manifestations with %s difficulty", numFleets, str.toString().toLowerCase()));
@@ -175,5 +178,10 @@ public class SpawnDwellerFleets implements BaseCommand {
         config.salvageRandom = Misc.getRandom(seed, 75);
 
         return config;
+    }
+
+    @Override
+    public List<String> getSuggestions(int parameter, List<String> previous, CommandContext context) {
+        return (parameter == 0) ? Stream.of(DwellerCMD.DwellerStrength.values()).map(DwellerCMD.DwellerStrength::name).collect(Collectors.toList()) : List.of();
     }
 }

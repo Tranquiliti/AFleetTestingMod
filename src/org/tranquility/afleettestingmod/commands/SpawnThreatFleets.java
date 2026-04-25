@@ -51,9 +51,10 @@ public class SpawnThreatFleets implements BaseCommand {
         }
 
         for (int i = 0; i < numFleets; i++) {
-            CampaignFleetAPI f = spawnThreatFleet(system, depth);
-            Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, f);
-            f.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
+            CampaignFleetAPI fleet = spawnThreatFleet(system, depth);
+            Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, fleet);
+            fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
+            fleet.getMemoryWithoutUpdate().unset(MemFlags.MEMORY_KEY_MAKE_HOSTILE);
         }
 
         Console.showMessage(String.format("Spawned %d Threat fleets with abyssal depth of %f!", numFleets, depth));

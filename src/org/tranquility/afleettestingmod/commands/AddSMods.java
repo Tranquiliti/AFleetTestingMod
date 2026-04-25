@@ -2,11 +2,18 @@ package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import org.lazywizard.console.BaseCommand;
+import com.fs.starfarer.api.loading.HullModSpecAPI;
+import org.lazywizard.console.BaseCommandWithSuggestion;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
-public class AddSMods implements BaseCommand {
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+public class AddSMods implements BaseCommandWithSuggestion {
+    private static final List<String> HULLMOD_IDS = Global.getSettings().getAllHullModSpecs().stream().map(HullModSpecAPI::getId).toList();
+
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
         if (!context.isInCampaign()) {
@@ -43,5 +50,18 @@ public class AddSMods implements BaseCommand {
 
         Console.showMessage(print.append("Applied s-mods to all ships with hull id \"").append(tmp[0]).append("\""));
         return CommandResult.SUCCESS;
+    }
+
+    @Override
+    public List<String> getSuggestions(int parameter, List<String> previous, CommandContext context) {
+        if (parameter == 0) {
+            if (!context.isInCampaign()) return List.of();
+
+            Set<String> playerShips = new LinkedHashSet<>();
+            for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
+                playerShips.add(member.getHullId());
+
+            return playerShips.stream().toList();
+        } else return HULLMOD_IDS;
     }
 }

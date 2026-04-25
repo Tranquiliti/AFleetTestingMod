@@ -4,12 +4,12 @@
 	"utility": "true",
 	"author": "Tranquility",
 	"version": {
-		"major": 1,
-		"minor": 2,
+		"major": 2,
+		"minor": 0,
 		"patch": 0
 	},
 	"description": "A test mod that adds simulator-only target practice ships, two main menu missions, several console commands, and test-only [REDACTED] MagicBounties - all for fleet testing purposes.",
-	"gameVersion": "0.98a-RC8",
+	"gameVersion": "0.98.5a",
 	"jars": [
 		"jars/AFleetTestingMod.jar"
 	]

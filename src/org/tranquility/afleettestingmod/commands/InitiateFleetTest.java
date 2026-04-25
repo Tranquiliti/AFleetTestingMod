@@ -33,7 +33,6 @@ public class InitiateFleetTest implements BaseCommand {
         }
 
         // Sets player flagship to a special Kite (LP) variant
-        FleetDataAPI player = Global.getSector().getPlayerFleet().getFleetData();
         FleetMemberAPI flagship = Global.getFactory().createFleetMember(FleetMemberType.SHIP, "kite_luddic_path_Hull");
         ShipVariantAPI variant = flagship.getVariant().clone();
         DModManager.setDHull(variant);
@@ -58,6 +57,7 @@ public class InitiateFleetTest implements BaseCommand {
         variant.addMod(HullMods.NAV_RELAY);
         variant.addMod(HullMods.UNSTABLE_INJECTOR);
 
+        FleetDataAPI player = Global.getSector().getPlayerFleet().getFleetData();
         player.addFleetMember(flagship);
         player.setFlagship(flagship);
 

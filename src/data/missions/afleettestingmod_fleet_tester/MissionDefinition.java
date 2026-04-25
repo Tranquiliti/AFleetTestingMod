@@ -100,10 +100,10 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         api.initMap(-width * 0.5f, width * 0.5f, -height * 0.5f, height * 0.5f);
 
         String optionBrief = "";
-        if (balanceFleets) optionBrief += "Fleet Balancer, ";
+        if (balanceFleets) optionBrief += "Fleet balancer, ";
         if (speedUp) {
             api.addPlugin(AFTMUtil.createSpeedUpPlugin());
-            optionBrief += "1-100x Speed-Up, ";
+            optionBrief += "1-100x speed-up, ";
         }
         if (officers) optionBrief += "Officers, ";
         if (autofit) optionBrief += "Autofit, ";

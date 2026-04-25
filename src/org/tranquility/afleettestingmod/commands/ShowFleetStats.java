@@ -2,19 +2,19 @@ package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.util.Misc;
-import org.lazywizard.console.BaseCommand;
+import org.lazywizard.console.BaseCommandWithSuggestion;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
-import org.lwjgl.util.vector.Vector2f;
 import org.tranquility.afleettestingmod.AFTMUtil;
 
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.List;
 
 import static org.tranquility.afleettestingmod.AFTMUtil.FleetStatData;
+import static org.tranquility.afleettestingmod.AFTMUtil.getNearbyFleets;
 
-public class ShowFleetStats implements BaseCommand {
+public class ShowFleetStats implements BaseCommandWithSuggestion {
+    private static final List<String> OPTIONS = List.of("player", "nearest", "all");
+
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
         if (!context.isInCampaign()) {
@@ -32,17 +32,11 @@ public class ShowFleetStats implements BaseCommand {
             return CommandResult.SUCCESS;
         } else if (!(args.equals("nearest") || args.equals("all"))) return CommandResult.BAD_SYNTAX;
 
-        ArrayList<CampaignFleetAPI> nearbyFleets = new ArrayList<>(Global.getSector().getPlayerFleet().getContainingLocation().getFleets());
+        List<CampaignFleetAPI> nearbyFleets = getNearbyFleets();
         if (nearbyFleets.isEmpty()) {
             Console.showMessage("Error: No fleet found in current location!");
             return CommandResult.ERROR;
         }
-
-        nearbyFleets.sort((Comparator<Object>) (o1, o2) -> {
-            if (o1 == o2) return 0;
-            Vector2f pLoc = Global.getSector().getPlayerFleet().getLocation();
-            return Float.compare(Misc.getDistance(pLoc, ((CampaignFleetAPI) o1).getLocation()), Misc.getDistance(pLoc, ((CampaignFleetAPI) o2).getLocation()));
-        });
 
         StringBuilder print = new StringBuilder();
         if (nearbyFleets.size() == 1) // Assuming player fleet is always the closest
@@ -59,5 +53,10 @@ public class ShowFleetStats implements BaseCommand {
         data.addStat(fleet);
         data.aggregateStats();
         data.appendStats(fleet.getName(), print);
+    }
+
+    @Override
+    public List<String> getSuggestions(int parameter, List<String> previous, CommandContext context) {
+        return (parameter == 0) ? OPTIONS : List.of();
     }
 }

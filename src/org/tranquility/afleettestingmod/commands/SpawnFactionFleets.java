@@ -2,16 +2,15 @@ package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.campaign.FactionAPI;
+import com.fs.starfarer.api.campaign.RepLevel;
 import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.impl.campaign.fleets.FleetFactoryV3;
 import com.fs.starfarer.api.impl.campaign.fleets.FleetParamsV3;
-import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
-import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
-import com.fs.starfarer.api.impl.campaign.ids.Ranks;
-import com.fs.starfarer.api.impl.campaign.ids.Stats;
+import com.fs.starfarer.api.impl.campaign.ids.*;
 import com.fs.starfarer.api.util.Misc;
-import org.lazywizard.console.BaseCommand;
+import org.lazywizard.console.BaseCommandWithSuggestion;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 import org.tranquility.afleettestingmod.AFTMUtil;
@@ -20,18 +19,22 @@ import java.util.List;
 import java.util.Random;
 
 import static com.fs.starfarer.api.impl.campaign.procgen.themes.RemnantSeededFleetManager.initRemnantFleetProperties;
+import static org.tranquility.afleettestingmod.AFTMUtil.getNearbyFleets;
 
-public class SpawnFactionFleets implements BaseCommand {
+public class SpawnFactionFleets implements BaseCommandWithSuggestion {
+    private static final List<String> MODIFIERS = List.of("-", "-a", "-c", "-f", "-i", "-o", "-r", "-t", "-v");
+    private static final List<String> PATROLS = List.of("patrolSmall", "patrolMedium", "patrolLarge");
+
     @Override
-    public BaseCommand.CommandResult runCommand(String args, BaseCommand.CommandContext context) {
+    public CommandResult runCommand(String args, CommandContext context) {
         if (!context.isInCampaign()) {
             Console.showMessage(CommonStrings.ERROR_CAMPAIGN_ONLY);
-            return BaseCommand.CommandResult.WRONG_CONTEXT;
+            return CommandResult.WRONG_CONTEXT;
         }
 
         String[] tmp = args.split(" ");
-        if (args.isEmpty() || tmp.length == 0) {
-            return BaseCommand.CommandResult.BAD_SYNTAX;
+        if (args.isEmpty() || tmp.length < 2) {
+            return CommandResult.BAD_SYNTAX;
         }
 
         boolean disableAI = false;
@@ -40,11 +43,10 @@ public class SpawnFactionFleets implements BaseCommand {
         boolean ignoreMarketFleetSizeMult = false;
         boolean withOfficers = true;
         boolean useRemnantProperties = false;
+        boolean testMode = false;
         boolean verbose = false;
-        int offset = 0;
         if (tmp[0].charAt(0) == '-') {
             String command = tmp[0].toLowerCase();
-            offset++;
 
             for (int i = 1; i < command.length(); i++) {
                 switch (command.charAt(i)) {
@@ -66,6 +68,9 @@ public class SpawnFactionFleets implements BaseCommand {
                     case 'r':
                         useRemnantProperties = true;
                         break;
+                    case 't':
+                        testMode = true;
+                        break;
                     case 'v':
                         verbose = true;
                         break;
@@ -73,18 +78,15 @@ public class SpawnFactionFleets implements BaseCommand {
             }
         }
 
-        // Command parameter but no faction
-        if (tmp.length == offset) return BaseCommand.CommandResult.BAD_SYNTAX;
-
-        String factionId = tmp[offset];
+        String factionId = tmp[1];
         if (Global.getSector().getFaction(factionId) == null) {
             Console.showMessage("Error: no faction found with faction id \"" + factionId + "\"!");
             return CommandResult.ERROR;
         }
 
         int numFleets = 1;
-        if (tmp.length > 1 + offset) try {
-            numFleets = Integer.parseInt(tmp[1 + offset]);
+        if (tmp.length > 2) try {
+            numFleets = Integer.parseInt(tmp[2]);
         } catch (NumberFormatException ex) {
             Console.showMessage("Error: numFleets must be a whole number!");
             return CommandResult.ERROR;
@@ -92,8 +94,8 @@ public class SpawnFactionFleets implements BaseCommand {
 
         float combat = 0;
         String patrolType = FleetTypes.PATROL_LARGE;
-        if (tmp.length > 2 + offset) {
-            String patrolString = tmp[2 + offset];
+        if (tmp.length > 3) {
+            String patrolString = tmp[3];
             try {
                 combat = Float.parseFloat(patrolString);
                 patrolType = FleetTypes.TASK_FORCE;
@@ -112,8 +114,8 @@ public class SpawnFactionFleets implements BaseCommand {
         }
 
         Float qualityOverride = null;
-        if (tmp.length > 3 + offset) try {
-            qualityOverride = Float.parseFloat(tmp[3 + offset]);
+        if (tmp.length > 4) try {
+            qualityOverride = Float.parseFloat(tmp[4]);
         } catch (NumberFormatException ex) {
             Console.showMessage("Error: qualityOverride must be a floating-point number!");
             return CommandResult.ERROR;
@@ -122,6 +124,20 @@ public class SpawnFactionFleets implements BaseCommand {
         MarketAPI bestMarket = null;
         if (!forceFake) bestMarket = getBestMarket(factionId);
         if (bestMarket == null) bestMarket = createFakeMarket(factionId);
+
+        if (testMode) {
+            List<CampaignFleetAPI> nearbyFleets = getNearbyFleets();
+            FactionAPI spawnedFaction = Global.getSector().getFaction(factionId);
+            // Assuming player fleet is always the nearest fleet, so we get the next nearest
+            if (!nearbyFleets.isEmpty() && nearbyFleets.size() > 1) {
+                FactionAPI nearestFaction = nearbyFleets.get(1).getFaction();
+                if (!nearestFaction.equals(spawnedFaction)) {
+                    nearestFaction.setRelationship(Factions.PLAYER, RepLevel.INHOSPITABLE);
+                    spawnedFaction.setRelationship(nearestFaction.getId(), RepLevel.VENGEFUL);
+                }
+            }
+            spawnedFaction.setRelationship(Factions.PLAYER, RepLevel.COOPERATIVE);
+        }
 
         AFTMUtil.FleetStatData statData = verbose ? new AFTMUtil.FleetStatData() : null;
         AFTMUtil.FleetCompositionData fleetCompData = verbose ? new AFTMUtil.FleetCompositionData() : null;
@@ -138,7 +154,7 @@ public class SpawnFactionFleets implements BaseCommand {
             if (clear) fleet.despawn();
             else {
                 Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, fleet);
-                fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
+                if (!testMode) fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
                 if (useRemnantProperties) initRemnantFleetProperties(null, fleet, false);
                 if (disableAI) {
                     fleet.getMemoryWithoutUpdate().set(MemFlags.MEMORY_KEY_MAKE_ALLOW_DISENGAGE, true);
@@ -162,7 +178,17 @@ public class SpawnFactionFleets implements BaseCommand {
         }
 
         Console.showMessage(print);
-        return BaseCommand.CommandResult.SUCCESS;
+        return CommandResult.SUCCESS;
+    }
+
+    @Override
+    public List<String> getSuggestions(int parameter, List<String> previous, CommandContext context) {
+        return switch (parameter) {
+            case 0 -> MODIFIERS;
+            case 1 -> Global.getSector().getAllFactions().stream().map(FactionAPI::getId).toList();
+            case 3 -> PATROLS;
+            default -> List.of();
+        };
     }
 
     // Gets the faction market with the best ship quality and fleet size multiplier

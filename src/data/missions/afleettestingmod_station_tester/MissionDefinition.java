@@ -130,15 +130,15 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         api.addPlanet(0f, -512f, 300f, "barren-desert", 0f, true);
 
         String optionBrief = "";
-        if (balanceFleets) optionBrief += "Fleet Balancer, ";
+        if (balanceFleets) optionBrief += "Fleet balancer, ";
         if (speedUp) {
             api.addPlugin(AFTMUtil.createSpeedUpPlugin());
-            optionBrief += "1-100x Speed-Up, ";
+            optionBrief += "1-100x speed-up, ";
         }
         if (officers) optionBrief += "Officers, ";
         if (autofit) optionBrief += "Autofit, ";
-        if (stationCoreType == 1) optionBrief += "Alpha Core Station, ";
-        if (stationCoreType == 2) optionBrief += "Level 14 Station, ";
+        if (stationCoreType == 1) optionBrief += "Alpha core station, ";
+        if (stationCoreType == 2) optionBrief += "Level 14 station, ";
         if (!optionBrief.isEmpty())
             api.addBriefingItem("Enabled: " + optionBrief.substring(0, optionBrief.length() - 2));
 
