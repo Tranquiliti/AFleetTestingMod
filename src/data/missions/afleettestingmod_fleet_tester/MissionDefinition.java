@@ -100,7 +100,7 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         api.initMap(-width * 0.5f, width * 0.5f, -height * 0.5f, height * 0.5f);
 
         String optionBrief = "";
-        if (balanceFleets) optionBrief += "Fleet balancer, ";
+        if (balanceFleets) optionBrief += "FP balancer, ";
         if (speedUp) {
             api.addPlugin(AFTMUtil.createSpeedUpPlugin());
             optionBrief += "1-100x speed-up, ";

@@ -26,6 +26,8 @@ import org.json.JSONException;
 import org.lwjgl.util.vector.Vector2f;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.*;
 
 /**
@@ -43,6 +45,13 @@ public final class AFTMUtil {
     private static final float CAP_TO_FPS = 60f;
 
     private static final float AVG_RANDOM_FLOAT = 0.5f;
+
+    private static final DecimalFormat FORMAT;
+
+    static {
+        FORMAT = new DecimalFormat("0.#######", DecimalFormatSymbols.getInstance(Locale.getDefault()));
+        FORMAT.setMaximumFractionDigits(6);
+    }
 
     public static List<CampaignFleetAPI> getNearbyFleets() {
         List<CampaignFleetAPI> fleetList = new ArrayList<>(Global.getSector().getPlayerFleet().getContainingLocation().getFleets());
@@ -195,34 +204,6 @@ public final class AFTMUtil {
         api.setFleetTagline(side, String.format("%s (%d FP [Target: %d]) (%d%% ship quality)", faction, fleet.getFleetPoints(), params.targetFleetPoints, params.fleetQuality));
     }
 
-    // Aggregates fleet composition data
-    public static class FleetCompositionData {
-        private final HashMap<String, Integer> fleetComposition = new HashMap<>();
-        private int numHulls;
-
-        public void addMembers(CampaignFleetAPI fleet) {
-            for (FleetMemberAPI member : fleet.getFleetData().getMembersListCopy()) {
-                String hullId = member.getHullSpec().getDParentHullId(); // To avoid marking (D) hulls as separate
-                if (hullId == null) hullId = member.getHullId();
-                if (fleetComposition.containsKey(hullId))
-                    fleetComposition.put(hullId, fleetComposition.get(hullId) + 1);
-                else fleetComposition.put(hullId, 1);
-                numHulls++;
-            }
-        }
-
-        public void appendComposition(String name, StringBuilder print) {
-            print.append("----- ").append(name).append(" -----\n");
-            Object[] sortedSet = fleetComposition.keySet().toArray();
-            Arrays.sort(sortedSet); // Sort by hull ID
-            for (Object memberId : sortedSet) {
-                int hullCount = fleetComposition.get((String) memberId);
-                print.append(memberId).append(": ").append(hullCount).append(" (").append(hullCount / (float) numHulls * 100f).append("%)\n");
-            }
-            print.append("Total number of ships: ").append(numHulls).append("\n");
-        }
-    }
-
     // Aggregates stat data from fleets
     public static class FleetStatData {
         // All floats since they can be divided to get the average
@@ -242,11 +223,12 @@ public final class AFTMUtil {
         private float effectiveStrength = 0;
         private float autoResolveStrength = 0;
 
-        private final HashMap<Integer, Float> officers = new HashMap<>();
-        private final HashMap<String, Float> wings = new HashMap<>();
+        private final Map<String, Float> hullIds = new HashMap<>();
+        private final Map<Integer, Float> officers = new HashMap<>();
+        private final Map<String, Float> wings = new HashMap<>();
 
-        private float numMembers = 0;
         private float numFleets = 0;
+        private float numMembers = 0;
 
         public void addStat(CampaignFleetAPI fleet) {
             if (fleet == null) return;
@@ -257,18 +239,18 @@ public final class AFTMUtil {
                 baseDP += member.getUnmodifiedDeploymentPointsCost();
                 realDP += member.getDeploymentPointsCost();
                 avgMaxCR += member.getRepairTracker().getMaxCR();
+                String hullId = member.getHullSpec().getDParentHullId(); // To avoid marking (D) hulls as separate
+                if (hullId == null) hullId = member.getHullId();
+                hullIds.merge(hullId, 1f, Float::sum);
                 if (!member.getCaptain().isDefault()) {
                     numOfficers++;
                     int level = member.getCaptain().getStats().getLevel();
-                    if (officers.containsKey(level)) officers.put(level, officers.get(level) + 1f);
-                    else officers.put(level, 1f);
+                    officers.merge(level, 1f, Float::sum);
                 }
                 avgNumDMods += DModManager.getNumDMods(member.getVariant());
                 numFlightDecks += member.getNumFlightDecks();
-                for (String id : member.getVariant().getWings()) {
-                    if (wings.containsKey(id)) wings.put(id, wings.get(id) + 1f);
-                    else wings.put(id, 1f);
-                }
+                for (String id : member.getVariant().getWings())
+                    wings.merge(id, 1f, Float::sum);
             }
 
             fleetFP += fleet.getFleetPoints();
@@ -305,21 +287,23 @@ public final class AFTMUtil {
         }
 
         public void appendStats(String name, StringBuilder print) {
-            print.append("----- ").append(name).append(" -----");
-            print.append("\nTotal base DP: ").append(baseDP);
-            print.append("\nTotal effective DP: ").append(realDP);
-            print.append("\nAverage ship max CR: ").append(avgMaxCR * 100).append("%");
-            print.append("\nTotal officers: ").append(numOfficers);
+            print.append("------------------------- ").append(name).append(" -------------------------");
+            print.append("\nTotal fleet count: ").append(FORMAT.format(numFleets));
+            print.append("\nTotal ship count: ").append(FORMAT.format(numShips));
+            print.append("\nTotal frigate/destroyer/cruiser/capital count: ").append(FORMAT.format(numFrigates)).append(" / ").append(FORMAT.format(numDestroyers)).append(" / ").append(FORMAT.format(numCruisers)).append(" / ").append(FORMAT.format(numCapitals));
+            appendHulls(print);
+            print.append("\nTotal officer count: ").append(FORMAT.format(numOfficers));
             appendOfficers(print);
-            print.append("\nAverage ship d-mod count: ").append(avgNumDMods);
-            print.append("\nTotal flight decks: ").append(numFlightDecks);
+            print.append("\nTotal flight deck count: ").append(FORMAT.format(numFlightDecks));
             appendWings(print);
-            print.append("\nTotal ship FP: ").append(fleetFP);
-            print.append("\nTotal number of ships: ").append(numShips);
-            print.append("\nTotal frigates/destroyers/cruisers/capitals: ").append(numFrigates).append(" / ").append(numDestroyers).append(" / ").append(numCruisers).append(" / ").append(numCapitals);
-            print.append("\nTotal base XP: ").append(baseXP);
-            print.append("\nEffective strength: ").append(effectiveStrength);
-            print.append("\nAuto-resolve strength: ").append(autoResolveStrength).append("\n");
+            print.append("\nAverage ship d-mod count: ").append(FORMAT.format(avgNumDMods));
+            print.append("\nAverage ship max CR: ").append(FORMAT.format(avgMaxCR * 100)).append("%");
+            print.append("\nTotal base DP: ").append(FORMAT.format(baseDP));
+            print.append("\nTotal effective DP: ").append(FORMAT.format(realDP));
+            print.append("\nTotal ship FP: ").append(FORMAT.format(fleetFP));
+            print.append("\nTotal base XP: ").append(FORMAT.format(baseXP));
+            print.append("\nEffective strength: ").append(FORMAT.format(effectiveStrength));
+            print.append("\nAuto-resolve strength: ").append(FORMAT.format(autoResolveStrength)).append("\n");
         }
 
         private void appendOfficers(StringBuilder print) {
@@ -329,7 +313,7 @@ public final class AFTMUtil {
             print.append("\n  {\"");
             for (Object obj : sortedSet) {
                 Integer level = (Integer) obj;
-                print.append(level).append("\": ").append(officers.get(level) / numFleets).append(", \"");
+                print.append(level).append("\": ").append(FORMAT.format(officers.get(level) / numFleets)).append(", \"");
             }
             print.delete(print.length() - 3, print.length()).append("}");
         }
@@ -341,7 +325,19 @@ public final class AFTMUtil {
             print.append("\n  {\"");
             for (Object obj : sortedSet) {
                 String id = (String) obj;
-                print.append(id).append("\": ").append(wings.get(id) / numFleets).append(", \"");
+                print.append(id).append("\": ").append(FORMAT.format(wings.get(id) / numFleets)).append(", \"");
+            }
+            print.delete(print.length() - 3, print.length()).append("}");
+        }
+
+        private void appendHulls(StringBuilder print) {
+            if (hullIds.isEmpty()) return;
+            Object[] sortedSet = hullIds.keySet().toArray();
+            Arrays.sort(sortedSet);
+            print.append("\n  {\"");
+            for (Object obj : sortedSet) {
+                String id = (String) obj;
+                print.append(id).append("\": ").append(FORMAT.format(hullIds.get(id) / numFleets)).append(", \"");
             }
             print.delete(print.length() - 3, print.length()).append("}");
         }
@@ -423,7 +419,6 @@ public final class AFTMUtil {
                 DefaultFleetInflaterParams p = new DefaultFleetInflaterParams();
                 p.seed = bestFleetSeed;
                 p.quality = fleetQuality / 100f;
-                p.allWeapons = !autofit; // FleetParamsV3 has it default to 'null'
                 if (!autofit) p.rProb = 0f; // Set autofit randomize probability to 0
                 p.factionId = factionId;
                 new DefaultFleetInflater(p).inflate(bestFleet);

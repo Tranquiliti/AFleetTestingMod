@@ -21,9 +21,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.fs.starfarer.api.impl.campaign.rulecmd.DwellerCMD.GUARANTEED_FIRST_TIME_ITEMS;
-import static com.fs.starfarer.api.impl.campaign.rulecmd.DwellerCMD.createDwellerFleet;
-
 public class SpawnDwellerFleets implements BaseCommandWithSuggestion {
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
@@ -51,7 +48,7 @@ public class SpawnDwellerFleets implements BaseCommandWithSuggestion {
         }
 
         for (int i = 0; i < numFleets; i++) {
-            CampaignFleetAPI fleet = createDwellerFleet(str, new Random());
+            CampaignFleetAPI fleet = DwellerCMD.createDwellerFleet(str, new Random());
             configureDwellerFleet(fleet, str);
             Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, fleet);
             fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
@@ -113,7 +110,7 @@ public class SpawnDwellerFleets implements BaseCommandWithSuggestion {
                         boolean firstTime = !Global.getSector().getPlayerMemoryWithoutUpdate().getBoolean(defeatedKey);
                         Global.getSector().getPlayerMemoryWithoutUpdate().set(defeatedKey, true);
                         if (firstTime && !gotGuaranteed) {
-                            List<String> drops = GUARANTEED_FIRST_TIME_ITEMS.get(hullId);
+                            List<String> drops = DwellerCMD.GUARANTEED_FIRST_TIME_ITEMS.get(hullId);
                             for (String itemId : drops) {
                                 SpecialItemData sid = new SpecialItemData(itemId, null);
                                 boolean add = salvage.getQuantity(CargoAPI.CargoItemType.SPECIAL, sid) <= 0;

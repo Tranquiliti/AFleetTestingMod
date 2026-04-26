@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Random;
 
 import static com.fs.starfarer.api.impl.campaign.procgen.themes.RemnantSeededFleetManager.initRemnantFleetProperties;
-import static org.tranquility.afleettestingmod.AFTMUtil.getNearbyFleets;
 
 public class SpawnFactionFleets implements BaseCommandWithSuggestion {
     private static final List<String> MODIFIERS = List.of("-", "-a", "-c", "-f", "-i", "-o", "-r", "-t", "-v");
@@ -126,7 +125,7 @@ public class SpawnFactionFleets implements BaseCommandWithSuggestion {
         if (bestMarket == null) bestMarket = createFakeMarket(factionId);
 
         if (testMode) {
-            List<CampaignFleetAPI> nearbyFleets = getNearbyFleets();
+            List<CampaignFleetAPI> nearbyFleets = AFTMUtil.getNearbyFleets();
             FactionAPI spawnedFaction = Global.getSector().getFaction(factionId);
             // Assuming player fleet is always the nearest fleet, so we get the next nearest
             if (!nearbyFleets.isEmpty() && nearbyFleets.size() > 1) {
@@ -140,16 +139,12 @@ public class SpawnFactionFleets implements BaseCommandWithSuggestion {
         }
 
         AFTMUtil.FleetStatData statData = verbose ? new AFTMUtil.FleetStatData() : null;
-        AFTMUtil.FleetCompositionData fleetCompData = verbose ? new AFTMUtil.FleetCompositionData() : null;
         for (int i = 0; i < numFleets; i++) {
             CampaignFleetAPI fleet = createPatrol(bestMarket, factionId, qualityOverride, patrolType, combat, ignoreMarketFleetSizeMult, withOfficers);
             fleet.inflateIfNeeded(); // Inflate to apply d-mods
             fleet.forceSync();
 
-            if (verbose) {
-                statData.addStat(fleet);
-                fleetCompData.addMembers(fleet);
-            }
+            if (verbose) statData.addStat(fleet);
 
             if (clear) fleet.despawn();
             else {
@@ -173,8 +168,7 @@ public class SpawnFactionFleets implements BaseCommandWithSuggestion {
 
         if (verbose) {
             statData.aggregateStats();
-            statData.appendStats("Average fleet stats", print);
-            fleetCompData.appendComposition("Fleet composition of spawned fleets", print);
+            statData.appendStats("Average " + Global.getSector().getFaction(factionId).getDisplayName() + " fleet", print);
         }
 
         Console.showMessage(print);

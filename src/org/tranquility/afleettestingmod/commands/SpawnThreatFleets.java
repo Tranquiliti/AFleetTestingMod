@@ -15,8 +15,6 @@ import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
-import static com.fs.starfarer.api.impl.combat.threat.DisposableThreatFleetManager.*;
-
 public class SpawnThreatFleets implements BaseCommand {
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
@@ -57,7 +55,7 @@ public class SpawnThreatFleets implements BaseCommand {
             fleet.getMemoryWithoutUpdate().unset(MemFlags.MEMORY_KEY_MAKE_HOSTILE);
         }
 
-        Console.showMessage(String.format("Spawned %d Threat fleets with abyssal depth of %f!", numFleets, depth));
+        Console.showMessage(String.format("Spawned %d Threat fleets with abyssal depth of %f", numFleets, depth));
         return CommandResult.SUCCESS;
     }
 
@@ -82,34 +80,34 @@ public class SpawnThreatFleets implements BaseCommand {
         // this is not entriely accruate because depths don't correspond 100% with first/second/third strike
         // that's fine, though
         int maxSecond = 1;
-        if (depth >= DEPTH_2 && (float) Math.random() < 0.5f) maxSecond = 2;
+        if (depth >= DisposableThreatFleetManager.DEPTH_2 && (float) Math.random() < 0.5f) maxSecond = 2;
 
         if (numThird > 0) {
-            depth = Math.min(depth, DEPTH_2 - 0.1f);
+            depth = Math.min(depth, DisposableThreatFleetManager.DEPTH_2 - 0.1f);
         }
         if (numSecond > maxSecond) {
             if ((float) Math.random() < 0.5f) {
-                depth = Math.min(depth, DEPTH_0 - 0.1f);
+                depth = Math.min(depth, DisposableThreatFleetManager.DEPTH_0 - 0.1f);
             } else {
-                depth = Math.min(depth, DEPTH_1 - 0.1f);
+                depth = Math.min(depth, DisposableThreatFleetManager.DEPTH_1 - 0.1f);
             }
         }
 
         WeightedRandomPicker<DisposableThreatFleetManager.FabricatorEscortStrength> picker = new WeightedRandomPicker<>();
         DisposableThreatFleetManager.FabricatorEscortStrength strength;
         int fabricators = 0;
-        if (depth < DEPTH_0) {
+        if (depth < DisposableThreatFleetManager.DEPTH_0) {
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.LOW, 3f);
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.MEDIUM, 10f);
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.HIGH, 1f);
             strength = picker.pick();
-        } else if (depth < DEPTH_1) {
+        } else if (depth < DisposableThreatFleetManager.DEPTH_1) {
             fabricators = 1;
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.NONE, 1f);
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.LOW, 10f);
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.MEDIUM, 5f);
             strength = picker.pick();
-        } else if (depth < DEPTH_2) {
+        } else if (depth < DisposableThreatFleetManager.DEPTH_2) {
             fabricators = 2;
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.LOW, 10f);
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.MEDIUM, 5f);
@@ -131,7 +129,7 @@ public class SpawnThreatFleets implements BaseCommand {
             }
         }
 
-        CampaignFleetAPI f = createThreatFleet(fabricators, 0, 0, strength, null);
+        CampaignFleetAPI f = DisposableThreatFleetManager.createThreatFleet(fabricators, 0, 0, strength, null);
         system.addEntity(f);
         f.addScript(new ThreatFleetBehaviorScript(f, system));
 
