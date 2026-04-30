@@ -55,7 +55,7 @@ public class SpawnDwellerFleets implements BaseCommandWithSuggestion {
             fleet.getMemoryWithoutUpdate().unset(MemFlags.MEMORY_KEY_MAKE_HOSTILE);
         }
 
-        Console.showMessage(String.format("Spawned %d Shrouded Dweller manifestations with %s difficulty", numFleets, str.toString().toLowerCase()));
+        Console.showMessage("Spawned %d Shrouded Dweller manifestations with %s difficulty".formatted(numFleets, str.toString().toLowerCase()));
         return CommandResult.SUCCESS;
     }
 

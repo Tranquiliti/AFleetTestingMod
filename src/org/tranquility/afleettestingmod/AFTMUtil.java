@@ -201,7 +201,7 @@ public final class AFTMUtil {
         for (FleetMemberAPI member : fleet.getFleetData().getMembersInPriorityOrder())
             api.addFleetMember(side, member);
 
-        api.setFleetTagline(side, String.format("%s (%d FP [Target: %d]) (%d%% ship quality)", faction, fleet.getFleetPoints(), params.targetFleetPoints, params.fleetQuality));
+        api.setFleetTagline(side, "%s (%d FP [Target: %d]) (%d%% ship quality)".formatted(faction, fleet.getFleetPoints(), params.targetFleetPoints, params.fleetQuality));
     }
 
     // Aggregates stat data from fleets

@@ -6,7 +6,6 @@ import org.lazywizard.console.BaseCommandWithSuggestion;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,7 +29,7 @@ public class ClearAllSMods implements BaseCommandWithSuggestion {
 
         for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
             if (!onlyOneShipType || member.getHullId().equals(args))
-                for (String sMod : new ArrayList<>(member.getVariant().getSMods()))
+                for (String sMod : member.getVariant().getSMods().stream().toList())
                     member.getVariant().removePermaMod(sMod);
 
         if (onlyOneShipType)

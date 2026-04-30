@@ -1,13 +1,13 @@
 # A Fleet Testing Mod
-A fleet-testing-centric mod for <a href=https://fractalsoftworks.com/>Starsector</a> containing simulation-only target practice ships, two main menu missions, several console commands, and test-only [REDACTED] MagicBounties.
+A fleet-testing-centric mod for [Starsector](https://fractalsoftworks.com/) containing simulation-only target practice ships, two main menu missions, several console commands, and test-only [REDACTED] MagicBounties.
 
 # Credits
-<b>LazyWizard</b> - For the Console Commands mod!<br>
-<b>Tartiflette</b> - For the inspiration in the Target Practice mod!<br>
-<b>Dark.Revenant</b> - For the inspiration in the Station Tester mission from the Interstellar Imperium mod!<br>
-<b>Starsector Forums</b> - For the helpful modding tutorials and information<br>
-<b>Unofficial Starsector Discord</b> - For helpful modding information and tips<br>
-<b>Alex and the Fractal Softworks team</b> - For the amazing game that is Starsector!<br>
+* **LazyWizard** - For the Console Commands mod!
+* **Tartiflette** - For the inspiration in the Target Practice mod!
+* **Dark.Revenant** - For the inspiration in the Station Tester mission from the Interstellar Imperium mod!
+* **Starsector Forums** - For the helpful modding tutorials and information
+* **Unofficial Starsector Chat Discord** - For helpful modding information and tips
+* **Alex and the Fractal Softworks team** - For the amazing game that is Starsector!
 
 # Modding notes
-This mod is licensed under <b>CC0 1.0</b>. Feel free to take or use anything here for your own use, provided this use also follows the Starsector User License.
+This mod is licensed under **CC0 1.0**. Feel free to take or use anything here for your own use, provided this use also follows the **Starsector User License**.

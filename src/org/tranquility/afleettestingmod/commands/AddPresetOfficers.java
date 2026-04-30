@@ -115,8 +115,7 @@ public class AddPresetOfficers implements BaseCommandWithSuggestion {
     private JSONObject loadPresetOfficers() throws JSONException, IOException {
         JSONObject presets = Global.getSettings().getMergedJSON("data/config/presetOfficers.json");
         presetOfficerIds = new ArrayList<>(presets.length());
-        for (Iterator<String> iter = presets.sortedKeys(); iter.hasNext(); )
-            presetOfficerIds.add(iter.next());
+        presets.sortedKeys().forEachRemaining(id -> presetOfficerIds.add((String) id));
 
         return presets;
     }

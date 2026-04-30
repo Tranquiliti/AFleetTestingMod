@@ -55,7 +55,7 @@ public class SpawnThreatFleets implements BaseCommand {
             fleet.getMemoryWithoutUpdate().unset(MemFlags.MEMORY_KEY_MAKE_HOSTILE);
         }
 
-        Console.showMessage(String.format("Spawned %d Threat fleets with abyssal depth of %f", numFleets, depth));
+        Console.showMessage("Spawned %d Threat fleets with abyssal depth of %f".formatted(numFleets, depth));
         return CommandResult.SUCCESS;
     }
 
