@@ -77,9 +77,17 @@ public class SpawnFactionFleets implements BaseCommandWithSuggestion {
             }
         }
 
-        String factionId = tmp[1];
+        String[] factionParam = tmp[1].split("/");
+        String factionId = factionParam[0];
         if (Global.getSector().getFaction(factionId) == null) {
-            Console.showMessage("Error: no faction found with faction id \"" + factionId + "\"!");
+            Console.showMessage("Error: no faction found with faction id \"%s\"!".formatted(factionId));
+            return CommandResult.ERROR;
+        }
+
+        String factionOverride = null;
+        if (factionParam.length > 1) factionOverride = factionParam[1];
+        if (factionOverride != null && Global.getSector().getFaction(factionOverride) == null) {
+            Console.showMessage("Error: no overriding faction found with faction id \"%s\"!".formatted(factionOverride));
             return CommandResult.ERROR;
         }
 
@@ -106,7 +114,7 @@ public class SpawnFactionFleets implements BaseCommandWithSuggestion {
                         patrolType = patrolString;
                         break;
                     default:
-                        Console.showMessage("Error: " + patrolString + " is not a valid patrol type or floating-point number!");
+                        Console.showMessage("Error: %s is not a valid patrol type or floating-point number!".formatted(patrolString));
                         return CommandResult.ERROR;
                 }
             }
@@ -126,7 +134,7 @@ public class SpawnFactionFleets implements BaseCommandWithSuggestion {
 
         if (testMode) {
             List<CampaignFleetAPI> nearbyFleets = AFTMUtil.getNearbyFleets();
-            FactionAPI spawnedFaction = Global.getSector().getFaction(factionId);
+            FactionAPI spawnedFaction = Global.getSector().getFaction(factionOverride == null ? factionId : factionOverride);
             // Assuming player fleet is always the nearest fleet, so we get the next nearest
             if (!nearbyFleets.isEmpty() && nearbyFleets.size() > 1) {
                 FactionAPI nearestFaction = nearbyFleets.get(1).getFaction();
@@ -144,6 +152,8 @@ public class SpawnFactionFleets implements BaseCommandWithSuggestion {
             fleet.inflateIfNeeded(); // Inflate to apply d-mods
             fleet.forceSync();
 
+            if (factionOverride != null) fleet.setFaction(factionOverride, true);
+
             if (verbose) statData.addStat(fleet);
 
             if (clear) fleet.despawn();
@@ -160,7 +170,8 @@ public class SpawnFactionFleets implements BaseCommandWithSuggestion {
             }
         }
 
-        StringBuilder print = new StringBuilder(clear ? "Showing " : "Spawned ").append(numFleets).append(" ").append(factionId).append(" ").append(patrolType).append(" fleets, using stats from ");
+        StringBuilder print = new StringBuilder(clear ? "Showing " : "Spawned ").append(numFleets).append(" ").append(factionId);
+        print.append(factionOverride != null ? " (" + factionOverride + ") " : " ").append(patrolType).append(" fleets, using stats from ");
         print.append(bestMarket.getName()).append(" with ship quality ").append((qualityOverride == null ? Misc.getShipQuality(bestMarket, factionId) : qualityOverride) * 100f).append("%");
         if (!ignoreMarketFleetSizeMult)
             print.append(" and fleet size ").append(bestMarket.getStats().getDynamic().getMod(Stats.COMBAT_FLEET_SIZE_MULT).computeEffective(0f) * 100f).append("%");

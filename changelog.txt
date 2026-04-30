@@ -1,6 +1,6 @@
 Version 2.0.0 (Update for Starsector 0.98.5a)
 
-* Added command sugggestion support for the following commands:
+* Added command suggestion support for the following commands:
   - AddMaxRandomDMods
   - AddPresetOfficers
   - AddSMods
@@ -12,14 +12,15 @@ Version 2.0.0 (Update for Starsector 0.98.5a)
 * "Updated SpawnFactionFleets" command:
   - Now require the options parameter (due to how command suggestions are set up)
   - Options can still be skipped by either providing only "-" or any string that does not start with "-".
+  - Added 'factionOverride' parameter to set the fleet's new faction, specified by appending '/' and another faction ID after the 'factionID' argument
   - Added 't' option to set faction relations so that spawned fleets can join the player against a nearby fleet
 * Fleets spawned from "SpawnDwellerFleets" and "SpawnThreatFleets" are no longer always hostile to the player regardless of relations
 * Removed "ShowFleetComposition" command
 * Updated "ShowFleetStats" command:
-  - Merged the composition display from "ShowFleetComposition" into "ShowFleetStats"
+  - Merged the fleet composition display from "ShowFleetComposition" into "ShowFleetStats" (in a format similar to the officer/wing counts)
   - Formatted numbers to remove trailing zeros
   - Rearranged the order of displayed information
-  - Now also accepts faction IDs; using this will show the average fleet stats of the specified faction's fleets.
+  - Now also accepts faction IDs; using this will show the specified faction's average fleet stats in the current location.
   - Removed "player" as a hard-coded option (was redundant with the default no-argument result).
 * Widened the title bars for "ShowFleetStats" and "ShowPlayerDMods"
 

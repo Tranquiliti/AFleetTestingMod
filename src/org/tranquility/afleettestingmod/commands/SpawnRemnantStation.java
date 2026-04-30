@@ -52,7 +52,7 @@ public class SpawnRemnantStation implements BaseCommand {
         pts = pts / 8; // RemnantStationFleetManager will multiply the final combat pts by 8 to get the real combat FP value
         spawnStation(pts, numFleets);
 
-        Console.showMessage(new StringBuilder("Fully-operational Nexus online, spawning up to ").append(numFleets).append(" fleets with initial total ship FP of ").append(pts * 8));
+        Console.showMessage("Fully-operational Nexus online, spawning up to %s fleets with initial total ship FP of %s.".formatted(numFleets, pts * 8));
         return CommandResult.SUCCESS;
     }
 

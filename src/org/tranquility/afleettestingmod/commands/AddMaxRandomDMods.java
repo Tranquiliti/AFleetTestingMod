@@ -24,7 +24,7 @@ public class AddMaxRandomDMods implements BaseCommandWithSuggestion {
             Global.getSettings().getHullSpec(args);
             onlyOneType = true;
         } catch (RuntimeException e) {
-            Console.showMessage(new StringBuilder().append("Error: hull id \"").append(args).append("\" does not exist!"));
+            Console.showMessage("Error: hull id \"%s\" does not exist!".formatted(args));
             return CommandResult.ERROR;
         }
 
@@ -36,7 +36,7 @@ public class AddMaxRandomDMods implements BaseCommandWithSuggestion {
             }
 
         if (onlyOneType)
-            Console.showMessage(new StringBuilder().append("Applied maximum d-mods to all ships with hull id \"").append(args).append("\""));
+            Console.showMessage("Applied maximum d-mods to all ships with hull id \"%s\".".formatted(args));
         else Console.showMessage("Applied maximum d-mods to all ships!");
         return CommandResult.SUCCESS;
     }

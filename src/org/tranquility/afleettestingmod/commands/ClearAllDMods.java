@@ -27,7 +27,7 @@ public class ClearAllDMods implements BaseCommandWithSuggestion {
             Global.getSettings().getHullSpec(args);
             onlyOneShipType = true;
         } catch (RuntimeException e) {
-            Console.showMessage(new StringBuilder().append("Error: hull id \"").append(args).append("\" does not exist!"));
+            Console.showMessage("Error: hull id \"%s\" does not exist!".formatted(args));
             return CommandResult.ERROR;
         }
 
@@ -39,7 +39,7 @@ public class ClearAllDMods implements BaseCommandWithSuggestion {
             }
 
         if (onlyOneShipType)
-            Console.showMessage(new StringBuilder().append("Restored to pristine condition all ships with hull id \"").append(args).append("\""));
+            Console.showMessage("Restored to pristine condition all ships with hull id \"%s\".".formatted(args));
         else Console.showMessage("Restored all ships to pristine condition!");
         return CommandResult.SUCCESS;
     }

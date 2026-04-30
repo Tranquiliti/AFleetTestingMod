@@ -87,7 +87,7 @@ public class AddPresetOfficers implements BaseCommandWithSuggestion {
 
                 Global.getSector().getPlayerFleet().getFleetData().addOfficer(officer);
             }
-            Console.showMessage("Successfully created " + numOfficers + " \"" + tmp[0] + "\" officer" + (numOfficers > 1 ? "s!" : "!"));
+            Console.showMessage("Successfully created %s \"%s\" officer%s.".formatted(numOfficers, tmp[0], numOfficers > 1 ? "s" : ""));
         } catch (JSONException | IOException e) {
             Console.showMessage(e);
             return CommandResult.ERROR;
