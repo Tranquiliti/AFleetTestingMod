@@ -2,13 +2,11 @@ package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
 import com.fs.starfarer.api.impl.combat.threat.DisposableThreatFleetManager;
-import com.fs.starfarer.api.impl.combat.threat.ThreatFleetBehaviorScript;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import org.lazywizard.console.BaseCommand;
@@ -23,12 +21,10 @@ public class SpawnThreatFleets implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        LocationAPI spawnLoc = Global.getSector().getPlayerFleet().getContainingLocation();
-        if (!(spawnLoc instanceof StarSystemAPI)) {
+        if (!(Global.getSector().getPlayerFleet().getContainingLocation() instanceof StarSystemAPI system)) {
             Console.showMessage("Error: This command can only be used if the player is in a star system.");
             return CommandResult.WRONG_CONTEXT;
         }
-        StarSystemAPI system = (StarSystemAPI) Global.getSector().getPlayerFleet().getContainingLocation();
 
         String[] tmp = args.split(" ");
 
@@ -131,7 +127,8 @@ public class SpawnThreatFleets implements BaseCommand {
 
         CampaignFleetAPI f = DisposableThreatFleetManager.createThreatFleet(fabricators, 0, 0, strength, null);
         system.addEntity(f);
-        f.addScript(new ThreatFleetBehaviorScript(f, system));
+        // This always forces the Threat fleet to be hostile to the player regardless of relations, so ignore adding it
+        // f.addScript(new ThreatFleetBehaviorScript(f, system));
 
         return f;
     }

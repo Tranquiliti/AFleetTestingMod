@@ -14,7 +14,9 @@ Version 2.0.0 (Update for Starsector 0.98.5a)
   - Options can still be skipped by either providing only "-" or any string that does not start with "-".
   - Added 'factionOverride' parameter to set the fleet's new faction, specified by appending '/' and another faction ID after the 'factionID' argument
   - Added 't' option to set faction relations so that spawned fleets can join the player against a nearby fleet
-* Fleets spawned from "SpawnDwellerFleets" and "SpawnThreatFleets" are no longer always hostile to the player regardless of relations
+* Fleets spawned by "SpawnDwellerFleets" are no longer always hostile to the player regardless of relations
+* Fleets spawned by "SpawnThreatFleets" no longer use the Threat fleet behavior script
+  - This makes them no longer always hostile to the player regardless of relations and allows the player to see them normally
 * Removed "ShowFleetComposition" command
 * Updated "ShowFleetStats" command:
   - Merged the fleet composition display from "ShowFleetComposition" into "ShowFleetStats" (in a format similar to the officer/wing counts)
