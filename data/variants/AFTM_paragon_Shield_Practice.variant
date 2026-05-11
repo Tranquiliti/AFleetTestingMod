@@ -1,71 +1,46 @@
 {
-    "displayName": "Shield Practice",
-    "fluxCapacitors": 50,
-    "fluxVents": 50,
-    "hullId": "paragon",
-    "hullMods": [
-        "frontemitter",
-        "stabilizedshieldemitter",
-        "advancedshieldemitter",
-        "extendedshieldemitter",
-        "hardenedshieldemitter",
-        "AFTMTargetPractice"
-    ],
-    "permaMods": [
-        "frontemitter",
-        "stabilizedshieldemitter"
-    ],
-    "sMods": [
-        "frontemitter",
-        "stabilizedshieldemitter"
-    ],
-    "variantId": "AFTM_paragon_Shield_Practice",
-    "weaponGroups": [
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS 001": "plasma"}
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS 002": "plasma"}
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS 003": "plasma"}
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {"WS 004": "plasma"}
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS 005": "heavyblaster",
-                "WS 006": "heavyblaster",
-                "WS 007": "heavyblaster",
-                "WS 008": "heavyblaster"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS 009": "heavyblaster",
-                "WS 010": "heavyblaster"
-            }
-        },
-        {
-            "autofire": false,
-            "mode": "LINKED",
-            "weapons": {
-                "WS 011": "amblaster",
-                "WS 017": "amblaster"
-            }
-        }
-    ]
+	"displayName":"Shield Practice",
+	"fluxCapacitors":50,
+	"fluxVents":50,
+	"hullId":"paragon",
+	"hullMods":[
+		"frontemitter",
+		"stabilizedshieldemitter",
+		"advancedshieldemitter",
+		"hardenedshieldemitter",
+		"AFTMTargetPractice"
+	],
+	"permaMods":[
+		"frontemitter",
+		"stabilizedshieldemitter"
+	],
+	"sMods":[
+		"frontemitter",
+		"stabilizedshieldemitter"
+	],
+	"variantId":"AFTM_paragon_Shield_Practice",
+	"weaponGroups":[{
+		"autofire":true,
+		"mode":"LINKED",
+		"weapons":{
+			"WS 001":"plasma",
+			"WS 002":"plasma",
+			"WS 003":"plasma",
+			"WS 004":"plasma",
+			"WS 005":"heavyblaster",
+			"WS 006":"heavyblaster",
+			"WS 007":"heavyblaster",
+			"WS 008":"heavyblaster",
+			"WS 009":"heavyblaster",
+			"WS 010":"heavyblaster",
+			"WS 011":"mininglaser",
+			"WS 013":"mininglaser",
+			"WS 015":"mininglaser",
+			"WS 016":"mininglaser",
+			"WS 017":"mininglaser",
+			"WS 019":"mininglaser",
+			"WS 021":"mininglaser",
+			"WS 022":"mininglaser"
+		}
+	}]
 }
