@@ -26,6 +26,7 @@ Version 2.0.0 (Update for Starsector 0.98.5a)
   - Removed "player" as a hard-coded option (was redundant with the default no-argument result).
 * Widened the title bars for "ShowFleetStats" and "ShowPlayerDMods"
 * Updated practice ship variants
+* Some code refactors
 
 
 

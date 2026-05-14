@@ -14,6 +14,7 @@ import org.lazywizard.console.BaseCommandWithSuggestion;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 import org.tranquility.afleettestingmod.AFTMUtil;
+import org.tranquility.afleettestingmod.FleetStatData;
 
 import java.util.List;
 import java.util.Random;
@@ -135,9 +136,8 @@ public class SpawnFactionFleets implements BaseCommandWithSuggestion {
         if (testMode) {
             List<CampaignFleetAPI> nearbyFleets = AFTMUtil.getNearbyFleets();
             FactionAPI spawnedFaction = Global.getSector().getFaction(factionOverride == null ? factionId : factionOverride);
-            // Assuming player fleet is always the nearest fleet, so we get the next nearest
-            if (!nearbyFleets.isEmpty() && nearbyFleets.size() > 1) {
-                FactionAPI nearestFaction = nearbyFleets.get(1).getFaction();
+            if (!nearbyFleets.isEmpty()) {
+                FactionAPI nearestFaction = nearbyFleets.get(0).getFaction();
                 if (!nearestFaction.equals(spawnedFaction)) {
                     nearestFaction.setRelationship(Factions.PLAYER, RepLevel.INHOSPITABLE);
                     spawnedFaction.setRelationship(nearestFaction.getId(), RepLevel.VENGEFUL);
@@ -146,7 +146,7 @@ public class SpawnFactionFleets implements BaseCommandWithSuggestion {
             spawnedFaction.setRelationship(Factions.PLAYER, RepLevel.COOPERATIVE);
         }
 
-        AFTMUtil.FleetStatData statData = verbose ? new AFTMUtil.FleetStatData() : null;
+        FleetStatData statData = verbose ? new FleetStatData() : null;
         for (int i = 0; i < numFleets; i++) {
             CampaignFleetAPI fleet = createPatrol(bestMarket, factionId, qualityOverride, patrolType, combat, ignoreMarketFleetSizeMult, withOfficers);
             fleet.inflateIfNeeded(); // Inflate to apply d-mods

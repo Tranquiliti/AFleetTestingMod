@@ -14,6 +14,7 @@ import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import com.fs.starfarer.api.mission.MissionDefinitionPlugin;
 import org.lwjgl.input.Keyboard;
 import org.tranquility.afleettestingmod.AFTMUtil;
+import org.tranquility.afleettestingmod.TesterFleetParams;
 
 import java.util.List;
 
@@ -26,12 +27,12 @@ public class MissionDefinition implements MissionDefinitionPlugin {
     private static int stationIndex;
     private static byte stationCoreType;
     private static List<String> FACTIONS;
-    private static AFTMUtil.TesterFleetParams enemyParams;
+    private static TesterFleetParams enemyParams;
     private static boolean balanceFleets, speedUp, officers, autofit;
 
     private void init() {
         if (enemyParams != null) enemyParams.reset();
-        else enemyParams = new AFTMUtil.TesterFleetParams();
+        else enemyParams = new TesterFleetParams();
 
         stationIndex = 0;
         stationCoreType = 0;
