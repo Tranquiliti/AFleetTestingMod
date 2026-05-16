@@ -31,8 +31,7 @@ public class ShowPlayerDMods implements BaseCommand {
                 if (modSpec.hasTag(Tags.HULLMOD_DMOD)) {
                     String modDisplay = modSpec.getDisplayName();
                     TreeMap<String, Integer> modCount = hullsDMods.get(hullId);
-                    if (modCount.containsKey(modDisplay)) modCount.put(modDisplay, modCount.get(modDisplay) + 1);
-                    else modCount.put(modDisplay, 1);
+                    modCount.merge(modDisplay, 1, Integer::sum);
 
                     print.append(modDisplay).append(", ");
                 }
@@ -41,7 +40,7 @@ public class ShowPlayerDMods implements BaseCommand {
         }
 
         for (String hull : hullsDMods.keySet()) {
-            print.append("----- D-mod distribution for ").append(hull).append(" -----\n");
+            print.append("------------------------- D-mod distribution for ").append(hull).append(" -------------------------\n");
             TreeMap<String, Integer> modCount = hullsDMods.get(hull);
             for (String display : modCount.keySet())
                 print.append(display).append(": ").append(modCount.get(display)).append("\n");

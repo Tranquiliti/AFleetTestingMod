@@ -2,20 +2,16 @@ package org.tranquility.afleettestingmod.commands;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.LocationAPI;
 import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.ids.FleetTypes;
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
 import com.fs.starfarer.api.impl.combat.threat.DisposableThreatFleetManager;
-import com.fs.starfarer.api.impl.combat.threat.ThreatFleetBehaviorScript;
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import org.lazywizard.console.BaseCommand;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
-
-import static com.fs.starfarer.api.impl.combat.threat.DisposableThreatFleetManager.*;
 
 public class SpawnThreatFleets implements BaseCommand {
     @Override
@@ -25,12 +21,10 @@ public class SpawnThreatFleets implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        LocationAPI spawnLoc = Global.getSector().getPlayerFleet().getContainingLocation();
-        if (!(spawnLoc instanceof StarSystemAPI)) {
+        if (!(Global.getSector().getPlayerFleet().getContainingLocation() instanceof StarSystemAPI system)) {
             Console.showMessage("Error: This command can only be used if the player is in a star system.");
             return CommandResult.WRONG_CONTEXT;
         }
-        StarSystemAPI system = (StarSystemAPI) Global.getSector().getPlayerFleet().getContainingLocation();
 
         String[] tmp = args.split(" ");
 
@@ -51,12 +45,13 @@ public class SpawnThreatFleets implements BaseCommand {
         }
 
         for (int i = 0; i < numFleets; i++) {
-            CampaignFleetAPI f = spawnThreatFleet(system, depth);
-            Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, f);
-            f.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
+            CampaignFleetAPI fleet = spawnThreatFleet(system, depth);
+            Global.getSector().getCurrentLocation().spawnFleet(Global.getSector().getPlayerFleet(), 0f, 0f, fleet);
+            fleet.getMemoryWithoutUpdate().set(MemFlags.FLEET_IGNORES_OTHER_FLEETS, true, 0.2f);
+            fleet.getMemoryWithoutUpdate().unset(MemFlags.MEMORY_KEY_MAKE_HOSTILE);
         }
 
-        Console.showMessage(String.format("Spawned %d Threat fleets with abyssal depth of %f!", numFleets, depth));
+        Console.showMessage("Spawned %d Threat fleets with abyssal depth of %f".formatted(numFleets, depth));
         return CommandResult.SUCCESS;
     }
 
@@ -81,34 +76,34 @@ public class SpawnThreatFleets implements BaseCommand {
         // this is not entriely accruate because depths don't correspond 100% with first/second/third strike
         // that's fine, though
         int maxSecond = 1;
-        if (depth >= DEPTH_2 && (float) Math.random() < 0.5f) maxSecond = 2;
+        if (depth >= DisposableThreatFleetManager.DEPTH_2 && (float) Math.random() < 0.5f) maxSecond = 2;
 
         if (numThird > 0) {
-            depth = Math.min(depth, DEPTH_2 - 0.1f);
+            depth = Math.min(depth, DisposableThreatFleetManager.DEPTH_2 - 0.1f);
         }
         if (numSecond > maxSecond) {
             if ((float) Math.random() < 0.5f) {
-                depth = Math.min(depth, DEPTH_0 - 0.1f);
+                depth = Math.min(depth, DisposableThreatFleetManager.DEPTH_0 - 0.1f);
             } else {
-                depth = Math.min(depth, DEPTH_1 - 0.1f);
+                depth = Math.min(depth, DisposableThreatFleetManager.DEPTH_1 - 0.1f);
             }
         }
 
         WeightedRandomPicker<DisposableThreatFleetManager.FabricatorEscortStrength> picker = new WeightedRandomPicker<>();
         DisposableThreatFleetManager.FabricatorEscortStrength strength;
         int fabricators = 0;
-        if (depth < DEPTH_0) {
+        if (depth < DisposableThreatFleetManager.DEPTH_0) {
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.LOW, 3f);
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.MEDIUM, 10f);
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.HIGH, 1f);
             strength = picker.pick();
-        } else if (depth < DEPTH_1) {
+        } else if (depth < DisposableThreatFleetManager.DEPTH_1) {
             fabricators = 1;
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.NONE, 1f);
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.LOW, 10f);
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.MEDIUM, 5f);
             strength = picker.pick();
-        } else if (depth < DEPTH_2) {
+        } else if (depth < DisposableThreatFleetManager.DEPTH_2) {
             fabricators = 2;
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.LOW, 10f);
             picker.add(DisposableThreatFleetManager.FabricatorEscortStrength.MEDIUM, 5f);
@@ -130,9 +125,10 @@ public class SpawnThreatFleets implements BaseCommand {
             }
         }
 
-        CampaignFleetAPI f = createThreatFleet(fabricators, 0, 0, strength, null);
+        CampaignFleetAPI f = DisposableThreatFleetManager.createThreatFleet(fabricators, 0, 0, strength, null);
         system.addEntity(f);
-        f.addScript(new ThreatFleetBehaviorScript(f, system));
+        // This always forces the Threat fleet to be hostile to the player regardless of relations, so ignore adding it
+        // f.addScript(new ThreatFleetBehaviorScript(f, system));
 
         return f;
     }

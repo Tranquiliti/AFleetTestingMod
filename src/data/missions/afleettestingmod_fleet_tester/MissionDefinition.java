@@ -6,6 +6,7 @@ import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import com.fs.starfarer.api.mission.MissionDefinitionPlugin;
 import org.lwjgl.input.Keyboard;
 import org.tranquility.afleettestingmod.AFTMUtil;
+import org.tranquility.afleettestingmod.TesterFleetParams;
 
 import java.util.List;
 
@@ -15,16 +16,16 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class MissionDefinition implements MissionDefinitionPlugin {
     private static List<String> FACTIONS;
-    private static AFTMUtil.TesterFleetParams playerParams;
-    private static AFTMUtil.TesterFleetParams enemyParams;
+    private static TesterFleetParams playerParams;
+    private static TesterFleetParams enemyParams;
     private static boolean balanceFleets, speedUp, officers, autofit;
     private static byte objectiveType;
 
     private void init() {
         if (playerParams != null) playerParams.reset();
-        else playerParams = new AFTMUtil.TesterFleetParams();
+        else playerParams = new TesterFleetParams();
         if (enemyParams != null) enemyParams.reset();
-        else enemyParams = new AFTMUtil.TesterFleetParams();
+        else enemyParams = new TesterFleetParams();
 
         balanceFleets = true;
         speedUp = true;
@@ -100,10 +101,10 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         api.initMap(-width * 0.5f, width * 0.5f, -height * 0.5f, height * 0.5f);
 
         String optionBrief = "";
-        if (balanceFleets) optionBrief += "Fleet Balancer, ";
+        if (balanceFleets) optionBrief += "FP balancer, ";
         if (speedUp) {
             api.addPlugin(AFTMUtil.createSpeedUpPlugin());
-            optionBrief += "1-100x Speed-Up, ";
+            optionBrief += "1-100x speed-up, ";
         }
         if (officers) optionBrief += "Officers, ";
         if (autofit) optionBrief += "Autofit, ";

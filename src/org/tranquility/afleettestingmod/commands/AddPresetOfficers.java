@@ -7,14 +7,20 @@ import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
 import com.fs.starfarer.api.impl.campaign.ids.Personalities;
 import com.fs.starfarer.api.impl.campaign.ids.Ranks;
 import com.fs.starfarer.api.util.Misc;
+import org.json.JSONException;
 import org.json.JSONObject;
-import org.lazywizard.console.BaseCommand;
+import org.lazywizard.console.BaseCommandWithSuggestion;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-public class AddPresetOfficers implements BaseCommand {
+public class AddPresetOfficers implements BaseCommandWithSuggestion {
+    private static List<String> presetOfficerIds;
+
     @Override
     @SuppressWarnings("unchecked")
     public CommandResult runCommand(String args, CommandContext context) {
@@ -24,14 +30,13 @@ public class AddPresetOfficers implements BaseCommand {
         }
 
         try {
-            JSONObject presets = Global.getSettings().getMergedJSON("data/config/presetOfficers.json");
+            JSONObject presets = loadPresetOfficers();
 
             if (args.isEmpty()) {
                 StringBuilder print = new StringBuilder();
-                for (Iterator<String> iter = presets.keys(); iter.hasNext(); ) {
-                    String presetID = iter.next();
+                for (String presetID : presetOfficerIds)
                     print.append(presetID).append('\n');
-                }
+
                 Console.showMessage(print.toString());
                 return CommandResult.SUCCESS;
             }
@@ -82,12 +87,36 @@ public class AddPresetOfficers implements BaseCommand {
 
                 Global.getSector().getPlayerFleet().getFleetData().addOfficer(officer);
             }
-            Console.showMessage("Successfully created " + numOfficers + " \"" + tmp[0] + "\" officer" + (numOfficers > 1 ? "s!" : "!"));
-        } catch (Exception e) {
+            Console.showMessage("Successfully created %s \"%s\" officer%s.".formatted(numOfficers, tmp[0], numOfficers > 1 ? "s" : ""));
+        } catch (JSONException | IOException e) {
             Console.showMessage(e);
             return CommandResult.ERROR;
         }
 
         return CommandResult.SUCCESS;
+    }
+
+    @Override
+    public List<String> getSuggestions(int parameter, List<String> previous, CommandContext context) {
+        if (parameter == 0) {
+            if (presetOfficerIds == null) try {
+                loadPresetOfficers();
+            } catch (JSONException | IOException e) {
+                return List.of();
+            }
+
+            return presetOfficerIds;
+        }
+
+        return List.of();
+    }
+
+    @SuppressWarnings("unchecked")
+    private JSONObject loadPresetOfficers() throws JSONException, IOException {
+        JSONObject presets = Global.getSettings().getMergedJSON("data/config/presetOfficers.json");
+        presetOfficerIds = new ArrayList<>(presets.length());
+        presets.sortedKeys().forEachRemaining(id -> presetOfficerIds.add((String) id));
+
+        return presets;
     }
 }

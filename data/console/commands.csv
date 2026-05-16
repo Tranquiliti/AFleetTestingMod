@@ -1,26 +1,38 @@
 command,class,tags,syntax,help
-InitiateFleetTest,org.tranquility.afleettestingmod.commands.InitiateFleetTest,"fleettesting,campaign,cheat",initiatefleettest (no arguments),"Sets up the player fleet for fleet testing, removes all current ships and officers, and teleports the player to the Abandoned Terraforming Platform in Corvus. If MagicLib is enabled, also allows the test-only [REDACTED] MagicBounties to appear."
-SpawnRemnantStation,org.tranquility.afleettestingmod.commands.SpawnRemnantStation,"fleettesting,campaign,cheat",spawnremnantstation [pts] [numFleets],"Spawns on your location a Remnant station, which generates a specified number of fleets with a specified initial Fleet Points. Also sets relationship with Remnants to Inhospitable. If no arguments are entered, initial FP for spawned fleets is 128 and max number of fleets is 10."
-ShowFleetStats,org.tranquility.afleettestingmod.commands.ShowFleetStats,"fleettesting,campaign",showfleetstats [player|nearest|all],"Shows fleet stats for a specified fleet within the current location. If no arguments are entered, defaults to showing player fleet stats."
-ShowFleetComposition,org.tranquility.afleettestingmod.commands.ShowFleetComposition,"fleettesting,campaign",showfleetcomposition (no arguments),Shows the overall fleet composition numbers for each faction within the current location.
-ShowPlayerDMods,org.tranquility.afleettestingmod.commands.ShowPlayerDMods,"fleettesting,campaign",showplayerdmods (no arguments),Shows all d-mods and their distribution within the player's fleet.
-AddMaxRandomDMods,org.tranquility.afleettestingmod.commands.AddMaxRandomDMods,"fleettesting,campaign,cheat",addmaxrandomdmods [hullID],"Applies the maximum number of d-mods to all ships in the player fleet. Does not include any destroyed d-mods, like Structural Damage. Can specifiy a hull ID to only add d-mods to matching player ships."
-AddSMods,org.tranquility.afleettestingmod.commands.AddSMods,"fleettesting,campaign,cheat",addsmods <hullID> <hullmodID1> [hullmodID2] [hullmodID3...],Applies specified s-mods to all player ships matching a specified hull ID. Can specify any number of hullmods to s-mod at once.
-ClearAllSMods,org.tranquility.afleettestingmod.commands.ClearAllSMods,"fleettesting,campaign,cheat",clearallsmods [hullID],Clears all s-mods from all ships in the player fleet. Can specifiy a hull ID to only remove s-mods from matching player ships.
-ShowHullIDs,org.tranquility.afleettestingmod.commands.ShowHullIDs,"fleettesting,campaign",showhullids (no arguments),Shows the hull IDs of all ships in the player fleet.
-ClearAllDMods,org.tranquility.afleettestingmod.commands.ClearAllDMods,"fleettesting,campaign,cheat",clearalldmods [hullID],"Clears all d-mods from all ships in the player fleet, restoring them to pristine condition. Can specifiy a hull ID to only remove d-mods from matching player ships."
-AddPresetOfficers,org.tranquility.afleettestingmod.commands.AddPresetOfficers,"fleettesting,campaign,cheat",addpresetofficers [officerID] [numOfficers],"Adds a number of preset officers to the players fleet. If no arguments are entered, lists all available preset officer IDs. Preset officer IDs and configurations can be modified in AFleetTestingMod/data/config/presetOfficers.json."
+AddMaxRandomDMods,org.tranquility.afleettestingmod.commands.AddMaxRandomDMods,"fleettesting,campaign,cheat",addmaxrandomdmods [hullId],"Applies the maximum number of d-mods to all ships in the player fleet. Does not include any d-mods that only appear on destroyed ships, like Structural Damage. Can specifiy a hull ID to only add d-mods to matching player ships."
+AddPresetOfficers,org.tranquility.afleettestingmod.commands.AddPresetOfficers,"fleettesting,campaign,cheat",addpresetofficers [officerId] [numOfficers],"Adds a number of preset officers to the player fleet. If no arguments are entered, lists all available preset officer IDs. Preset officer IDs and configurations can be modified in AFleetTestingMod/data/config/presetOfficers.json."
+AddSMods,org.tranquility.afleettestingmod.commands.AddSMods,"fleettesting,campaign,cheat",addsmods <hullID> <hullmodId1> [hullmodId2] [hullmodId3...],Applies specified s-mods to all player ships matching a specified hull ID. Can specify any number of hullmods to s-mod at once.
+ClearAllDMods,org.tranquility.afleettestingmod.commands.ClearAllDMods,"fleettesting,campaign,cheat",clearalldmods [hullId],"Clears all d-mods from all ships in the player fleet, restoring them to pristine condition. Can specifiy a hull ID to only remove d-mods from matching player ships."
+ClearAllSMods,org.tranquility.afleettestingmod.commands.ClearAllSMods,"fleettesting,campaign,cheat",clearallsmods [hullId],Clears all s-mods from all ships in the player fleet. Can specifiy a hull ID to only remove s-mods from matching player ships.
+InitiateFleetTest,org.tranquility.afleettestingmod.commands.InitiateFleetTest,"fleettesting,campaign,cheat",initiatefleettest (no arguments),"Sets up the player fleet for fleet testing, removes all current ships and officers, and teleports the player to the Abandoned Terraforming Platform in Corvus. If MagicLib is enabled, also allows the test-only Remnant Ordo MagicBounties to appear."
 ShowExceptionalPodOfficers,org.tranquility.afleettestingmod.commands.ShowExceptionalPodOfficers,"fleettesting,campaign,cheat",showexceptionalpodofficers (no arguments),Shows the location of all exceptional pod officers in this sector.
-SpawnFactionFleets,org.tranquility.afleettestingmod.commands.SpawnFactionFleets,"fleettesting,campaign,cheat",spawnfactionfleets [-OPTIONS] <factionId> [numFleets] [patrolType|fp] [qualityOverride],"Spawns a number of faction fleets with the specified patrol type or base combat fleet points (FP). Uses stats from the faction's best market or, if the faction has no markets, a fake market with base 95% ship quality and ~383% fleet size.
+ShowFleetStats,org.tranquility.afleettestingmod.commands.ShowFleetStats,"fleettesting,campaign",showfleetstats [NEAREST|ALL|factionId],"Shows fleet stats for fleets within the current location. If no arguments are entered, defaults to showing the fleet stats for the player fleet.
+
+""NEAREST"" - shows the fleet stat for the fleet nearest to the player fleet
+""ALL"" - shows the fleet stats for all fleets in the same location as the player fleet
+factionId - shows the aggregated fleet stats for all faction fleets in the same location as the player fleet"
+ShowHullIDs,org.tranquility.afleettestingmod.commands.ShowHullIDs,"fleettesting,campaign",showhullids (no arguments),Shows the hull IDs of all ships in the player fleet.
+ShowPlayerDMods,org.tranquility.afleettestingmod.commands.ShowPlayerDMods,"fleettesting,campaign",showplayerdmods (no arguments),Shows all d-mods and their distribution within the player fleet.
+SpawnDwellerFleets,org.tranquility.afleettestingmod.commands.SpawnDwellerFleets,"fleettesting,campaign,cheat",spawndwellerfleets [str] [numFleets],"Spawns a number of Shrouded Dweller manifestations. Size of the manifestation varies based on the specified strength.
+
+'str' - Dictates the strength of the Shrouded Dweller manifestation, defaulting to ""HIGH"" if not specified:
+ ""LOW"" - Lesser Manifestation
+ ""MEDIUM"" - Greater Manifestation
+ ""HIGH"" - Transcendent Manifestation
+ ""EXTREME"" - Unused in-game"
+SpawnFactionFleets,org.tranquility.afleettestingmod.commands.SpawnFactionFleets,"fleettesting,campaign,cheat",spawnfactionfleets <-options> <factionId/factionOverride> [numFleets] [patrolType|fp] [qualityOverride],"Spawns a number of faction fleets with the specified patrol type or base combat fleet points (FP). Uses stats from the faction's best market or, if the faction has no markets, a fake market with base 95% ship quality and ~383% fleet size.
 
 Options (if first argument starts with '-', followed by any of these characters):
-  'a' - Spawned fleets will no fleet AI, becoming dormant in the campaign map
-  'c' - Clears all spawned fleets immediately; best used alongside the 'v' option
-  'f' - Always use a fake market for spawning the fleets
-  'i' - Ignore market fleet size scaling
-  'o' - Spawns fleets without officers
-  'r' - Spawned fleets will use Remnant fleet properties (no retreats in-battle, will not use Emergency Burn, etc.)
-  'v' - Also prints the aggregated fleet stats and composition data for spawned fleets
+  'a' - AI disabled: spawned fleets will have no fleet AI, becoming dormant in the campaign map
+  'c' - Clear fleets: clears all spawned fleets immediately; best used alongside the 'v' option
+  'f' - Fake market: always use a fake market for spawning the fleets
+  'i' - Ignore market: Ignores market fleet size scaling
+  'o' - Omit officers: spawns fleets without officers
+  'r' - Remnant-like: spawned fleets will use Remnant fleet properties (no retreats in-battle, will not use Emergency Burn, etc.)
+  't' - Test mode: sets faction relationships such that the spawned fleets can join battle with the player against an existing fleet nearest to the player fleet
+  'v' - Verbose mode: Also prints the aggregated fleet stats for spawned fleets
+
+'factionId/factionOverride' - 'factionId' is a required parameter. If a 'factionOverride' is specified with another faction ID (separated from 'factionId' by the '/' character), the spawned fleets will become part of the 'factionOverride' faction.
 
 Fleet type options (all FP are scaled by the market fleet size, unless the 'i' option is enabled):
   'patrolLarge' - Default option; spawns fleets with, on average, 62.5 combat FP, 5 tanker FP, and 5 freighter FP
@@ -30,14 +42,12 @@ Fleet type options (all FP are scaled by the market fleet size, unless the 'i' o
 
 'qualityOverride' - If set, overrides market quality with a specified floating-point number (e.g., 0.5 = 50%, 1.0 = 100%, 1.2 = 120%)
 
-Example usages: ""spawnfactionfleets -cv player 1000 patrolLarge""; ""spawnfactionfleets -fir remnant 2 320 1.0"""
-SpawnDwellerFleets,org.tranquility.afleettestingmod.commands.SpawnDwellerFleets,"fleettesting,campaign,cheat",spawndwellerfleets [str] [numFleets],"Spawns a number of Shrouded Dweller manifestations. Size of the manifestation can vary based on the specified strength.
-
-'str' - Dictates the strength of the Shrouded Dweller manifestation, defaulting to ""HIGH"" if not specified:
- ""LOW"" - Lesser Manifestation
- ""MEDIUM"" - Greater Manifestation
- ""HIGH"" - Transcendent Manifestation
- ""EXTREME"" - Unused in-game"
+Example usages:
+ ""spawnfactionfleets - hegemony/pirates 5""
+ ""spawnfactionfleets -t derelict""
+ ""spawnfactionfleets -cv player 1000 patrolLarge""
+ ""spawnfactionfleets -fir remnant 2 320 1.0"""
+SpawnRemnantStation,org.tranquility.afleettestingmod.commands.SpawnRemnantStation,"fleettesting,campaign,cheat",spawnremnantstation [pts] [numFleets],"Spawns a Remnant station on the player fleet's location. This station generates a specified number of fleets with a specified initial Fleet Points. Also sets player's relationship with Remnants to Inhospitable. If no arguments are entered, initial FP for spawned fleets is 128 and max number of fleets is 10."
 SpawnThreatFleets,org.tranquility.afleettestingmod.commands.SpawnThreatFleets,"fleettesting,campaign,cheat",spawnthreatfleets [depth] [numFleets],"Spawns a number of Threat strike fleets, where the Threat fleet composition depends on the specified abyssal depth and the number of existing Second/Third Strike fleets within a star system (including those that will be spawned via this command). The player must be in a star system for the command to work.
 
 'depth' - Dictates Threat fleet composition, defaulting to the player's current abyssal depth if not specified:

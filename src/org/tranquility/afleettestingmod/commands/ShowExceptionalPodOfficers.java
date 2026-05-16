@@ -33,7 +33,7 @@ public class ShowExceptionalPodOfficers implements BaseCommand {
 
         int numAlreadyCreated = Global.getSector().getMemoryWithoutUpdate().getInt("$SleeperPodsSpecialCreator_exceptionalCount");
         if (numAlreadyCreated < MAX_EXCEPTIONAL_PODS_OFFICERS)
-            print.append(MAX_EXCEPTIONAL_PODS_OFFICERS - numAlreadyCreated).append(" more may spawn from newly-generated salvage - check hyperspace shipwrecks frequently!");
+            print.append(MAX_EXCEPTIONAL_PODS_OFFICERS - numAlreadyCreated).append(" more may spawn from newly-generated salvage - check distress calls or hyperspace shipwrecks frequently!");
         else print.append("No more exceptional pod officers can spawn in this sector!");
 
         Console.showMessage(print.toString());
@@ -42,15 +42,15 @@ public class ShowExceptionalPodOfficers implements BaseCommand {
 
     private void findExceptionalPodOfficers(LocationAPI loc, StringBuilder print) {
         for (SectorEntityToken entity : loc.getAllEntities()) {
-            Object specialData = entity.getMemoryWithoutUpdate().get(MemFlags.SALVAGE_SPECIAL_DATA);
-            if (specialData instanceof SleeperPodsSpecialData) {
-                PersonAPI officer = ((SleeperPodsSpecialData) specialData).officer;
-                if (officer != null && officer.getMemoryWithoutUpdate().getBoolean(MemFlags.EXCEPTIONAL_SLEEPER_POD_OFFICER)) {
-                    print.append(String.format("Exceptional pod officer %s found within %s in %s:\n", officer.getName().getFullName(), entity.getFullName(), loc.getName()));
-                    for (SkillLevelAPI skill : officer.getStats().getSkillsCopy())
-                        if (skill.getSkill().isCombatOfficerSkill())
-                            print.append('\t').append(skill.getSkill().getName()).append(skill.getLevel() > 1f ? " (Elite)\n" : "\n");
-                }
+            if (!(entity.getMemoryWithoutUpdate().get(MemFlags.SALVAGE_SPECIAL_DATA) instanceof SleeperPodsSpecialData data))
+                continue;
+
+            PersonAPI officer = data.officer;
+            if (officer != null && officer.getMemoryWithoutUpdate().getBoolean(MemFlags.EXCEPTIONAL_SLEEPER_POD_OFFICER)) {
+                print.append("Exceptional pod officer %s found within %s in %s:\n".formatted(officer.getName().getFullName(), entity.getFullName(), loc.getName()));
+                for (SkillLevelAPI skill : officer.getStats().getSkillsCopy())
+                    if (skill.getSkill().isCombatOfficerSkill())
+                        print.append('\t').append(skill.getSkill().getName()).append(skill.getLevel() > 1f ? " (Elite)\n" : "\n");
             }
         }
     }

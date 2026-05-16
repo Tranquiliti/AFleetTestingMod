@@ -6,13 +6,15 @@ import com.fs.starfarer.api.impl.campaign.DModManager;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.impl.campaign.skills.FieldRepairsScript;
 import com.fs.starfarer.api.loading.HullModSpecAPI;
-import org.lazywizard.console.BaseCommand;
+import org.lazywizard.console.BaseCommandWithSuggestion;
 import org.lazywizard.console.CommonStrings;
 import org.lazywizard.console.Console;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
-public class ClearAllDMods implements BaseCommand {
+public class ClearAllDMods implements BaseCommandWithSuggestion {
     @Override
     public CommandResult runCommand(String args, CommandContext context) {
         if (!context.isInCampaign()) {
@@ -25,7 +27,7 @@ public class ClearAllDMods implements BaseCommand {
             Global.getSettings().getHullSpec(args);
             onlyOneShipType = true;
         } catch (RuntimeException e) {
-            Console.showMessage(new StringBuilder().append("Error: hull id \"").append(args).append("\" does not exist!"));
+            Console.showMessage("Error: hull id \"%s\" does not exist!".formatted(args));
             return CommandResult.ERROR;
         }
 
@@ -37,8 +39,19 @@ public class ClearAllDMods implements BaseCommand {
             }
 
         if (onlyOneShipType)
-            Console.showMessage(new StringBuilder().append("Restored to pristine condition all ships with hull id \"").append(args).append("\""));
+            Console.showMessage("Restored to pristine condition all ships with hull id \"%s\".".formatted(args));
         else Console.showMessage("Restored all ships to pristine condition!");
         return CommandResult.SUCCESS;
+    }
+
+    @Override
+    public List<String> getSuggestions(int parameter, List<String> previous, CommandContext context) {
+        if (!context.isInCampaign() || parameter != 0) return List.of();
+
+        Set<String> playerShips = new LinkedHashSet<>();
+        for (FleetMemberAPI member : Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy())
+            playerShips.add(member.getHullId());
+
+        return playerShips.stream().toList();
     }
 }

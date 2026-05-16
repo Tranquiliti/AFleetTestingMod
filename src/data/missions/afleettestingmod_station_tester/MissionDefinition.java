@@ -14,6 +14,7 @@ import com.fs.starfarer.api.mission.MissionDefinitionAPI;
 import com.fs.starfarer.api.mission.MissionDefinitionPlugin;
 import org.lwjgl.input.Keyboard;
 import org.tranquility.afleettestingmod.AFTMUtil;
+import org.tranquility.afleettestingmod.TesterFleetParams;
 
 import java.util.List;
 
@@ -26,12 +27,12 @@ public class MissionDefinition implements MissionDefinitionPlugin {
     private static int stationIndex;
     private static byte stationCoreType;
     private static List<String> FACTIONS;
-    private static AFTMUtil.TesterFleetParams enemyParams;
+    private static TesterFleetParams enemyParams;
     private static boolean balanceFleets, speedUp, officers, autofit;
 
     private void init() {
         if (enemyParams != null) enemyParams.reset();
-        else enemyParams = new AFTMUtil.TesterFleetParams();
+        else enemyParams = new TesterFleetParams();
 
         stationIndex = 0;
         stationCoreType = 0;
@@ -130,15 +131,15 @@ public class MissionDefinition implements MissionDefinitionPlugin {
         api.addPlanet(0f, -512f, 300f, "barren-desert", 0f, true);
 
         String optionBrief = "";
-        if (balanceFleets) optionBrief += "Fleet Balancer, ";
+        if (balanceFleets) optionBrief += "FP balancer, ";
         if (speedUp) {
             api.addPlugin(AFTMUtil.createSpeedUpPlugin());
-            optionBrief += "1-100x Speed-Up, ";
+            optionBrief += "1-100x speed-up, ";
         }
         if (officers) optionBrief += "Officers, ";
         if (autofit) optionBrief += "Autofit, ";
-        if (stationCoreType == 1) optionBrief += "Alpha Core Station, ";
-        if (stationCoreType == 2) optionBrief += "Level 14 Station, ";
+        if (stationCoreType == 1) optionBrief += "Alpha core station, ";
+        if (stationCoreType == 2) optionBrief += "Level 14 station, ";
         if (!optionBrief.isEmpty())
             api.addBriefingItem("Enabled: " + optionBrief.substring(0, optionBrief.length() - 2));
 
