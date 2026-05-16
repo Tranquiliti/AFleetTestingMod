@@ -1,4 +1,4 @@
-Version 2.0.0 (Update for Starsector 0.98.5a)
+Version 1.3.0
 
 * Added command suggestion support for the following commands:
   - AddMaxRandomDMods
