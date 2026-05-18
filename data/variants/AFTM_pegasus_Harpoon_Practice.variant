@@ -1,0 +1,43 @@
+{
+	"displayName":"Harpoon Practice",
+	"fluxCapacitors":50,
+	"fluxVents":50,
+	"hullId":"pegasus",
+	"hullMods":[
+		"autorepair",
+		"armoredweapons",
+		"missleracks",
+		"hardenedshieldemitter",
+		"adaptiveshields",
+		"stabilizedshieldemitter",
+		"missile_reload",
+		"afleettestingmod_target_practice"
+	],
+	"permaMods":["autorepair"],
+	"sMods":["autorepair"],
+	"variantId":"AFTM_pegasus_Harpoon_Practice",
+	"weaponGroups":[{
+		"autofire":true,
+		"mode":"LINKED",
+		"weapons":{
+			"WS 000":"harpoonpod",
+			"WS 001":"harpoonpod",
+			"WS 002":"irautolance",
+			"WS 003":"irautolance",
+			"WS 004":"dualflak",
+			"WS 005":"dualflak",
+			"WS 006":"irautolance",
+			"WS 007":"irautolance",
+			"WS 008":"dualflak",
+			"WS 009":"dualflak",
+			"WS 010":"dualflak",
+			"WS 011":"dualflak",
+			"WS 012":"harpoonpod",
+			"WS 013":"harpoonpod",
+			"WS 014":"pdburst",
+			"WS 015":"pdburst",
+			"WS 016":"pdburst",
+			"WS 017":"pdburst"
+		}
+	}]
+}

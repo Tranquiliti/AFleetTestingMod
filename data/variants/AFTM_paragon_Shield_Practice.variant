@@ -4,17 +4,19 @@
 	"fluxVents":50,
 	"hullId":"paragon",
 	"hullMods":[
+		"advancedshieldemitter",
 		"frontemitter",
 		"stabilizedshieldemitter",
-		"advancedshieldemitter",
 		"hardenedshieldemitter",
-		"AFTMTargetPractice"
+		"afleettestingmod_target_practice"
 	],
 	"permaMods":[
+		"advancedshieldemitter",
 		"frontemitter",
 		"stabilizedshieldemitter"
 	],
 	"sMods":[
+		"advancedshieldemitter",
 		"frontemitter",
 		"stabilizedshieldemitter"
 	],
@@ -23,24 +25,29 @@
 		"autofire":true,
 		"mode":"LINKED",
 		"weapons":{
-			"WS 001":"plasma",
-			"WS 002":"plasma",
-			"WS 003":"plasma",
-			"WS 004":"plasma",
-			"WS 005":"heavyblaster",
-			"WS 006":"heavyblaster",
-			"WS 007":"heavyblaster",
-			"WS 008":"heavyblaster",
-			"WS 009":"heavyblaster",
-			"WS 010":"heavyblaster",
-			"WS 011":"mininglaser",
-			"WS 013":"mininglaser",
-			"WS 015":"mininglaser",
-			"WS 016":"mininglaser",
-			"WS 017":"mininglaser",
-			"WS 019":"mininglaser",
-			"WS 021":"mininglaser",
-			"WS 022":"mininglaser"
+			"WS 001":"tachyonlance",
+			"WS 002":"tachyonlance",
+			"WS 003":"tachyonlance",
+			"WS 004":"tachyonlance",
+			"WS 005":"ionbeam",
+			"WS 006":"ionbeam",
+			"WS 007":"ionbeam",
+			"WS 008":"ionbeam",
+			"WS 009":"ionbeam",
+			"WS 010":"ionbeam",
+			"WS 011":"taclaser",
+			"WS 012":"atropos",
+			"WS 013":"taclaser",
+			"WS 014":"atropos",
+			"WS 015":"taclaser",
+			"WS 016":"taclaser",
+			"WS 017":"taclaser",
+			"WS 018":"atropos",
+			"WS 019":"taclaser",
+			"WS 020":"atropos",
+			"WS 021":"taclaser",
+			"WS 022":"taclaser",
+			"WS 023":"taclaser"
 		}
 	}]
 }

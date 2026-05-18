@@ -1,44 +1,58 @@
 {
 	"displayName":"Armor Practice",
-	"fluxCapacitors":0,
-	"fluxVents":13,
+	"fluxCapacitors":10,
+	"fluxVents":50,
 	"hullId":"onslaught_xiv",
 	"hullMods":[
+		"autorepair",
+		"insulatedengine",
 		"shield_shunt",
 		"armoredweapons",
 		"blast_doors",
 		"heavyarmor",
-		"insulatedengine",
 		"reinforcedhull",
-		"AFTMTargetPractice"
+		"fluxbreakers",
+		"afleettestingmod_target_practice"
 	],
-	"permaMods":["shield_shunt"],
-	"sMods":["shield_shunt"],
+	"permaMods":[
+		"autorepair",
+		"insulatedengine",
+		"shield_shunt"
+	],
+	"sMods":[
+		"autorepair",
+		"insulatedengine",
+		"shield_shunt"
+	],
 	"variantId":"AFTM_onslaught_xiv_Armor_Practice",
 	"weaponGroups":[{
 		"autofire":true,
 		"mode":"LINKED",
 		"weapons":{
-			"WS 001":"heavyneedler",
-			"WS 002":"lightneedler",
-			"WS 003":"heavyneedler",
-			"WS 004":"lightneedler",
-			"WS 005":"lightneedler",
-			"WS 006":"lightneedler",
-			"WS 007":"heavyneedler",
-			"WS 008":"lightneedler",
-			"WS 009":"lightneedler",
-			"WS 010":"heavyneedler",
-			"WS 011":"heavyneedler",
-			"WS 012":"heavyneedler",
-			"WS 013":"heavyneedler",
-			"WS 014":"heavyneedler",
-			"WS 015":"heavyneedler",
+			"WS 001":"chaingun",
+			"WS 002":"lightag",
+			"WS 003":"chaingun",
+			"WS 004":"lightag",
+			"WS 005":"lightag",
+			"WS 006":"lightag",
+			"WS 007":"chaingun",
+			"WS 008":"lightag",
+			"WS 009":"lightag",
+			"WS 010":"chaingun",
+			"WS 011":"chaingun",
+			"WS 012":"chaingun",
+			"WS 013":"chaingun",
+			"WS 014":"chaingun",
+			"WS 015":"chaingun",
 			"WS 016":"tpc",
 			"WS 017":"tpc",
-			"WS 018":"multineedler",
-			"WS 019":"multineedler",
-			"WS 020":"multineedler"
+			"WS 018":"hephag",
+			"WS 019":"hephag",
+			"WS 020":"hephag",
+			"WS 021":"breachpod",
+			"WS 022":"breachpod",
+			"WS 023":"breachpod",
+			"WS 024":"breachpod"
 		}
 	}]
 }
