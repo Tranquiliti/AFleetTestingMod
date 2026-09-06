@@ -1,6 +1,6 @@
 {
 	"displayName":"Armor Practice",
-	"fluxCapacitors":10,
+	"fluxCapacitors":25,
 	"fluxVents":50,
 	"hullId":"onslaught_xiv",
 	"hullMods":[
@@ -49,10 +49,10 @@
 			"WS 018":"hephag",
 			"WS 019":"hephag",
 			"WS 020":"hephag",
-			"WS 021":"breachpod",
-			"WS 022":"breachpod",
-			"WS 023":"breachpod",
-			"WS 024":"breachpod"
+			"WS 021":"chaingun",
+			"WS 022":"chaingun",
+			"WS 023":"chaingun",
+			"WS 024":"chaingun"
 		}
 	}]
 }

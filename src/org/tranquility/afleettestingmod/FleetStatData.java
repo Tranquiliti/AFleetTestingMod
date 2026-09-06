@@ -1,6 +1,7 @@
 package org.tranquility.afleettestingmod;
 
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.DModManager;
 
@@ -40,8 +41,9 @@ public class FleetStatData {
     private float autoResolveStrength = 0;
 
     private final Map<String, Float> hulls = new HashMap<>();
-    private final Map<Integer, Float> officers = new HashMap<>();
+    private final Map<String, Float> weapons = new HashMap<>();
     private final Map<String, Float> wings = new HashMap<>();
+    private final Map<Integer, Float> officers = new HashMap<>();
 
     private float numFleets = 0;
     private float numMembers = 0;
@@ -62,9 +64,13 @@ public class FleetStatData {
                 numOfficers++;
                 officers.merge(member.getCaptain().getStats().getLevel(), 1f, Float::sum);
             }
-            avgNumDMods += DModManager.getNumDMods(member.getVariant());
+
+            ShipVariantAPI variant = member.getVariant();
+            avgNumDMods += DModManager.getNumDMods(variant);
+            for (String slotId : variant.getFittedWeaponSlots())
+                weapons.merge(variant.getWeaponId(slotId), 1f, Float::sum);
             numFlightDecks += member.getNumFlightDecks();
-            for (String id : member.getVariant().getWings())
+            for (String id : variant.getWings())
                 wings.merge(id, 1f, Float::sum);
         }
 
@@ -80,7 +86,7 @@ public class FleetStatData {
     }
 
     /**
-     * Averages out the stats using numFleets and numMembers. Does not average out the counts for the hull, officer, and wing Maps.
+     * Averages out the stats using numFleets and numMembers. Does not average out the counts for the hull, weapon, wing, and officer Maps.
      */
     public void aggregateStats() {
         if (numFleets == 0 || numMembers == 0) return;
@@ -109,6 +115,8 @@ public class FleetStatData {
         print.append(totalAvgStr).append(" ship count: ").append(FORMAT.format(numShips));
         print.append(totalAvgStr).append(" frigate/destroyer/cruiser/capital count: ").append(FORMAT.format(numFrigates)).append(" / ").append(FORMAT.format(numDestroyers)).append(" / ").append(FORMAT.format(numCruisers)).append(" / ").append(FORMAT.format(numCapitals));
         appendHulls(print);
+        print.append(totalAvgStr).append(" weapon count:");
+        appendWeapons(print);
         print.append(totalAvgStr).append(" flight deck count: ").append(FORMAT.format(numFlightDecks));
         appendWings(print);
         print.append(totalAvgStr).append(" officer count: ").append(FORMAT.format(numOfficers));
@@ -134,14 +142,14 @@ public class FleetStatData {
         print.delete(print.length() - 3, print.length()).append("}");
     }
 
-    private void appendOfficers(StringBuilder print) {
-        if (officers.isEmpty()) return;
+    private void appendWeapons(StringBuilder print) {
+        if (weapons.isEmpty()) return;
 
-        Integer[] officerLevels = officers.keySet().toArray(new Integer[0]);
-        Arrays.sort(officerLevels);
+        String[] weaponIds = weapons.keySet().toArray(new String[0]);
+        Arrays.sort(weaponIds);
         print.append("\n  {\"");
-        for (int level : officerLevels)
-            print.append(level).append("\": ").append(FORMAT.format(officers.get(level) / numFleets)).append(", \"");
+        for (String id : weaponIds)
+            print.append(id).append("\": ").append(FORMAT.format(weapons.get(id) / numFleets)).append(", \"");
         print.delete(print.length() - 3, print.length()).append("}");
     }
 
@@ -153,6 +161,17 @@ public class FleetStatData {
         print.append("\n  {\"");
         for (String id : wingIds)
             print.append(id).append("\": ").append(FORMAT.format(wings.get(id) / numFleets)).append(", \"");
+        print.delete(print.length() - 3, print.length()).append("}");
+    }
+
+    private void appendOfficers(StringBuilder print) {
+        if (officers.isEmpty()) return;
+
+        Integer[] officerLevels = officers.keySet().toArray(new Integer[0]);
+        Arrays.sort(officerLevels);
+        print.append("\n  {\"");
+        for (int level : officerLevels)
+            print.append(level).append("\": ").append(FORMAT.format(officers.get(level) / numFleets)).append(", \"");
         print.delete(print.length() - 3, print.length()).append("}");
     }
 }

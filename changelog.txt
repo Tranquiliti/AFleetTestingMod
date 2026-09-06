@@ -1,5 +1,10 @@
 Version 2.0.0 (Update for Starsector 0.98.5a)
 
+* Changes to "InitiateFleetTest" command
+  - Now uses the storage set by Console Commands' "Storage" command (previously was hard-coded to use the Abandoned Terraforming Platform)
+  - No longer clears the player's fleet, officers, and cargo by default; added optional "CLEAR" argument to re-add this behavior
+  - Vastly increased credits and SP given by the command
+* Added weapon counts to "ShowFleetStats" command
 * Updated practice ship variants:
   - Changed Harpoon Practice hull to Pegasus (from Onslaught)
   - Changed weapons to better reflect practice variant purpose (e.g., anti-armor weapons for Armor variant)
@@ -8,6 +13,7 @@ Version 2.0.0 (Update for Starsector 0.98.5a)
   - Fixed issue where adding multiple practice variants at once causes them to stack in one place
   - Made all practice variants have 0 DP
   - Changed ID of the hidden target practice hullmod
+* Fixed "ShowFleetStats" optional argument being case-insensitive for faction IDs
 
 
 

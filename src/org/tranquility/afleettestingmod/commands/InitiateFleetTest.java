@@ -3,6 +3,7 @@ package org.tranquility.afleettestingmod.commands;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
 import com.fs.starfarer.api.campaign.SpecialItemData;
 import com.fs.starfarer.api.characters.OfficerDataAPI;
 import com.fs.starfarer.api.combat.ShipVariantAPI;
@@ -27,56 +28,61 @@ public class InitiateFleetTest implements BaseCommand {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        if (Storage.getStorageEntity() == null || !Storage.getStorageEntity().getId().equals("corvus_abandoned_station")) {
-            Console.showMessage("Error: Storage is not set to the Abandoned Terraforming Station in the Corvus star system");
+        SectorEntityToken storage = Storage.getStorageEntity();
+        if (storage == null) {
+            Console.showMessage("Error: Storage has not been set!");
             return CommandResult.ERROR;
         }
 
-        // Sets player flagship to a special Kite (LP) variant
-        FleetMemberAPI flagship = Global.getFactory().createFleetMember(FleetMemberType.SHIP, "kite_luddic_path_Hull");
-        ShipVariantAPI variant = flagship.getVariant().clone();
-        DModManager.setDHull(variant);
-        variant.setSource(VariantSource.REFIT);
-        flagship.setVariant(variant, false, true);
-        variant.setVariantDisplayName("Raider");
-        variant.setNumFluxCapacitors(3);
+        if (args.equalsIgnoreCase("clear")) {
+            // Sets player flagship to a special Kite (LP) variant
+            FleetMemberAPI flagship = Global.getFactory().createFleetMember(FleetMemberType.SHIP, "kite_luddic_path_Hull");
+            ShipVariantAPI variant = flagship.getVariant().clone();
+            DModManager.setDHull(variant);
+            variant.setSource(VariantSource.REFIT);
+            flagship.setVariant(variant, false, true);
+            variant.setVariantDisplayName("Raider");
+            variant.setNumFluxCapacitors(3);
 
-        // S-mods
-        variant.addPermaMod(HullMods.AUGMENTEDENGINES, true);
-        variant.addPermaMod(HullMods.INSULATEDENGINE, true);
-        variant.addPermaMod(HullMods.SOLAR_SHIELDING, true);
-        // D-mods
-        variant.addPermaMod(HullMods.COMP_ARMOR, false);
-        variant.addPermaMod("damaged_mounts", false);
-        variant.addPermaMod("degraded_shields", false);
-        variant.addPermaMod(HullMods.COMP_STRUCTURE, false);
-        variant.addPermaMod(HullMods.FRAGILE_SUBSYSTEMS, false);
-        // Hullmods
-        variant.addMod(HullMods.EFFICIENCY_OVERHAUL);
-        variant.addMod("hiressensors");
-        variant.addMod(HullMods.NAV_RELAY);
-        variant.addMod(HullMods.UNSTABLE_INJECTOR);
+            // S-mods
+            variant.addPermaMod(HullMods.AUGMENTEDENGINES, true);
+            variant.addPermaMod(HullMods.INSULATEDENGINE, true);
+            variant.addPermaMod(HullMods.SOLAR_SHIELDING, true);
+            // D-mods
+            variant.addPermaMod(HullMods.COMP_ARMOR, false);
+            variant.addPermaMod("damaged_mounts", false);
+            variant.addPermaMod("degraded_shields", false);
+            variant.addPermaMod(HullMods.COMP_STRUCTURE, false);
+            variant.addPermaMod(HullMods.FRAGILE_SUBSYSTEMS, false);
+            // Hullmods
+            variant.addMod(HullMods.EFFICIENCY_OVERHAUL);
+            variant.addMod("hiressensors");
+            variant.addMod(HullMods.NAV_RELAY);
+            variant.addMod(HullMods.UNSTABLE_INJECTOR);
 
-        FleetDataAPI player = Global.getSector().getPlayerFleet().getFleetData();
-        player.addFleetMember(flagship);
-        player.setFlagship(flagship);
+            FleetDataAPI player = Global.getSector().getPlayerFleet().getFleetData();
+            player.addFleetMember(flagship);
+            player.setFlagship(flagship);
 
-        // Removes all officers from player fleet
-        for (OfficerDataAPI officer : player.getOfficersCopy())
-            player.removeOfficer(officer.getPerson());
+            // Removes all officers from player fleet
+            for (OfficerDataAPI officer : player.getOfficersCopy())
+                player.removeOfficer(officer.getPerson());
 
-        // Remove all ships beside the flagship
-        for (FleetMemberAPI member : player.getMembersListCopy())
-            if (!member.isFlagship()) player.removeFleetMember(member);
+            // Remove all ships beside the flagship
+            for (FleetMemberAPI member : player.getMembersListCopy())
+                if (!member.isFlagship()) player.removeFleetMember(member);
+
+            // Clear player inventory
+            Global.getSector().getPlayerFleet().getCargo().clear();
+        }
 
         // Jump to the Abandoned Terraforming Station with max level and all equipment
-        Global.getSector().getStarSystem("corvus").getEntityById("corvus_abandoned_station").getMarket().addIndustry(Industries.SPACEPORT);
-        Global.getSector().getPlayerFleet().getCargo().clear(); // Clear player inventory
-        new AddCredits().runCommand("19968000", context);
+        if (storage.getMarket() != null) storage.getMarket().addIndustry(Industries.SPACEPORT);
+        new AddCredits().runCommand("99968000", context);
         new AddXP().runCommand("11710000", context); // Enough to go from level 1 to 15
-        new AddStoryPoints().runCommand("184", context);
-        new Jump().runCommand("corvus", context);
-        new GoTo().runCommand("corvus_abandoned_station", context);
+        new AddStoryPoints().runCommand("544", context);
+        new Jump().runCommand(storage.getContainingLocation().getId(), context);
+        new GoTo().runCommand(storage.getId(), context);
         new AllBlueprints().runCommand("", context);
         new AllCommodities().runCommand("", context);
         new AllHullmods().runCommand("", context);
