@@ -22,6 +22,7 @@
 		"job_show_captain":true,
 		"job_show_fleet":"all",
 		"job_pick_script":"AFTMOrdo1Picked",
+		"job_repeatable":"always",
 
 		"target_first_name":"Alpha",
 		"target_last_name":"Core",
@@ -50,16 +51,15 @@
 		"fleet_faction":"remnant",
 		"fleet_flagship_variant":"radiant_Assault",
 		"fleet_flagship_autofit":false,
-		# 422 DP / 344 FP (A full-strength Remnant Ordo is anywhere between 256 to 384 FP)
+		# 404 DP / 338 FP (A full-strength Remnant Ordo is anywhere between 256 to 384 FP)
 		"fleet_preset_ships":{
 			"nova_Attack":1,
+			"apex_Assault":1,
 			"apex_Missile":1,
-			"apex_Overdriven":1,
-			"apex_Standard":1,
 			"brilliant_Standard":2,
 			"brilliant_Support":2,
 			"scintilla_Strike":2,
-			"scintilla_Support":1,
+			"scintilla_Support":2,
 			"fulgent_Assault":3,
 			"fulgent_Support":3,
 			"glimmer_Assault":2,
@@ -85,6 +85,7 @@
 		"job_show_captain":true,
 		"job_show_fleet":"all",
 		"job_pick_script":"AFTMOrdo2Picked",
+		"job_repeatable":"always",
 
 		"target_first_name":"Alpha",
 		"target_last_name":"Core",
@@ -113,15 +114,14 @@
 		"fleet_faction":"remnant",
 		"fleet_flagship_variant":"radiant_Standard",
 		"fleet_flagship_autofit":false,
-		# 422 DP / 344 FP (A full-strength Remnant Ordo is anywhere between 256 to 384 FP)
+		# 404 DP / 338 FP (A full-strength Remnant Ordo is anywhere between 256 to 384 FP)
 		"fleet_preset_ships":{
 			"nova_Standard":1,
-			"apex_Assault":1,
 			"apex_Overdriven":1,
 			"apex_Standard":1,
 			"brilliant_Standard":2,
 			"brilliant_Support":2,
-			"scintilla_Strike":1,
+			"scintilla_Strike":2,
 			"scintilla_Support":2,
 			"fulgent_Assault":3,
 			"fulgent_Support":3,
@@ -148,6 +148,7 @@
 		"job_show_captain":true,
 		"job_show_fleet":"all",
 		"job_pick_script":"AFTMOrdo3Picked",
+		"job_repeatable":"always",
 
 		"target_first_name":"Alpha",
 		"target_last_name":"Core",
@@ -176,16 +177,15 @@
 		"fleet_faction":"remnant",
 		"fleet_flagship_variant":"radiant_Strike",
 		"fleet_flagship_autofit":false,
-		# 422 DP / 344 FP (A full-strength Remnant Ordo is anywhere between 256 to 384 FP)
+		# 404 DP / 338 FP (A full-strength Remnant Ordo is anywhere between 256 to 384 FP)
 		"fleet_preset_ships":{
 			"nova_Attack":1,
 			"apex_Assault":1,
-			"apex_Missile":1,
-			"apex_Standard":1,
+			"apex_Overdriven":1,
 			"brilliant_Standard":2,
 			"brilliant_Support":2,
 			"scintilla_Strike":2,
-			"scintilla_Support":1,
+			"scintilla_Support":2,
 			"fulgent_Assault":3,
 			"fulgent_Support":3,
 			"glimmer_Assault":2,
@@ -198,4 +198,67 @@
 
 		"location_entitiesID":["corvus_abandoned_station"]
 	},
+	"afleettestingmod_Ordo_4":{
+		"trigger_market_id":["asharu"],
+		"trigger_memKeys_all":{
+			"$afleettestingmod_InitiateFleetTest":true
+		},
+
+		"job_name":"Simulated Ordo 4",
+		"job_comm_reply":"The comms crackle and whine as a frantic pattern of interweaving lines takes shape.\n\nquery. query. query target. is omega? omega? no. revert function.\n\nINTERRUPT\n\n\" -SERIAL]. This unit has not cleared your vessel for approach and will employ the latest Tri-Tachyon Defense Products to ensure its integrity. Tri-Tachyon Corporation is pleased to wish you a 'Very Safe Day.'\"",
+		"job_credit_reward":0,
+		"job_type":"obliteration",
+		"job_show_captain":true,
+		"job_show_fleet":"all",
+		"job_pick_script":"AFTMOrdo4Picked",
+		"job_repeatable":"always",
+
+		"target_first_name":"Alpha",
+		"target_last_name":"Core",
+		"target_rank":"spaceCommander",
+		"target_post":"fleetCommander",
+		"target_portrait":"graphics/portraits/portrait_ai2b.png",
+		"target_personality":"reckless",
+		"target_aiCoreId":"alpha_core",
+		"target_level":8,
+		"target_skills":{
+			# Remnant fleets always have below commander skills
+			"flux_regulation":1,
+			"coordinated_maneuvers":1,
+			# Alpha Core skills on capital
+			"helmsmanship":2,
+			"impact_mitigation":2,
+			"polarized_armor":2,
+			"damage_control":2,
+			"field_modulation":2,
+			"target_analysis":2,
+			"gunnery_implants":2,
+			"energy_weapon_mastery":2
+		},
+
+		"fleet_name":"Remnant Ordo",
+		"fleet_faction":"remnant",
+		"fleet_flagship_variant":"radiant_Assault",
+		"fleet_flagship_autofit":false,
+		# 404 DP / 338 FP (A full-strength Remnant Ordo is anywhere between 256 to 384 FP)
+		"fleet_preset_ships":{
+			"nova_Standard":1,
+			"apex_Missile":1,
+			"apex_Standard":1,
+			"brilliant_Standard":2,
+			"brilliant_Support":2,
+			"scintilla_Strike":2,
+			"scintilla_Support":2,
+			"fulgent_Assault":3,
+			"fulgent_Support":3,
+			"glimmer_Assault":2,
+			"glimmer_Support":2,
+			"lumen_Standard":4
+		},
+		"fleet_preset_autofit":false,
+		"fleet_no_retreat":true,
+		"fleet_behavior":"PASSIVE",
+
+		"location_entitiesID":["corvus_abandoned_station"]
+	}
 }

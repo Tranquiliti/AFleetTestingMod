@@ -78,9 +78,9 @@ public class InitiateFleetTest implements BaseCommand {
 
         // Jump to the Abandoned Terraforming Station with max level and all equipment
         if (storage.getMarket() != null) storage.getMarket().addIndustry(Industries.SPACEPORT);
-        new AddCredits().runCommand("99968000", context);
+        new AddCredits().runCommand("999968000", context);
         new AddXP().runCommand("11710000", context); // Enough to go from level 1 to 15
-        new AddStoryPoints().runCommand("544", context);
+        new AddStoryPoints().runCommand("9999944", context);
         new Jump().runCommand(storage.getContainingLocation().getId(), context);
         new GoTo().runCommand(storage.getId(), context);
         new AllBlueprints().runCommand("", context);

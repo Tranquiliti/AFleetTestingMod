@@ -13,6 +13,10 @@ Version 2.0.0 (Update for Starsector 0.98.5a)
   - Fixed issue where adding multiple practice variants at once causes them to stack in one place
   - Made all practice variants have 0 DP
   - Changed ID of the hidden target practice hullmod
+* Simulated Ordo changes:
+  - Bounties are now infinitely-repeatable
+  - Added a 4th simulated Ordo bounty
+  - Slight composition changes to better match the average Ordo fleet (1 fewer Apex and 1 more Scintilla per Ordo)
 * Fixed "ShowFleetStats" optional argument being case-insensitive for faction IDs
 
 
