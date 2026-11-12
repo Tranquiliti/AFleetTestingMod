@@ -1,6 +1,6 @@
 {
 	"displayName":"Armor Practice",
-	"fluxCapacitors":25,
+	"fluxCapacitors":5,
 	"fluxVents":50,
 	"hullId":"onslaught_xiv",
 	"hullMods":[
