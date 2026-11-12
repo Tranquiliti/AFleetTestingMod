@@ -1,2 +1,4 @@
 name,id,tier,rarity,tech/manufacturer,tags,uiTags,base value,unlocked,hidden,hiddenEverywhere,cost_frigate,cost_dest,cost_cruiser,cost_capital,script,desc,short,sModDesc,sprite
-Target Practice,AFTMTargetPractice,,,,,,0,,TRUE,TRUE,0,0,0,0,org.tranquility.afleettestingmod.hullmods.AFTMTargetPractice,"Ship becomes a perfect target practice. Disables the ship's system and engines, and the ship's defensive system is disabled if no flux capacitors are added. Reduces the damage, flux cost, and range of non-missile weapons to zero.",Ship becomes a perfect target practice.,,graphics/hullmods/reduced_explosion.png
+Target Practice,afleettestingmod_target_practice,,,,,,,,TRUE,TRUE,0,0,0,0,org.tranquility.afleettestingmod.hullmods.AFTMTargetPractice,"Ship becomes a perfect target practice. Multiplies the damage, range, and flux cost of non-missile weapons by 0. Missile weapons have no ammo unless Expanded Missile Racks is installed. Deployment point cost is set to 0.
+
+Speed and maneuverability are set to minimum values. Ship system is disabled, and ship defenses are disabled unless the ship has at least 1 flux capacitor. Ship spawns 3000 units downwards.",,,

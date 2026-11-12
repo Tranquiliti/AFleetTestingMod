@@ -22,15 +22,15 @@ public class ShowFleetStats implements BaseCommandWithSuggestion {
             return CommandResult.WRONG_CONTEXT;
         }
 
-        if (!args.isEmpty()) args = args.toLowerCase();
-        else { // Just show player stats; no need to do anything else
+        // Just show player stats; no need to do anything else
+        if (args.isEmpty()) {
             StringBuilder playerPrint = new StringBuilder();
             showStats(Global.getSector().getPlayerFleet(), playerPrint);
             Console.showMessage(playerPrint);
             return CommandResult.SUCCESS;
         }
 
-        if (!args.equals("nearest") && !args.equals("all") && Global.getSector().getFaction(args) == null)
+        if (!args.equalsIgnoreCase("nearest") && !args.equalsIgnoreCase("all") && Global.getSector().getFaction(args) == null)
             return CommandResult.BAD_SYNTAX;
 
         List<CampaignFleetAPI> nearbyFleets = AFTMUtil.getNearbyFleets();
@@ -38,8 +38,8 @@ public class ShowFleetStats implements BaseCommandWithSuggestion {
         StringBuilder print = new StringBuilder();
         if (nearbyFleets.isEmpty())
             showStats(Global.getSector().getPlayerFleet(), print.append("No other fleet found in current location! Resorting to showing player fleet!\n"));
-        else if (args.equals("nearest")) showStats(nearbyFleets.get(0), print);
-        else if (args.equals("all")) for (CampaignFleetAPI fleet : nearbyFleets) {
+        else if (args.equalsIgnoreCase("nearest")) showStats(nearbyFleets.get(0), print);
+        else if (args.equalsIgnoreCase("all")) for (CampaignFleetAPI fleet : nearbyFleets) {
             showStats(fleet, print);
             print.append("\n");
         }
